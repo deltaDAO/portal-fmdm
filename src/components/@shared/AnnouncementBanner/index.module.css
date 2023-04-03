@@ -1,7 +1,7 @@
 .banner {
   text-align: center;
   padding: calc(var(--spacer) / 5) calc(var(--spacer) / 2);
-  border-bottom: 1px solid var(--border-color);
+  border-bottom: var(--border-size) solid var(--border-color);
   background-color: var(--background-content);
 }
 

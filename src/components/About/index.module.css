@@ -1,0 +1,148 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.main {
+  --image-height: 30rem;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding-top: var(--image-height);
+}
+
+.partnersWrapper {
+  background-color: var(--background-fill-light);
+  width: 100%;
+}
+
+.partnersContainer {
+  display: flex;
+  flex-direction: column;
+  padding: 0 calc(var(--spacer) / 1.5);
+  padding-top: var(--spacer);
+}
+
+.partners {
+  justify-content: space-between;
+}
+
+.partnersTitle {
+  font-weight: var(--font-weight-base);
+}
+
+.content {
+  order: 2;
+  padding: 0;
+  padding-top: var(--spacer);
+}
+
+.partnersWrapper {
+  margin: var(--spacer) 0;
+}
+
+.contactsContainer .body {
+  margin-bottom: var(--spacer);
+}
+
+.contacts {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacer);
+}
+
+.contact {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--spacer);
+  padding: var(--spacer);
+  border-radius: var(--border-radius-menu);
+  width: 100%;
+  background-color: var(--background-fill-light);
+}
+
+.contactDetails {
+  display: flex;
+  flex-direction: column;
+}
+
+.contactDetails * {
+  margin: 0;
+}
+
+.contactDetails a {
+  font-weight: var(--font-weight-bold);
+}
+
+.contactText {
+  display: inline;
+}
+
+.contacts img {
+  margin: 0;
+  width: 8rem;
+  aspect-ratio: 1/1;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.media {
+  position: absolute;
+  top: 0;
+  right: 50%;
+  transform: translateX(50%);
+  width: 100vw;
+  height: var(--image-height);
+  order: 1;
+}
+
+.media img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+
+@media screen and (min-width: 55rem) {
+  .wrapper {
+    margin-top: var(--spacer);
+  }
+  .mainContainer {
+    margin-top: var(--spacer);
+  }
+  .main {
+    flex-direction: row;
+    gap: var(--spacer);
+    padding-top: 0;
+  }
+  .content {
+    order: 1;
+    width: 60%;
+  }
+  .media {
+    position: unset;
+    transform: none;
+    order: 2;
+    width: 40%;
+  }
+  .media img {
+    margin: 0;
+    width: 100%;
+    height: 40rem;
+    object-fit: cover;
+  }
+  .partnersWrapper {
+    margin: calc(var(--spacer) * 2) 0;
+  }
+  .contacts {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  .contactsContainer .body {
+    width: 60%;
+  }
+  .contact {
+    width: 50%;
+  }
+}

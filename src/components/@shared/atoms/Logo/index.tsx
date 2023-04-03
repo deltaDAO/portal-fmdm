@@ -1,16 +1,16 @@
 import React, { ReactElement } from 'react'
-import LogoAssetFull from '@oceanprotocol/art/logo/logo.svg'
-import LogoAsset from '@images/logo.svg'
+import LogoAsset from '@images/fmdm-logo.svg'
+import LogoAssetInverted from '@images/fmdm-logo-white.svg'
 import styles from './index.module.css'
 
-export interface LogoProps {
-  noWordmark?: boolean
-}
-
-export default function Logo({ noWordmark }: LogoProps): ReactElement {
-  return noWordmark ? (
-    <LogoAsset className={styles.logo} />
+export default function Logo({
+  inverted
+}: {
+  inverted?: boolean
+}): ReactElement {
+  return inverted ? (
+    <LogoAssetInverted className={styles.logo} />
   ) : (
-    <LogoAssetFull className={styles.logo} />
+    <LogoAsset className={styles.logo} />
   )
 }

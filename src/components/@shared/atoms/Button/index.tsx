@@ -14,12 +14,13 @@ export interface ButtonProps {
   to?: string
   name?: string
   size?: 'small'
-  style?: 'primary' | 'ghost' | 'text'
+  style?: 'primary' | 'ghost' | 'outline' | 'text'
   type?: 'submit'
   download?: boolean
   target?: string
   rel?: string
   title?: string
+  arrow?: boolean
 }
 
 export default function Button({
@@ -29,12 +30,14 @@ export default function Button({
   to,
   size,
   style,
+  arrow,
   ...props
 }: ButtonProps): ReactElement {
   const styleClasses = cx({
     button: true,
     primary: style === 'primary',
     ghost: style === 'ghost',
+    outline: style === 'outline',
     text: style === 'text',
     small: size === 'small',
     [className]: className
@@ -43,10 +46,18 @@ export default function Button({
   return to ? (
     <Link href={to} className={styleClasses} {...props}>
       {children}
+      {arrow && <>&nbsp;&#8594;</>}
     </Link>
   ) : href ? (
-    <a href={href} className={styleClasses} {...props}>
+    <a
+      href={href}
+      className={styleClasses}
+      target="_blank"
+      rel="noopener noreferrer"
+      {...props}
+    >
       {children}
+      {arrow && <>&nbsp;&#8599;</>}
     </a>
   ) : (
     <button className={styleClasses} {...props}>

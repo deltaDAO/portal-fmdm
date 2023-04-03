@@ -10,6 +10,9 @@ import styles from './index.module.css'
 import { getServiceByName } from '@utils/ddo'
 import { useUserPreferences } from '@context/UserPreferences'
 import { formatNumber } from '@utils/numbers'
+import classNames from 'classnames/bind'
+
+const cx = classNames.bind(styles)
 
 export declare type AssetTeaserProps = {
   asset: AssetExtended
@@ -37,16 +40,19 @@ export default function AssetTeaser({
     <article className={`${styles.teaser} ${styles[type]}`}>
       <Link href={`/asset/${asset.id}`} className={styles.link}>
         <aside className={styles.detailLine}>
-          <AssetType
-            className={styles.typeLabel}
-            type={type}
-            accessType={accessType}
-          />
           <span className={styles.typeLabel}>
             {datatokens[0]?.symbol.substring(0, 9)}
           </span>
-          <NetworkName networkId={asset.chainId} className={styles.typeLabel} />
         </aside>
+        <AssetType
+          className={cx({
+            typeDetails: true,
+            algo: type === 'algorithm',
+            dataset: type === 'dataset'
+          })}
+          type={type}
+          accessType={accessType}
+        />
         <header className={styles.header}>
           <Dotdotdot tagName="h1" clamp={3} className={styles.title}>
             {name.slice(0, 200)}
@@ -69,6 +75,9 @@ export default function AssetTeaser({
             )}
           </div>
         )}
+        <div className={styles.network}>
+          <NetworkName networkId={asset.chainId} className={styles.typeLabel} />
+        </div>
         <footer className={styles.footer}>
           {allocated && allocated > 0 ? (
             <span className={styles.typeLabel}>

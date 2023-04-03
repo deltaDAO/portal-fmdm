@@ -1,7 +1,7 @@
 .actions {
   margin-left: -2rem;
   margin-right: -2rem;
-  border-top: 1px solid var(--border-color);
+  border-top: var(--border-size) solid var(--border-color);
   padding: calc(var(--spacer) / 2) var(--spacer) 0;
   display: flex;
   justify-content: center;

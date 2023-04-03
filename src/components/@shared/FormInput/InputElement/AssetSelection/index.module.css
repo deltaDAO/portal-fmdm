@@ -1,6 +1,6 @@
 .selection {
   padding: 0;
-  border: 1px solid var(--border-color);
+  border: var(--border-size) solid var(--border-color);
   background-color: var(--background-highlight);
   border-radius: var(--border-radius);
   margin-bottom: calc(var(--spacer) / 2);
@@ -17,7 +17,7 @@
 }
 
 .scroll {
-  border-top: 1px solid var(--border-color);
+  border-top: var(--border-size) solid var(--border-color);
   margin-top: calc(var(--spacer) / 4);
   min-height: fit-content;
   max-height: 50vh;
@@ -30,7 +30,7 @@
 .row {
   display: flex;
   align-items: center;
-  border-bottom: 1px solid var(--border-color);
+  border-bottom: var(--border-size) solid var(--border-color);
   padding: calc(var(--spacer) / 3) calc(var(--spacer) / 2);
 }
 
@@ -78,7 +78,7 @@
 
 .link svg {
   margin: 0;
-  fill: var(--color-primary);
+  fill: var(--link-font-color);
   width: 0.7em;
   height: 0.7em;
 }

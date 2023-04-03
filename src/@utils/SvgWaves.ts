@@ -5,7 +5,7 @@ export interface WaveProperties {
   width?: number
   height?: number
   viewBox?: string
-  color?: string
+  colors?: string[]
   fill?: boolean
   layerCount?: number
   pointsPerLayer?: number
@@ -24,11 +24,7 @@ class Point {
   }
 }
 
-enum WaveColors {
-  Violet = '#e000cf',
-  Pink = '#ff4092',
-  Grey = '#8b98a9'
-}
+const waveColors = ['#00b96e', '#316aea', '#87c300', '#108a43']
 
 export class SvgWaves {
   properties: WaveProperties
@@ -41,7 +37,7 @@ export class SvgWaves {
    * These are generated with a focus on small file size for the svg
    * meaning low character count.
    * - width & height: default is 2 digits max (99)
-   * - color pink is selected per default
+   * - color blue is selected per default
    * - set coloring to fill or stroke (fill is selected per default)
    * - randomly decide if fill or stroke coloring should be used
    * - create 4 layers with 4 - 5 points per layers
@@ -55,9 +51,9 @@ export class SvgWaves {
       width: 99,
       height: 99,
       viewBox: '0 0 99 99',
-      color: WaveColors.Pink,
+      colors: waveColors,
       fill: true,
-      layerCount: 4,
+      layerCount: 5,
       pointsPerLayer: randomIntFromInterval(3, 4),
       variance: Math.random() * 0.2 + 0.5, // 0.5 - 0.7
       maxOpacity: 255, // 0xff
@@ -116,14 +112,15 @@ export class SvgWaves {
     for (let i = 0; i < this.layers.length; i++) {
       const path = this.generatePath(
         this.layers[i],
-        this.getOpacityForLayer(i + 1)
+        undefined, // default to max opacity
+        this.properties.colors[i % this.properties.colors.length]
       )
       svg.appendChild(path)
     }
     return svg
   }
 
-  generatePath(points: Point[], opacity = 'ff'): Element {
+  generatePath(points: Point[], opacity = 'ff', color: string): Element {
     const xPoints = points.map((p) => Math.floor(p.x))
     const yPoints = points.map((p) => Math.floor(p.y))
 
@@ -164,11 +161,7 @@ export class SvgWaves {
     // create the path element
     const svgPath = document.createElementNS(SvgWaves.xmlns, 'path')
     const colorStyle = closed ? 'fill' : 'stroke'
-    svgPath.setAttributeNS(
-      null,
-      colorStyle,
-      `${this.properties.color}${opacity}`
-    )
+    svgPath.setAttributeNS(null, colorStyle, `${color}${opacity}`)
     svgPath.setAttributeNS(null, 'd', path)
 
     return svgPath

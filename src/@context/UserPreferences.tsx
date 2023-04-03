@@ -24,6 +24,10 @@ interface UserPreferencesValue {
   removeBookmark: (did: string) => void
   setPrivacyPolicySlug: (slug: string) => void
   setShowPPC: (value: boolean) => void
+  allowExternalContent: boolean
+  setAllowExternalContent: (value: boolean) => void
+  onboardingStep: number
+  setOnboardingStep: (step: number) => void
   locale: string
 }
 
@@ -71,6 +75,14 @@ function UserPreferencesProvider({
     localStorage?.showPPC !== false
   )
 
+  const [allowExternalContent, setAllowExternalContent] = useState<boolean>(
+    localStorage?.allowExternalContent || false
+  )
+
+  const [onboardingStep, setOnboardingStep] = useState<number>(
+    localStorage?.onboardingStep || 0
+  )
+
   // Write values to localStorage on change
   useEffect(() => {
     setLocalStorage({
@@ -79,9 +91,20 @@ function UserPreferencesProvider({
       currency,
       bookmarks,
       privacyPolicySlug,
-      showPPC
+      showPPC,
+      allowExternalContent,
+      onboardingStep
     })
-  }, [chainIds, debug, currency, bookmarks, privacyPolicySlug, showPPC])
+  }, [
+    chainIds,
+    debug,
+    currency,
+    bookmarks,
+    privacyPolicySlug,
+    showPPC,
+    allowExternalContent,
+    onboardingStep
+  ])
 
   // Set ocean.js log levels, default: Error
   useEffect(() => {
@@ -143,7 +166,11 @@ function UserPreferencesProvider({
           addBookmark,
           removeBookmark,
           setPrivacyPolicySlug,
-          setShowPPC
+          setShowPPC,
+          allowExternalContent,
+          setAllowExternalContent,
+          onboardingStep,
+          setOnboardingStep
         } as UserPreferencesValue
       }
     >

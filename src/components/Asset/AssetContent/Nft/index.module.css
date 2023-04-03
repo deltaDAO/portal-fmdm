@@ -1,7 +1,7 @@
 .nftImage {
   position: relative;
   margin: 0;
-  border-right: 1px solid var(--border-color);
+  border-right: var(--border-size) solid var(--border-color);
   width: calc(var(--spacer) * 2);
   height: calc(var(--spacer) * 2);
   display: flex;

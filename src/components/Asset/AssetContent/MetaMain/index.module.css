@@ -6,10 +6,23 @@
   font-size: var(--font-size-small);
 }
 
+.publisherInfo {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.badgeContainer {
+  padding: calc(var(--spacer) / 2);
+}
+
 @media (min-width: 40rem) {
   .meta {
     margin-left: calc(var(--spacer) * -1);
     margin-right: calc(var(--spacer) * -1);
+  }
+  .publisherInfo {
+    flex-direction: row;
   }
 }
 
@@ -18,5 +31,5 @@
   justify-content: flex-start;
   align-items: flex-start;
   height: calc(var(--spacer) * 2);
-  border-bottom: 1px solid var(--border-color);
+  border-bottom: var(--border-size) solid var(--border-color);
 }

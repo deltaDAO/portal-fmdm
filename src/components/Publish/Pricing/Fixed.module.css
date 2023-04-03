@@ -7,7 +7,7 @@
 
 .tokens {
   display: grid;
-  border: 1px solid var(--border-color);
+  border: var(--border-size) solid var(--border-color);
   background: var(--background-highlight);
   border-radius: var(--border-radius);
 }

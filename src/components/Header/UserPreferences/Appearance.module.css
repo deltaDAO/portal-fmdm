@@ -16,7 +16,7 @@
 .button:hover,
 .button:active {
   color: var(--color-secondary);
-  border: 1px solid var(--border-color);
+  border: var(--border-size) solid var(--border-color);
 }
 
 .button svg {

@@ -10,7 +10,7 @@
   margin-bottom: calc(var(--spacer) / 2);
 }
 
-@media (min-width: 55rem) {
+@media (min-width: 72rem) {
   .row {
     flex-direction: row;
   }

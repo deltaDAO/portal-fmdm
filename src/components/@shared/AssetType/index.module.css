@@ -10,7 +10,7 @@
 .typeLabel {
   display: inline-block;
   text-transform: uppercase;
-  border-left: 1px solid var(--border-color);
+  border-left: var(--border-size) solid var(--border-color);
   padding-left: calc(var(--spacer) / 3.5);
   margin-left: calc(var(--spacer) / 4);
 }

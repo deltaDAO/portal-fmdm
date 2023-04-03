@@ -15,7 +15,7 @@
   padding: calc(var(--spacer) / 3) calc(var(--spacer) / 2)
     calc(var(--spacer) / 4) calc(var(--spacer) / 2) !important;
   border-radius: var(--border-radius);
-  border: 1px solid var(--border-color);
+  border: var(--input-border-size) solid var(--input-border-color);
   color: var(--color-secondary);
   cursor: pointer;
 }

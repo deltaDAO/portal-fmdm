@@ -79,7 +79,11 @@ export default function Actions({
       ) : (
         <>
           {values.user.stepCurrent > 1 && (
-            <Button onClick={handlePrevious} disabled={isSubmitting}>
+            <Button
+              style="text"
+              onClick={handlePrevious}
+              disabled={isSubmitting}
+            >
               Back
             </Button>
           )}

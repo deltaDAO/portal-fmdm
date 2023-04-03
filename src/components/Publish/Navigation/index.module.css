@@ -3,7 +3,7 @@
     calc(var(--spacer) / -1.5);
   padding: calc(var(--spacer) / 2) 0;
   scrollbar-width: none;
-  border-bottom: 1px solid var(--border-color);
+  border-bottom: var(--border-size) solid var(--border-color);
   background-color: var(--background-highlight);
 }
 
@@ -55,7 +55,7 @@
   width: 2rem;
   height: 2rem;
   border-radius: 50%;
-  border: 1px solid var(--border-color);
+  border: var(--border-size) solid var(--color-primary);
   margin-right: calc(var(--spacer) / 4);
 }
 

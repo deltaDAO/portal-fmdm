@@ -29,7 +29,7 @@ See https://github.com/oceanprotocol/market/issues/1143 */
   border-radius: 50%;
   overflow: hidden;
   margin-bottom: calc(var(--spacer) / 4);
-  border: 1px solid var(--border-color);
+  border: var(--border-size) solid var(--border-color);
   box-shadow: 0 6px 17px 0 var(--box-shadow-color);
 }
 

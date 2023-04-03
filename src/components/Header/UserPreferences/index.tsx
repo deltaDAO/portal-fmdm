@@ -2,7 +2,6 @@ import React, { ReactElement } from 'react'
 import Tooltip from '@shared/atoms/Tooltip'
 import Cog from '@images/cog.svg'
 import styles from './index.module.css'
-import Currency from './Currency'
 import Debug from './Debug'
 import Caret from '@images/caret.svg'
 import useDarkMode from '@oceanprotocol/use-dark-mode'
@@ -18,9 +17,10 @@ export default function UserPreferences(): ReactElement {
     <Tooltip
       content={
         <ul className={styles.preferencesDetails}>
-          <Currency />
           <Appearance darkMode={darkMode} />
-          <Debug />
+          <li>
+            <Debug />
+          </li>
         </ul>
       }
       trigger="click focus"

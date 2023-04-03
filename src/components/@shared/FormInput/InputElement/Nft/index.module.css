@@ -8,7 +8,7 @@
 }
 
 .token {
-  border: 1px solid var(--border-color);
+  border: var(--input-border-size) solid var(--input-border-color);
   padding: calc(var(--spacer) / 3);
   border-radius: var(--border-radius);
 }
@@ -18,7 +18,7 @@
   width: 128px;
   height: 128px;
   border-radius: var(--border-radius);
-  border: 1px solid var(--border-color);
+  border: var(--input-border-size) solid var(--input-border-color);
   position: relative;
   margin: 0;
 }
@@ -36,7 +36,7 @@
 
 .actions svg {
   margin: 0;
-  fill: var(--font-color-text);
+  fill: var(--nft-refresh-icon-fill);
 }
 
 .refresh svg {

@@ -1,0 +1,60 @@
+{
+  "title": "About Gaia-X",
+  "topSection": [
+    {
+      "text": "Gaia-X is part of the “Digital Europe” program aiming at making Europe’s digital infrastructure future proof and self-sovereign. Gaia-X focusses on the implementation of a decentralized, federated cloud- and data sharing infrastructure. Both public and private, cross-border. Non-European parties can participate but the rules are set based on the EU values: Openness, Fairness, Privacy, Security and Transparency.",
+      "interactivity": {
+        "image": "/images/video-placeholder-1.png",
+        "link": "https://youtu.be/DrG-EBBFniw"
+      },
+      "cta": {
+        "label": "Read more",
+        "link": "https://www.gxfs.eu/connection-to-gaia-x/"
+      }
+    },
+    {
+      "text": "The Gaia-X Federation Services (GXFS) are being developed together with the marker in order to realize interoperability between (eco)systems and represent the minimum technical requirements necessary to set up and operate a cloud-based self-sovereign data infrastructure ecosystem. On the basis of technical specifications, services based on open-source code are being developed. They will then be developed into operational services and continuously improved by the Gaia-X Community.  These services are available for everyone who whishes to use them for their own implementations.",
+      "interactivity": {
+        "image": "/images/video-placeholder-2.png",
+        "link": "https://youtu.be/68tZh_wkeYY"
+      },
+      "cta": {
+        "label": "Read more",
+        "link": "https://www.gxfs.eu/gxfs-overview/"
+      }
+    }
+  ],
+  "hero": {
+    "header": "This demo environment is aiming to bring the Gaia-X concepts and federation services to live in the context of the mobility sector. In the upcoming months this environment can be used to demonstrate, explain and test powerful Gaia-X concepts like:",
+    "points": [
+      "- Self-Descriptions",
+      "- Labels",
+      "- Federated Catalogue",
+      "- Identity & Trust Services",
+      "- Sovereign Data Exchange (incl smart contracts, logging and audit trail)",
+      "- Policy Engines & Compliance Services"
+    ]
+  },
+  "footer": {
+    "text": "In this demo environment consider the “Future Mobility Alliance” as a Gaia-X compliant “Federation” that operates the “Future Mobility Data Marketplace” on behalf of the participating “Provider” and “Consumer” organizations. The provider and consumer organizations could be any public or private organization. As long as they comply with the rules as set by the Future Mobility Alliance and the high-level Gaia-X compliance rules.",
+    "disclaimer": "N.B. Provider and consumer participants of the Future Mobility Alliance can also be participating in other data sharing ecosystems. For instance a “Healtcare Data Marketplace” or a “Energy Data Marketplace”. Participants don’t need to onboard again as Gaia-X member. The same base Gaia-X participant and service self-descriptions can be re-used across different Gaia-X compliant ecosystems.",
+    "cards": [
+      {
+        "title": "Providers",
+        "body": "Publishing open, restricted or commercial data sets and algorithms related to mobility.",
+        "icon": "gear"
+      },
+      {
+        "title": "Federation",
+        "body": "Operating Future Mobility Data Marketplace",
+        "icon": "logo"
+      },
+      {
+        "title": "Consumers",
+        "body": "Consumers of open, restricted or commercial data sets and algorithms related to mobility.",
+        "icon": "cart"
+      }
+    ]
+  },
+  "image": "/images/headerCarousel/1-road.jpeg"
+}

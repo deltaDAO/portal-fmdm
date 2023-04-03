@@ -17,7 +17,7 @@
 
 .addWrap {
   padding-left: calc(var(--spacer) / 5);
-  border-left: 1px solid var(--border-color);
+  border-left: var(--border-size) solid var(--border-color);
   display: inline-block;
 }
 
@@ -26,5 +26,5 @@
 }
 
 .add svg path {
-  fill: var(--brand-violet);
+  fill: var(--ocean-violet);
 }

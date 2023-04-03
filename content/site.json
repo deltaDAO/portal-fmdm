@@ -1,21 +1,50 @@
 {
-  "siteTitle": "Ocean Market",
-  "siteTagline": "A marketplace to find, publish and trade datasets in the Ocean Network.",
-  "siteUrl": "https://market.oceanprotocol.com",
+  "siteTitle": "Future Mobility Data Marketplace",
+  "siteTagline": "Solving mobility challenges",
+  "siteUrl": "https://portal.minimal-gaia-x.eu",
   "siteImage": "/share.png",
-  "copyright": "All Rights Reserved. Powered by ",
+  "copyright": "All Rights Reserved.",
   "menu": [
     {
+      "name": "About",
+      "subItems": [
+        {
+          "name": "This demo",
+          "link": "/about"
+        },
+        {
+          "name": "Gaia-X",
+          "link": "/gaia-x"
+        }
+      ]
+    },
+    {
+      "name": "Catalogue",
+      "link": "/search?sort=nft.created&sortOrder=desc"
+    },
+    {
       "name": "Publish",
-      "link": "/publish/1"
+      "link": "/publish"
     },
     {
       "name": "Profile",
       "link": "/profile"
     }
   ],
-  "announcement": "[Lock your OCEAN](https://df.oceandao.org/) to get veOCEAN, earn rewards and curate data.",
+  "announcement": "",
   "warning": {
     "ctd": "Please note that Compute-to-Data is still in alpha phase."
+  },
+  "footer": {
+    "designedBy": "Designed by The Goodplace",
+    "links": [
+      { "label": "About this demo", "link": "/about" },
+      { "label": "About Gaia-X", "link": "/gaia-x" },
+      {
+        "label": "Catalogue",
+        "link": "/search?sort=nft.created&sortOrder=desc"
+      },
+      { "label": "First time visiting", "link": "/onboarding" }
+    ]
   }
 }

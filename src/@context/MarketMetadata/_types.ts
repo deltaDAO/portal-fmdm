@@ -7,6 +7,8 @@ export interface OpcFee {
 
 export interface AppConfig {
   metadataCacheUri: string
+  complianceUri: string
+  complianceApiVersion: string
   infuraProjectId: string
   chainIds: number[]
   chainIdsSupported: number[]
@@ -16,9 +18,8 @@ export interface AppConfig {
   publisherMarketFixedSwapFee: string
   consumeMarketOrderFee: string
   consumeMarketFixedSwapFee: string
-  currencies: string[]
-  coingeckoTokenIds: string[]
   allowFixedPricing: string
+  allowDynamicPricing: string
   allowFreePricing: string
   defaultPrivacyPolicySlug: string
   privacyPreferenceCenter: string
@@ -27,6 +28,8 @@ export interface AppConfig {
     classNameLight: string
     storageKey: string
   }
+  defaultAccessTerms: string
+  purgatoryUrl: string
 }
 export interface SiteContent {
   siteTitle: string
@@ -36,11 +39,36 @@ export interface SiteContent {
   copyright: string
   menu: {
     name: string
-    link: string
+    link?: string
+    subItems?: {
+      name: string
+      link?: string
+      subItems?: {
+        name: string
+        link: string
+      }[]
+    }[]
   }[]
   announcement: string
   warning: {
     ctd: string
+  }
+  footer: {
+    designedBy: string
+    links: {
+      label: string
+      link: string
+    }[]
+    subtitle?: string
+    copyright?: string
+    privacyTitle?: string
+    content?: {
+      title: string
+      links: {
+        name: string
+        link: string
+      }[]
+    }[]
   }
 }
 

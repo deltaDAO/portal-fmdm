@@ -1,5 +1,5 @@
 .stats {
-  border-top: 1px solid var(--border-color);
+  border-top: var(--border-size) solid var(--border-color);
   margin: calc(var(--spacer) / 2) calc(var(--spacer) / -2)
     calc(var(--spacer) / -5) calc(var(--spacer) / -2);
   margin-top: calc(var(--spacer) / 2);
@@ -21,7 +21,7 @@
 }
 
 .stat {
-  border-left: 1px solid var(--border-color);
+  border-left: var(--border-size) solid var(--border-color);
   padding-left: calc(var(--spacer) / 3.5);
   margin-left: calc(var(--spacer) / 4);
 }

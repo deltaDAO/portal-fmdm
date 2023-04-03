@@ -9,10 +9,19 @@ const defaultBaseQueryReturn = {
   query: {
     bool: {
       filter: [
-        { term: { _index: 'aquarius' } },
         { terms: { chainId: [1, 3] } },
+        { term: { _index: 'oceanv4' } },
         { term: { 'purgatory.state': false } },
-        { bool: { must_not: [{ term: { 'nft.state': 5 } }] } }
+        [
+          {
+            bool: {
+              must_not: [
+                { term: { 'nft.state': 5 } },
+                { term: { 'price.type': 'pool' } }
+              ]
+            }
+          }
+        ]
       ]
     }
   },

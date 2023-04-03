@@ -1,7 +1,7 @@
 .radioWrap {
   composes: radioWrap from '@shared/FormInput/InputElement/Radio/index.module.css';
   padding: calc(var(--spacer) / 4) calc(var(--spacer) / 3);
-  border-bottom: 1px solid var(--border-color);
+  border-bottom: var(--border-size) solid var(--border-color);
 }
 
 .radioWrap:last-child {

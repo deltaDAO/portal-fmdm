@@ -7,10 +7,12 @@ import styles from './MetaInfo.module.css'
 
 export default function MetaInfo({
   asset,
-  nftPublisher
+  nftPublisher,
+  verifiedServiceProviderName
 }: {
   asset: AssetExtended
   nftPublisher: string
+  verifiedServiceProviderName?: string
 }): ReactElement {
   const isCompute = Boolean(getServiceByName(asset, 'compute'))
   const accessType = isCompute ? 'compute' : 'access'
@@ -24,11 +26,16 @@ export default function MetaInfo({
         className={styles.assetType}
       />
       <div className={styles.byline}>
-        <p>
+        <div>
           Published <Time date={asset?.metadata.created} relative />
-          {nftPublisher && nftPublisher !== nftOwner && (
+          {(verifiedServiceProviderName ||
+            (nftPublisher && nftPublisher !== nftOwner)) && (
             <span>
-              {' by '} <Publisher account={nftPublisher} />
+              {' by '}{' '}
+              <Publisher
+                account={nftPublisher}
+                verifiedServiceProviderName={verifiedServiceProviderName}
+              />
             </span>
           )}
           {asset?.metadata.created !== asset?.metadata.updated && (
@@ -39,7 +46,7 @@ export default function MetaInfo({
               </span>
             </>
           )}
-        </p>
+        </div>
       </div>
     </div>
   )

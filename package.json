@@ -1,9 +1,8 @@
 {
-  "name": "@oceanprotocol/market",
-  "description": "🧜‍♀️ THE Data Market for Ocean Protocol.",
+  "name": "@deltadao/portal-fmdm",
+  "description": "Future Mobility Alliance Marketplace, based on Ocean Market",
   "version": "1.0.0",
   "license": "Apache-2.0",
-  "homepage": "https://market.oceanprotocol.com",
   "scripts": {
     "start": "npm run pregenerate && next dev -p 8000",
     "build": "npm run pregenerate && next build",

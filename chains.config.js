@@ -41,7 +41,8 @@ const getDefaultChainIds = () => {
 }
 
 const getSupportedChainIds = () => {
-  return chains.map((c) => c.chainId)
+  let chainIds = chains.map((c) => c.chainId)
+  return chainIds
 }
 
 module.exports = {

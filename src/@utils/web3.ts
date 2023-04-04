@@ -10,6 +10,17 @@ export function accountTruncate(account: string): string {
   const truncated = account.replace(middle, '…')
   return truncated
 }
+
+export function nameTruncate(name: string, maxLength?: number): string {
+  const mLength = maxLength || 30
+  if (!name) {
+    return
+  } else if (name.length <= mLength) {
+    return name
+  }
+  return name.substring(0, mLength) + '…'
+}
+
 /**
  * returns a dummy web3 instance, only usable to get info from the chain
  * @param chainId

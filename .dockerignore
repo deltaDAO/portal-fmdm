@@ -1,0 +1,7 @@
+.cache
+.idea
+node_modules
+public
+repo-metadata.json
+*/networks-metadata.json
+*/@types/apollo

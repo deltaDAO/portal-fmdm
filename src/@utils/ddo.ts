@@ -1,4 +1,5 @@
 import { Asset, DDO, Service } from '@oceanprotocol/lib'
+import { IVerifiablePresentation } from '../@types/VerifyableCredentials'
 
 export function isValidDid(did: string): boolean {
   const regex = /did:op:[A-Za-z0-9]{64}/
@@ -20,6 +21,16 @@ export function getServiceById(ddo: Asset | DDO, serviceId: string): Service {
 
   const service = ddo.services.find((s) => s.id === serviceId)
   return service
+}
+
+export function getLegalName(ddo: Asset | DDO): string {
+  const { additionalInformation } = ddo.metadata
+  const serviceSD = additionalInformation?.gaiaXInformation?.serviceSD
+  if (serviceSD?.raw) {
+    return (serviceSD.raw as IVerifiablePresentation).verifiableCredential[2]
+      .credentialSubject['gax-trust-framework:legalName']['@value']
+  }
+  return 'nft' in ddo ? ddo.nft.owner : ddo.metadata.author // TODO: Sphereon - took metadata.author for now, see what else
 }
 
 export function mapTimeoutStringToSeconds(timeout: string): number {

@@ -7,7 +7,7 @@ import Publisher from '@shared/Publisher'
 import AssetType from '@shared/AssetType'
 import NetworkName from '@shared/NetworkName'
 import styles from './index.module.css'
-import { getServiceByName } from '@utils/ddo'
+import { getServiceByName, getLegalName } from '@utils/ddo'
 import { useUserPreferences } from '@context/UserPreferences'
 import { formatNumber } from '@utils/numbers'
 import classNames from 'classnames/bind'
@@ -32,7 +32,9 @@ export default function AssetTeaser({
   const isCompute = Boolean(getServiceByName(asset, 'compute'))
   const accessType = isCompute ? 'compute' : 'access'
   const { owner } = asset.nft
+  const isCompliant = !!asset.compliance?.gx
   const { orders, allocated } = asset.stats
+  const legalName = getLegalName(asset)
   const isUnsupportedPricing = asset?.accessDetails?.type === 'NOT_SUPPORTED'
   const { locale } = useUserPreferences()
 
@@ -57,7 +59,15 @@ export default function AssetTeaser({
           <Dotdotdot tagName="h1" clamp={3} className={styles.title}>
             {name.slice(0, 200)}
           </Dotdotdot>
-          {!noPublisher && <Publisher account={owner} minimal />}
+          {!noPublisher && (
+            <Publisher
+              account={owner}
+              verifiedServiceProviderName={
+                isCompliant ? legalName : `${legalName} (unverified)`
+              }
+              minimal
+            />
+          )}
         </header>
         {!noDescription && (
           <div className={styles.content}>

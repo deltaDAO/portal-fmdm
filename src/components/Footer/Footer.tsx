@@ -11,7 +11,7 @@ import styles from './Footer.module.css'
 export default function Footer(): ReactElement {
   const { appConfig, siteContent } = useMarketMetadata()
   const { copyright, footer } = siteContent
-  const { setShowPPC } = useUserPreferences()
+  const { setShowPPC, privacyPolicySlug } = useUserPreferences()
 
   const cookies = useGdprMetadata()
 
@@ -46,18 +46,14 @@ export default function Footer(): ReactElement {
               </span>
             </div>
             <div className={styles.legal}>
-              <Button
-                className={styles.linkButton}
-                style="text"
-                href="https://v4.portal.minimal-gaia-x.eu/imprint"
-              >
+              <Button className={styles.linkButton} style="text" to="/imprint">
                 Imprint
               </Button>
               {' — '}
               <Button
                 className={styles.linkButton}
                 style="text"
-                href="https://v4.portal.minimal-gaia-x.eu/privacy/en"
+                to={privacyPolicySlug}
               >
                 Privacy
               </Button>

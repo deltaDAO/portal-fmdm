@@ -26,6 +26,10 @@ export enum FilterByAccessOptions {
   Compute = 'compute'
 }
 
+export enum FilterByIsInComplianceOptions {
+  GaiaX = 'gaia-x'
+}
+
 declare global {
   interface SortOptions {
     sortBy: SortTermOptions

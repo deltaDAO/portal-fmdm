@@ -23,6 +23,7 @@ export default function PublishedList({
   const [page, setPage] = useState<number>(1)
   const [service, setServiceType] = useState<string>()
   const [access, setAccessType] = useState<string>()
+  const [compliance, setComplianceType] = useState<string>()
   const [ignorePurgatory, setIgnorePurgatory] = useState<boolean>(true)
   const newCancelToken = useCancelToken()
 
@@ -33,6 +34,7 @@ export default function PublishedList({
       page: number,
       service: string,
       access: string,
+      compliance: string,
       ignorePurgatory: boolean,
       cancelToken: CancelToken
     ) => {
@@ -46,7 +48,8 @@ export default function PublishedList({
           ownAccount,
           page,
           service,
-          access
+          access,
+          compliance
         )
         setQueryResult(result)
       } catch (error) {
@@ -71,6 +74,7 @@ export default function PublishedList({
       page,
       service,
       access,
+      compliance,
       ignorePurgatory,
       newCancelToken()
     )
@@ -83,6 +87,7 @@ export default function PublishedList({
     getPublished,
     service,
     access,
+    compliance,
     ignorePurgatory
   ])
 
@@ -90,9 +95,11 @@ export default function PublishedList({
     <>
       <Filters
         serviceType={service}
-        setServiceType={setServiceType}
         accessType={access}
+        complianceType={compliance}
+        setServiceType={setServiceType}
         setAccessType={setAccessType}
+        setComplianceType={setComplianceType}
         ignorePurgatory={ownAccount ? ignorePurgatory : undefined}
         setIgnorePurgatory={ownAccount ? setIgnorePurgatory : undefined}
         className={styles.filters}

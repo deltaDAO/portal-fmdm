@@ -30,7 +30,7 @@ export function getLegalName(ddo: Asset | DDO): string {
     return (serviceSD.raw as IVerifiablePresentation).verifiableCredential[2]
       .credentialSubject['gax-trust-framework:legalName']['@value']
   }
-  return 'nft' in ddo ? ddo.nft.owner : ddo.metadata.author // TODO: Sphereon - took metadata.author for now, see what else
+  return 'nft' in ddo ? ddo.nft.owner : ddo.event.from
 }
 
 export function mapTimeoutStringToSeconds(timeout: string): number {

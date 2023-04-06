@@ -32,7 +32,8 @@ export default function AssetTeaser({
   const isCompute = Boolean(getServiceByName(asset, 'compute'))
   const accessType = isCompute ? 'compute' : 'access'
   const { owner } = asset.nft
-  const isCompliant = !!asset.compliance?.gx
+  const complianceTypes = asset.metadata.additionalInformation.compliance
+  const isCompliant = !!complianceTypes?.length
   const { orders, allocated } = asset.stats
   const legalName = getLegalName(asset)
   const isUnsupportedPricing = asset?.accessDetails?.type === 'NOT_SUPPORTED'

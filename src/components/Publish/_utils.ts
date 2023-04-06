@@ -33,6 +33,7 @@ import { sanitizeUrl } from '@utils/url'
 import { getContainerChecksum } from '@utils/docker'
 import axios from 'axios'
 import { ServiceSD } from 'src/@types/gaia-x/2210/ServiceSD'
+import { ComplianceType } from '../../@types/ComplianceType'
 
 function getUrlFileExtension(fileUrl: string): string {
   const splittedFileUrl = fileUrl.split('.')
@@ -183,6 +184,17 @@ export function getComplianceApiVersion(context?: string[]): string {
   return '2204'
 }
 
+export async function getServiceSD(url: string): Promise<string> {
+  if (!url) return
+
+  try {
+    const serviceSD = await axios.get(url)
+    return JSON.stringify(serviceSD.data, null, 2)
+  } catch (error) {
+    LoggerInstance.error(error.message)
+  }
+}
+
 export async function signServiceSD(rawServiceSD: any): Promise<any> {
   if (!rawServiceSD) return
   try {
@@ -317,7 +329,17 @@ export async function transformPublishFormToDdo(
   const accessTermsUrlTransformed = accessTermsFileInfo?.length &&
     accessTermsFileInfo[0].valid && [sanitizeUrl(accessTermsFileInfo[0].url)]
   const serviceSD = gaiaXInformation?.serviceSD
-  const serviceSDContent = serviceSD?.url ? serviceSD?.url : serviceSD?.raw
+  const serviceSDContent = serviceSD?.url
+    ? await getServiceSD(serviceSD?.url)
+    : serviceSD?.raw
+
+  const compliance: Array<ComplianceType> = []
+  if (
+    gaiaXInformation.serviceSD &&
+    (await verifyRawServiceSD(serviceSDContent)).verified
+  ) {
+    compliance.push(ComplianceType.GAIA_X)
+  }
 
   const newMetadata: Metadata = {
     created: currentTime,
@@ -342,11 +364,7 @@ export async function transformPublishFormToDdo(
         }),
         serviceSD
       },
-      compliance: {
-        gx:
-          gaiaXInformation.serviceSD &&
-          (await verifyRawServiceSD(serviceSDContent)).verified
-      }
+      compliance
     },
     ...(type === 'algorithm' &&
       dockerImage !== '' && {
@@ -438,17 +456,6 @@ export async function transformPublishFormToDdo(
     })
   }
   return newDdo
-}
-
-export async function getServiceSD(url: string): Promise<string> {
-  if (!url) return
-
-  try {
-    const serviceSD = await axios.get(url)
-    return JSON.stringify(serviceSD.data, null, 2)
-  } catch (error) {
-    LoggerInstance.error(error.message)
-  }
 }
 
 export function getFormattedCodeString(parsedCodeBlock: any): string {

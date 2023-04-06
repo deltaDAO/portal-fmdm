@@ -37,7 +37,8 @@ export function getSearchQuery(
   sort?: string,
   sortDirection?: string,
   serviceType?: string,
-  accessType?: string
+  accessType?: string,
+  complianceType?: string
 ): SearchQuery {
   text = escapeEsReservedCharacters(text)
   const emptySearchTerm = text === undefined || text === ''
@@ -116,7 +117,13 @@ export function getSearchQuery(
     filters.push(getFilterTerm('services.type', accessType))
   serviceType !== undefined &&
     filters.push(getFilterTerm('metadata.type', serviceType))
-
+  complianceType !== undefined &&
+    filters.push(
+      getFilterTerm(
+        'service.attributes.additionalInformation.compliance',
+        complianceType
+      )
+    )
   const baseQueryParams = {
     chainIds,
     nestedQuery,
@@ -144,6 +151,7 @@ export async function getResults(
     sortOrder?: string
     serviceType?: string
     accessType?: string
+    complianceType?: string
   },
   chainIds: number[],
   cancelToken?: CancelToken
@@ -157,7 +165,8 @@ export async function getResults(
     sort,
     sortOrder,
     serviceType,
-    accessType
+    accessType,
+    complianceType
   } = params
 
   const searchQuery = getSearchQuery(
@@ -170,7 +179,8 @@ export async function getResults(
     sort,
     sortOrder,
     serviceType,
-    accessType
+    accessType,
+    complianceType
   )
   const queryResult = await queryMetadata(searchQuery, cancelToken)
   return queryResult

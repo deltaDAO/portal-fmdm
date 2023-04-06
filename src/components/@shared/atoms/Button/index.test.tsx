@@ -4,7 +4,9 @@ import Button from './'
 
 test('returns correct markup when href or to is passed', async () => {
   const { rerender } = render(
-    <Button href="https://oceanprotocol.com">Hello Button</Button>
+    <Button href="https://oceanprotocol.com" arrow>
+      Hello Button
+    </Button>
   )
 
   let button = screen.getByText(`Hello Button ${String.fromCharCode(8599)}`)

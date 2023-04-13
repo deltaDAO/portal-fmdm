@@ -1,7 +1,7 @@
 import React, { ReactElement, useEffect, useState } from 'react'
 import styles from './index.module.css'
 import Link from 'next/link'
-import { accountTruncate, nameTruncate } from '@utils/web3'
+import { accountTruncate } from '@utils/web3'
 import { useIsMounted } from '@hooks/useIsMounted'
 
 export interface PublisherProps {
@@ -19,7 +19,7 @@ export default function Publisher({
 }: PublisherProps): ReactElement {
   const isMounted = useIsMounted()
   const [name, setName] = useState(
-    nameTruncate(verifiedServiceProviderName, 35) || accountTruncate(account)
+    verifiedServiceProviderName || accountTruncate(account)
   )
 
   useEffect(() => {

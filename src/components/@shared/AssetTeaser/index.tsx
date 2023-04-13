@@ -11,6 +11,7 @@ import { getServiceByName, getPublisherNameOrOwner } from '@utils/ddo'
 import { useUserPreferences } from '@context/UserPreferences'
 import { formatNumber } from '@utils/numbers'
 import classNames from 'classnames/bind'
+import { accountTruncate } from '@utils/web3'
 
 const cx = classNames.bind(styles)
 
@@ -64,7 +65,9 @@ export default function AssetTeaser({
             <Publisher
               account={owner}
               verifiedServiceProviderName={
-                isCompliant ? displayName : `${displayName} (unverified)`
+                isCompliant
+                  ? displayName
+                  : `${accountTruncate(displayName)} (unverified)`
               }
               minimal
             />

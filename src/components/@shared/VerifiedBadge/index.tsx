@@ -5,11 +5,14 @@ import Cross from '@images/cross.svg'
 import styles from './index.module.css'
 import Loader from '../atoms/Loader'
 import Time from '../atoms/Time'
+import { ComplianceType } from '../../../@types/ComplianceType'
+import Checkmark from '@images/checkmark-green.svg'
 
 const cx = classNames.bind(styles)
 
 export default function VerifiedBadge({
   text,
+  complianceTypes,
   className,
   isInvalid,
   isLoading,
@@ -17,6 +20,7 @@ export default function VerifiedBadge({
   timestamp
 }: {
   text: string
+  complianceTypes?: Array<ComplianceType>
   className?: string
   isInvalid?: boolean
   isLoading?: boolean
@@ -48,6 +52,33 @@ export default function VerifiedBadge({
           <span>{text}</span>
         </div>
         <div className={styles.details}>
+          {complianceTypes && (
+            <ul style={{ listStyle: 'none', padding: 0 }}>
+              {complianceTypes.map((complianceType) => {
+                const complianceLabel = `${
+                  complianceType.charAt(0).toUpperCase() +
+                  complianceType.slice(1)
+                } compliant`
+
+                return (
+                  <li
+                    key={complianceLabel}
+                    style={{ display: 'flex', alignItems: 'center' }}
+                  >
+                    <Checkmark
+                      style={{
+                        width: '24px',
+                        height: '24px',
+                        marginRight: '0.1rem'
+                      }}
+                    />
+                    <span>{complianceLabel}</span>
+                  </li>
+                )
+              })}
+            </ul>
+          )}
+
           {apiVersion && (
             <span className={styles.apiVersion}>
               version: {formattedApiVersion}

@@ -291,7 +291,11 @@ export default function FilterPrice({
           const showClear =
             accessSelections.length > 0 ||
             serviceSelections.length > 0 ||
-            complianceSelections.length > 0
+            complianceSelections.length > 0 ||
+            serviceType ||
+            accessType ||
+            complianceType
+
           return (
             <Button
               size="small"

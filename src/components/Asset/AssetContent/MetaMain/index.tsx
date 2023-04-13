@@ -46,21 +46,12 @@ export default function MetaMain({
           {(isVerifyingSD || isServiceSDVerified) && (
             <VerifiedBadge
               text="Service Self-Description"
+              complianceTypes={complianceTypes}
               isLoading={isVerifyingSD}
               apiVersion={serviceSDVersion}
               timestamp={isServiceSDVerified}
             />
           )}
-          {complianceTypes &&
-            complianceTypes.map((complianceType, index) => (
-              <VerifiedBadge
-                key={index + 1}
-                text={`${
-                  complianceType.charAt(0).toUpperCase() +
-                  complianceType.slice(1)
-                } compliant`}
-              />
-            ))}
         </div>
       </div>
     </aside>

@@ -28,28 +28,15 @@ export default function Visualizer({
     <div>
       <div className={styles.header}>
         <h4>{title}</h4>
-        <div>
-          {displayBadge && (
-            <VerifiedBadge
-              key="0"
-              isInvalid={invalidBadge}
-              text={badgeLabel}
-              apiVersion={apiVersion}
-              timestamp
-            />
-          )}
-          {displayBadge &&
-            complianceTypes &&
-            complianceTypes.map((complianceType, index) => (
-              <VerifiedBadge
-                key={index + 1}
-                text={`${
-                  complianceType.charAt(0).toUpperCase() +
-                  complianceType.slice(1)
-                } compliant`}
-              />
-            ))}
-        </div>
+        {displayBadge && (
+          <VerifiedBadge
+            text={badgeLabel}
+            complianceTypes={complianceTypes}
+            isInvalid={invalidBadge}
+            apiVersion={apiVersion}
+            timestamp
+          />
+        )}
       </div>
       <div className={styles.markdownContainer}>
         <Markdown text={text} />

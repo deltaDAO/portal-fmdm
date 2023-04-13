@@ -30,7 +30,7 @@ export default function SearchPage({
 
   useEffect(() => {
     const parsed = queryString.parse(location.search)
-    const { sort, sortOrder, serviceType, accessType } = parsed
+    const { sort, sortOrder, serviceType, accessType, complianceType } = parsed
     setParsed(parsed)
     setServiceType(serviceType as string)
     setAccessType(accessType as string)

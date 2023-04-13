@@ -34,6 +34,7 @@ import { getContainerChecksum } from '@utils/docker'
 import axios from 'axios'
 import { ServiceSD } from 'src/@types/gaia-x/2210/ServiceSD'
 import { ComplianceType } from '../../@types/ComplianceType'
+import { IVerifiablePresentation } from '../../@types/VerifyableCredentials'
 
 function getUrlFileExtension(fileUrl: string): string {
   const splittedFileUrl = fileUrl.split('.')
@@ -255,6 +256,7 @@ function selectBaseUrl(parsedServiceSD) {
 export async function verifyRawServiceSD(rawServiceSD: string): Promise<{
   verified: boolean
   complianceApiVersion?: string
+  gaxLegalName?: string
   responseBody?: any
 }> {
   if (!rawServiceSD) return { verified: false }
@@ -275,7 +277,15 @@ export async function verifyRawServiceSD(rawServiceSD: string): Promise<{
       }
     }
     if (response?.status < 400) {
-      return { verified: true, complianceApiVersion }
+      const gaxLegalName = (parsedServiceSD.raw as IVerifiablePresentation)
+        ?.verifiableCredential[2].credentialSubject[
+        'gax-trust-framework:legalName'
+      ]['@value']
+      return {
+        verified: true,
+        complianceApiVersion,
+        gaxLegalName: gaxLegalName
+      }
     }
 
     return { verified: false }

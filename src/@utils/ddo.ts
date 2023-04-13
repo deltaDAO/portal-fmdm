@@ -25,10 +25,8 @@ export function getServiceById(ddo: Asset | DDO, serviceId: string): Service {
 
 export function getLegalName(ddo: Asset | DDO): string {
   const { additionalInformation } = ddo.metadata
-  const serviceSD = additionalInformation?.gaiaXInformation?.serviceSD
-  if (serviceSD?.raw) {
-    return (serviceSD.raw as IVerifiablePresentation).verifiableCredential[2]
-      .credentialSubject['gax-trust-framework:legalName']['@value']
+  if (additionalInformation?.gaiaXInformation?.legalName) {
+    return additionalInformation.gaiaXInformation.legalName
   }
   return 'nft' in ddo ? ddo.nft.owner : ddo.event.from
 }

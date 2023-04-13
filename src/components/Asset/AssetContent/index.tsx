@@ -38,6 +38,7 @@ export default function AssetContent({
   const [receipts, setReceipts] = useState([])
   const [nftPublisher, setNftPublisher] = useState<string>()
   const [serviceSD, setServiceSD] = useState<string>()
+  const complianceTypes = asset.metadata?.additionalInformation?.compliance
 
   useEffect(() => {
     setNftPublisher(
@@ -97,6 +98,7 @@ export default function AssetContent({
                       text={getFormattedCodeString(serviceSD) || ''}
                       title="Service Self-Description"
                       copyText={serviceSD && JSON.stringify(serviceSD, null, 2)}
+                      complianceTypes={complianceTypes}
                     />
                   </div>
                 )}

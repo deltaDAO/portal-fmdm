@@ -184,11 +184,9 @@ function AssetProvider({
           ? await getServiceSD(serviceSD?.url)
           : serviceSD?.raw
 
-        const { verified, complianceApiVersion, gaxLegalName } =
-          await verifyRawServiceSD(serviceSDContent)
-        if (additionalInformation && additionalInformation.gaiaXInformation) {
-          additionalInformation.gaiaXInformation.legalName = gaxLegalName
-        }
+        const { verified, complianceApiVersion } = await verifyRawServiceSD(
+          serviceSDContent
+        )
         setIsServiceSDVerified(verified && !!serviceSDContent)
         setServiceSDVersion(complianceApiVersion)
         const serviceProviderName = await getPublisherFromServiceSD(

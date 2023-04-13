@@ -23,10 +23,13 @@ export function getServiceById(ddo: Asset | DDO, serviceId: string): Service {
   return service
 }
 
-export function getLegalName(ddo: Asset | DDO): string {
+export function getPublisherNameOrOwner(ddo: Asset | DDO): string {
   const { additionalInformation } = ddo.metadata
-  if (additionalInformation?.gaiaXInformation?.legalName) {
-    return additionalInformation.gaiaXInformation.legalName
+  if (
+    additionalInformation?.gaiaXInformation?.serviceSD?.verifiedPublisherName
+  ) {
+    return additionalInformation.gaiaXInformation.serviceSD
+      .verifiedPublisherName
   }
   return 'nft' in ddo ? ddo.nft.owner : ddo.event.from
 }

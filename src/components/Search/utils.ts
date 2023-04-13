@@ -120,7 +120,7 @@ export function getSearchQuery(
   complianceType !== undefined &&
     filters.push(
       getFilterTerm(
-        'service.attributes.additionalInformation.compliance',
+        'metadata.additionalInformation.compliance.keyword',
         complianceType
       )
     )

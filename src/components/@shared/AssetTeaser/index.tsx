@@ -7,7 +7,7 @@ import Publisher from '@shared/Publisher'
 import AssetType from '@shared/AssetType'
 import NetworkName from '@shared/NetworkName'
 import styles from './index.module.css'
-import { getServiceByName, getLegalName } from '@utils/ddo'
+import { getServiceByName, getPublisherNameOrOwner } from '@utils/ddo'
 import { useUserPreferences } from '@context/UserPreferences'
 import { formatNumber } from '@utils/numbers'
 import classNames from 'classnames/bind'
@@ -35,7 +35,7 @@ export default function AssetTeaser({
   const complianceTypes = asset.metadata.additionalInformation.compliance
   const isCompliant = !!complianceTypes?.length
   const { orders, allocated } = asset.stats
-  const legalName = getLegalName(asset)
+  const displayName = getPublisherNameOrOwner(asset)
   const isUnsupportedPricing = asset?.accessDetails?.type === 'NOT_SUPPORTED'
   const { locale } = useUserPreferences()
 
@@ -64,7 +64,7 @@ export default function AssetTeaser({
             <Publisher
               account={owner}
               verifiedServiceProviderName={
-                isCompliant ? legalName : `${legalName} (unverified)`
+                isCompliant ? displayName : `${displayName} (unverified)`
               }
               minimal
             />

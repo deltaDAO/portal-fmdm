@@ -1,8 +1,8 @@
 import { Asset, LoggerInstance } from '@oceanprotocol/lib'
 import { AssetSelectionAsset } from '@shared/FormInput/InputElement/AssetSelection'
-import axios, { CancelToken, AxiosResponse } from 'axios'
+import axios, { AxiosResponse, CancelToken } from 'axios'
 import { OrdersData_orders as OrdersData } from '../../@types/subgraph/OrdersData'
-import { metadataCacheUri, allowDynamicPricing } from '../../../app.config'
+import { allowDynamicPricing, metadataCacheUri } from '../../../app.config'
 import {
   SortDirectionOptions,
   SortTermOptions
@@ -303,7 +303,7 @@ export async function getPublishedAssets(
   complianceType !== undefined &&
     filters.push(
       getFilterTerm(
-        'metadata.additionalInformation.compliance.gx',
+        'metadata.additionalInformation.compliance.keyword',
         complianceType
       )
     )

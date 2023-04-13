@@ -22,31 +22,46 @@ export default function MetaMain({
     verifiedServiceProviderName
   } = useAsset()
   const isBlockscoutExplorer = blockscoutNetworks.includes(asset?.chainId)
+  const complianceTypes = asset.metadata.additionalInformation.compliance
 
   return (
     <aside className={styles.meta}>
       <header className={styles.asset}>
         <Nft isBlockscoutExplorer={isBlockscoutExplorer} />
-        <MetaAsset asset={asset} isBlockscoutExplorer={isBlockscoutExplorer} />
+        <MetaAsset
+          asset={asset}
+          isBlockscoutExplorer={isBlockscoutExplorer}
+          verifiedServiceProviderName={verifiedServiceProviderName}
+        />
       </header>
       <div className={styles.publisherInfo}>
         <MetaInfo
           asset={asset}
-          nftPublisher={nftPublisher}
+          nftPublisher={nftPublisher || asset.nft.owner}
           verifiedServiceProviderName={
             isServiceSDVerified && verifiedServiceProviderName
           }
         />
-        {(isVerifyingSD || isServiceSDVerified) && (
-          <div className={styles.badgeContainer}>
+        <div className={styles.badgeContainer}>
+          {(isVerifyingSD || isServiceSDVerified) && (
             <VerifiedBadge
               text="Service Self-Description"
               isLoading={isVerifyingSD}
               apiVersion={serviceSDVersion}
               timestamp={isServiceSDVerified}
             />
-          </div>
-        )}
+          )}
+          {complianceTypes &&
+            complianceTypes.map((complianceType, index) => (
+              <VerifiedBadge
+                key={index + 1}
+                text={`${
+                  complianceType.charAt(0).toUpperCase() +
+                  complianceType.slice(1)
+                } compliant`}
+              />
+            ))}
+        </div>
       </div>
     </aside>
   )

@@ -42,7 +42,10 @@ declare global {
     }
   }
 
-  type Filters = FilterByTypeOptions | FilterByAccessOptions
+  type Filters =
+    | FilterByTypeOptions
+    | FilterByAccessOptions
+    | FilterByIsInComplianceOptions
 
   interface SearchQuery {
     from?: number

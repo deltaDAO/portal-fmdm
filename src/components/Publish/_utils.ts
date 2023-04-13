@@ -34,7 +34,10 @@ import { getContainerChecksum } from '@utils/docker'
 import axios from 'axios'
 import { ServiceSD } from 'src/@types/gaia-x/2210/ServiceSD'
 import { ComplianceType } from '../../@types/ComplianceType'
-import { IVerifiablePresentation } from '../../@types/VerifyableCredentials'
+import {
+  ICredentialSubject,
+  IVerifiablePresentation
+} from '../../@types/VerifyableCredentials'
 
 function getUrlFileExtension(fileUrl: string): string {
   const splittedFileUrl = fileUrl.split('.')
@@ -256,7 +259,6 @@ function selectBaseUrl(parsedServiceSD) {
 export async function verifyRawServiceSD(rawServiceSD: string): Promise<{
   verified: boolean
   complianceApiVersion?: string
-  gaxLegalName?: string
   responseBody?: any
 }> {
   if (!rawServiceSD) return { verified: false }
@@ -273,18 +275,13 @@ export async function verifyRawServiceSD(rawServiceSD: string): Promise<{
     if (response?.status === 409) {
       return {
         verified: false,
-        responseBody: response.data.body
+        responseBody: response.data.body ? response.data.body : response.data
       }
     }
     if (response?.status < 400) {
-      const gaxLegalName = (parsedServiceSD.raw as IVerifiablePresentation)
-        ?.verifiableCredential[2].credentialSubject[
-        'gax-trust-framework:legalName'
-      ]['@value']
       return {
         verified: true,
-        complianceApiVersion,
-        gaxLegalName: gaxLegalName
+        complianceApiVersion
       }
     }
 
@@ -292,6 +289,77 @@ export async function verifyRawServiceSD(rawServiceSD: string): Promise<{
   } catch (error) {
     LoggerInstance.error(error.message)
     return { verified: false }
+  }
+}
+
+async function getPublisherFromCredentialSubject(
+  credentialSubject: ICredentialSubject
+): Promise<string | undefined> {
+  if ('gx-service-offering:providedBy' in credentialSubject) {
+    const providedBy = credentialSubject['gx-service-offering:providedBy']
+    const providedByUrl =
+      typeof providedBy === 'string' ? providedBy : providedBy?.['@value']
+
+    const response = await axios.get(sanitizeUrl(providedByUrl))
+    if (!response || response.status !== 200 || !response?.data) return
+
+    const legalName =
+      response.data?.selfDescriptionCredential?.credentialSubject?.[
+        'gx-participant:legalName'
+      ]
+    return typeof legalName === 'string' ? legalName : legalName?.['@value']
+  } else if ('gax-trust-framework:legalName' in credentialSubject) {
+    const legalName = credentialSubject['gax-trust-framework:legalName']
+    if (
+      typeof legalName === 'object' &&
+      legalName !== null &&
+      '@value' in legalName
+    ) {
+      return legalName['@value'] as string
+    }
+  }
+  return undefined
+}
+
+export async function getPublisherFromServiceSD(
+  serviceSD: any
+): Promise<string> {
+  if (!serviceSD) return
+
+  try {
+    const parsedServiceSD =
+      typeof serviceSD === 'string' ? JSON.parse(serviceSD) : serviceSD
+
+    if ('verifiableCredential' in parsedServiceSD) {
+      const vp = parsedServiceSD as IVerifiablePresentation
+      const verifiableCredential = vp?.verifiableCredential
+      if (!Array.isArray(verifiableCredential)) {
+        return undefined
+      }
+
+      for (const credential of verifiableCredential) {
+        const credentialSubject = credential?.credentialSubject
+        if (
+          typeof credentialSubject !== 'object' ||
+          credentialSubject === null
+        ) {
+          continue
+        }
+        const publisher = await getPublisherFromCredentialSubject(
+          credentialSubject
+        )
+        if (publisher) {
+          return publisher
+        }
+      }
+    } else {
+      const credentialSubject =
+        parsedServiceSD?.selfDescriptionCredential?.credentialSubject
+      return await getPublisherFromCredentialSubject(credentialSubject)
+    }
+    return undefined
+  } catch (error) {
+    LoggerInstance.error(error.message)
   }
 }
 
@@ -343,12 +411,20 @@ export async function transformPublishFormToDdo(
     ? await getServiceSD(serviceSD?.url)
     : serviceSD?.raw
 
-  const compliance: Array<ComplianceType> = []
-  if (
-    gaiaXInformation.serviceSD &&
-    (await verifyRawServiceSD(serviceSDContent)).verified
-  ) {
-    compliance.push(ComplianceType.GAIA_X)
+  serviceSD.verifiedPublisherName = await getPublisherFromServiceSD(
+    serviceSDContent
+  )
+  const complianceTypes: Array<ComplianceType> = []
+  if (gaiaXInformation.serviceSD) {
+    const { verified } = await verifyRawServiceSD(serviceSDContent)
+    // When the compliance service passes, and we were able to extract a legalName, we assume the SD is GX compliant for now
+    if (
+      verified &&
+      typeof serviceSD.verifiedPublisherName === 'string' &&
+      serviceSD.verifiedPublisherName.length > 0
+    ) {
+      complianceTypes.push(ComplianceType.GAIA_X)
+    }
   }
 
   const newMetadata: Metadata = {
@@ -374,7 +450,7 @@ export async function transformPublishFormToDdo(
         }),
         serviceSD
       },
-      compliance
+      compliance: complianceTypes
     },
     ...(type === 'algorithm' &&
       dockerImage !== '' && {
@@ -484,35 +560,4 @@ export function updateServiceSelfDescription(
   }
 
   return ddo
-}
-
-export async function getPublisherFromServiceSD(
-  serviceSD: any
-): Promise<string> {
-  if (!serviceSD) return
-
-  try {
-    const parsedServiceSD =
-      typeof serviceSD === 'string' ? JSON.parse(serviceSD) : serviceSD
-    const providedBy =
-      parsedServiceSD?.selfDescriptionCredential?.credentialSubject?.[
-        'gx-service-offering:providedBy'
-      ]
-    const providedByUrl =
-      typeof providedBy === 'string' ? providedBy : providedBy?.['@value']
-
-    const response = await axios.get(sanitizeUrl(providedByUrl))
-    if (!response || response.status !== 200 || !response?.data) return
-
-    const legalName =
-      response.data?.selfDescriptionCredential?.credentialSubject?.[
-        'gx-participant:legalName'
-      ]
-    const publisher =
-      typeof legalName === 'string' ? legalName : legalName?.['@value']
-
-    return publisher
-  } catch (error) {
-    LoggerInstance.error(error.message)
-  }
 }

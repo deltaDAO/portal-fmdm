@@ -5,10 +5,14 @@ import Publisher from '@shared/Publisher'
 import { useAsset } from '@context/Asset'
 import { getDummyWeb3 } from '@utils/web3'
 import { Asset, Datatoken, LoggerInstance } from '@oceanprotocol/lib'
+import { getPublisherNameOrOwner } from '@utils/ddo'
 
 export default function MetaFull({ ddo }: { ddo: Asset }): ReactElement {
   const [paymentCollector, setPaymentCollector] = useState<string>()
   const { isInPurgatory, assetState } = useAsset()
+  const complianceTypes = ddo?.metadata.additionalInformation.compliance
+  const isCompliant = complianceTypes?.length
+  const displayName = getPublisherNameOrOwner(ddo)
 
   useEffect(() => {
     async function getInitialPaymentCollector() {
@@ -39,7 +43,14 @@ export default function MetaFull({ ddo }: { ddo: Asset }): ReactElement {
       )}
       <MetaItem
         title="Owner"
-        content={<Publisher account={ddo?.nft?.owner} />}
+        content={
+          <Publisher
+            account={ddo?.nft?.owner}
+            verifiedServiceProviderName={
+              isCompliant ? displayName : `${displayName} (unverified)`
+            }
+          />
+        }
       />
       {assetState !== 'Active' && (
         <MetaItem title="Asset State" content={assetState} />

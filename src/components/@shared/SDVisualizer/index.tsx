@@ -3,6 +3,7 @@ import Copy from '../atoms/Copy'
 import Markdown from '../Markdown'
 import VerifiedBadge from '../VerifiedBadge'
 import styles from './index.module.css'
+import { ComplianceType } from '../../../@types/ComplianceType'
 
 export default function Visualizer({
   text,
@@ -11,7 +12,8 @@ export default function Visualizer({
   badgeLabel,
   invalidBadge,
   apiVersion,
-  copyText
+  copyText,
+  complianceTypes
 }: {
   text: string
   title: string
@@ -20,19 +22,34 @@ export default function Visualizer({
   invalidBadge?: boolean
   apiVersion?: string
   copyText?: string
+  complianceTypes?: Array<ComplianceType>
 }): ReactElement {
   return (
     <div>
       <div className={styles.header}>
         <h4>{title}</h4>
-        {displayBadge && (
-          <VerifiedBadge
-            isInvalid={invalidBadge}
-            text={badgeLabel}
-            apiVersion={apiVersion}
-            timestamp
-          />
-        )}
+        <div>
+          {displayBadge && (
+            <VerifiedBadge
+              key="0"
+              isInvalid={invalidBadge}
+              text={badgeLabel}
+              apiVersion={apiVersion}
+              timestamp
+            />
+          )}
+          {displayBadge &&
+            complianceTypes &&
+            complianceTypes.map((complianceType, index) => (
+              <VerifiedBadge
+                key={index + 1}
+                text={`${
+                  complianceType.charAt(0).toUpperCase() +
+                  complianceType.slice(1)
+                } compliant`}
+              />
+            ))}
+        </div>
       </div>
       <div className={styles.markdownContainer}>
         <Markdown text={text} />

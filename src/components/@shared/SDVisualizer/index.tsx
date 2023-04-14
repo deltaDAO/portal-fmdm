@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react'
+import React, { ReactElement, useMemo } from 'react'
 import Copy from '../atoms/Copy'
 import Markdown from '../Markdown'
 import VerifiedBadge from '../VerifiedBadge'
@@ -24,20 +24,26 @@ export default function Visualizer({
   copyText?: string
   complianceTypes?: Array<ComplianceType>
 }): ReactElement {
+  const titleId = useMemo(
+    () => `title-${Math.random().toString(36).substr(2, 9)}`,
+    []
+  )
+
   return (
     <div>
-      <div className={styles.header}>
+      <input type="checkbox" id={titleId} className={styles.check} />
+      <label htmlFor={titleId} className={styles.title}>
         <h4>{title}</h4>
-        {displayBadge && (
-          <VerifiedBadge
-            text={badgeLabel}
-            complianceTypes={complianceTypes}
-            isInvalid={invalidBadge}
-            apiVersion={apiVersion}
-            timestamp
-          />
-        )}
-      </div>
+      </label>
+      {displayBadge && (
+        <VerifiedBadge
+          text={badgeLabel}
+          complianceTypes={complianceTypes}
+          isInvalid={invalidBadge}
+          apiVersion={apiVersion}
+          timestamp
+        />
+      )}
       <div className={styles.markdownContainer}>
         <Markdown text={text} />
         {copyText && (

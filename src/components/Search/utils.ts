@@ -113,11 +113,9 @@ export function getSearchQuery(
       ]
     }
   }
-  accessType !== undefined &&
-    filters.push(getFilterTerm('services.type', accessType))
-  serviceType !== undefined &&
-    filters.push(getFilterTerm('metadata.type', serviceType))
-  complianceType !== undefined &&
+  accessType && filters.push(getFilterTerm('services.type', accessType))
+  serviceType && filters.push(getFilterTerm('metadata.type', serviceType))
+  complianceType &&
     filters.push(
       getFilterTerm(
         'metadata.additionalInformation.compliance.keyword',

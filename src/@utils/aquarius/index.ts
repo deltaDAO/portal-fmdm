@@ -297,10 +297,9 @@ export async function getPublishedAssets(
 
   filters.push(getFilterTerm('nft.state', [0, 4, 5]))
   filters.push(getFilterTerm('nft.owner', accountId.toLowerCase()))
-  accessType !== undefined &&
-    filters.push(getFilterTerm('services.type', accessType))
+  accessType && filters.push(getFilterTerm('services.type', accessType))
   type !== undefined && filters.push(getFilterTerm('metadata.type', type))
-  complianceType !== undefined &&
+  complianceType &&
     filters.push(
       getFilterTerm(
         'metadata.additionalInformation.compliance.keyword',

@@ -36,7 +36,7 @@ export default function AssetTeaser({
   const complianceTypes = asset.metadata.additionalInformation.compliance
   const isCompliant = !!complianceTypes?.length
   const { orders, allocated } = asset.stats
-  const displayName = getPublisherNameOrOwner(asset)
+  const publisherNameOrOwner = getPublisherNameOrOwner(asset)
   const isUnsupportedPricing = asset?.accessDetails?.type === 'NOT_SUPPORTED'
   const { locale } = useUserPreferences()
 
@@ -66,8 +66,8 @@ export default function AssetTeaser({
               account={owner}
               verifiedServiceProviderName={
                 isCompliant
-                  ? displayName
-                  : `${accountTruncate(displayName)} (unverified)`
+                  ? publisherNameOrOwner
+                  : `${accountTruncate(publisherNameOrOwner)} (unverified)`
               }
               minimal
             />

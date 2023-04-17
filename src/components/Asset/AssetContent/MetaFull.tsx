@@ -12,7 +12,7 @@ export default function MetaFull({ ddo }: { ddo: Asset }): ReactElement {
   const { isInPurgatory, assetState } = useAsset()
   const complianceTypes = ddo?.metadata.additionalInformation.compliance
   const isCompliant = complianceTypes?.length
-  const displayName = getPublisherNameOrOwner(ddo)
+  const publisherNameOrOwner = getPublisherNameOrOwner(ddo)
 
   useEffect(() => {
     async function getInitialPaymentCollector() {
@@ -47,7 +47,9 @@ export default function MetaFull({ ddo }: { ddo: Asset }): ReactElement {
           <Publisher
             account={ddo?.nft?.owner}
             verifiedServiceProviderName={
-              isCompliant ? displayName : `${displayName} (unverified)`
+              isCompliant
+                ? publisherNameOrOwner
+                : `${publisherNameOrOwner} (unverified)`
             }
           />
         }

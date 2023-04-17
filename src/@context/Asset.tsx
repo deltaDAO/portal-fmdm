@@ -187,6 +187,7 @@ function AssetProvider({
         const { verified, complianceApiVersion } = await verifyRawServiceSD(
           serviceSDContent
         )
+
         setIsServiceSDVerified(verified && !!serviceSDContent)
         setServiceSDVersion(complianceApiVersion)
         const serviceProviderName = await getPublisherFromServiceSD(

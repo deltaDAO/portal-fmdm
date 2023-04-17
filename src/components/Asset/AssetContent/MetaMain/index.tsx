@@ -22,7 +22,7 @@ export default function MetaMain({
     verifiedServiceProviderName
   } = useAsset()
   const isBlockscoutExplorer = blockscoutNetworks.includes(asset?.chainId)
-  const complianceTypes = asset.metadata.additionalInformation.compliance
+  const complianceTypes = asset.metadata.additionalInformation?.compliance || []
 
   return (
     <aside className={styles.meta}>

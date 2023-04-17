@@ -60,7 +60,8 @@ export default function VerifyPage({
   const [serviceSDVersion, setServiceSDVersion] = useState<string>()
   const [serviceSDErrors, setServiceSDErrors] = useState<string>()
   const [error, setError] = useState<keyof typeof errorList>()
-  const complianceTypes = asset.metadata?.additionalInformation?.compliance
+  const complianceTypes =
+    asset.metadata?.additionalInformation?.compliance || []
   const resetState = () => {
     setServiceSD(undefined)
     setServiceSDVerified(undefined)

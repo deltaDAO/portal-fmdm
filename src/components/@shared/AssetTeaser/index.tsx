@@ -33,7 +33,7 @@ export default function AssetTeaser({
   const isCompute = Boolean(getServiceByName(asset, 'compute'))
   const accessType = isCompute ? 'compute' : 'access'
   const { owner } = asset.nft
-  const complianceTypes = asset.metadata.additionalInformation.compliance
+  const complianceTypes = asset.metadata.additionalInformation?.compliance || []
   const isCompliant = !!complianceTypes?.length
   const { orders, allocated } = asset.stats
   const publisherNameOrOwner = getPublisherNameOrOwner(asset)

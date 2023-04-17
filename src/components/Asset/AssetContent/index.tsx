@@ -38,7 +38,8 @@ export default function AssetContent({
   const [receipts, setReceipts] = useState([])
   const [nftPublisher, setNftPublisher] = useState<string>()
   const [serviceSD, setServiceSD] = useState<string>()
-  const complianceTypes = asset.metadata?.additionalInformation?.compliance
+  const complianceTypes =
+    asset.metadata?.additionalInformation?.compliance || []
 
   useEffect(() => {
     setNftPublisher(

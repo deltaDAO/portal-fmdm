@@ -1,3 +1,5 @@
+import { ComplianceType } from '../ComplianceType'
+
 export enum SortDirectionOptions {
   Ascending = 'asc',
   Descending = 'desc'
@@ -26,10 +28,6 @@ export enum FilterByAccessOptions {
   Compute = 'compute'
 }
 
-export enum FilterByIsInComplianceOptions {
-  GaiaX = 'gaia-x'
-}
-
 declare global {
   interface SortOptions {
     sortBy: SortTermOptions
@@ -42,10 +40,7 @@ declare global {
     }
   }
 
-  type Filters =
-    | FilterByTypeOptions
-    | FilterByAccessOptions
-    | FilterByIsInComplianceOptions
+  type Filters = FilterByTypeOptions | FilterByAccessOptions | ComplianceType
 
   interface SearchQuery {
     from?: number

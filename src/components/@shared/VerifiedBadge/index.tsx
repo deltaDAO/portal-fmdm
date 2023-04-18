@@ -5,7 +5,10 @@ import Cross from '@images/cross.svg'
 import styles from './index.module.css'
 import Loader from '../atoms/Loader'
 import Time from '../atoms/Time'
-import { ComplianceType } from '../../../@types/ComplianceType'
+import {
+  ComplianceType,
+  ComplianceTypeLookup
+} from '../../../@types/ComplianceType'
 import Checkmark from '@images/checkmark-green.svg'
 
 const cx = classNames.bind(styles)
@@ -56,14 +59,12 @@ export default function VerifiedBadge({
             complianceTypes && (
               <ul style={{ listStyle: 'none', padding: 0 }}>
                 {complianceTypes.map((complianceType) => {
-                  const complianceLabel = `${
-                    complianceType.charAt(0).toUpperCase() +
-                    complianceType.slice(1)
-                  } compliant`
+                  const complianceCaption =
+                    ComplianceTypeLookup.getCaption(complianceType)
 
                   return (
                     <li
-                      key={complianceLabel}
+                      key={complianceCaption}
                       style={{ display: 'flex', alignItems: 'center' }}
                     >
                       <Checkmark
@@ -73,7 +74,7 @@ export default function VerifiedBadge({
                           marginRight: '0.1rem'
                         }}
                       />
-                      <span>{complianceLabel}</span>
+                      <span>{complianceCaption}</span>
                     </li>
                   )
                 })}

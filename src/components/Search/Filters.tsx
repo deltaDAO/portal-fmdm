@@ -4,11 +4,14 @@ import { addExistingParamsToUrl } from './utils'
 import Button from '@shared/atoms/Button'
 import {
   FilterByAccessOptions,
-  FilterByIsInComplianceOptions,
   FilterByTypeOptions
 } from '../../@types/aquarius/SearchQuery'
 import { useRouter } from 'next/router'
 import styles from './Filters.module.css'
+import {
+  ComplianceType,
+  ComplianceTypeLookup
+} from '../../@types/ComplianceType'
 
 const cx = classNames.bind(styles)
 
@@ -26,14 +29,23 @@ const accessFilterItems = [
 
 const purgatoryFilterItem = { display: 'purgatory ', value: 'purgatory' }
 
-const complianceFilterItems = [
-  {
-    display:
-      process.env.NEXT_PUBLIC_CATALOG_FILTER_COMPLIANCE_GAIA_X_LABEL ||
-      'Gaia-X compliant',
-    value: FilterByIsInComplianceOptions.GaiaX
+const complianceFilterItems = ComplianceTypeLookup.values().map(
+  (complianceType) => {
+    return {
+      display: ComplianceTypeLookup.getCaption(complianceType),
+      value: complianceType
+    }
   }
-]
+)
+
+function complianceOptionsFilter() {
+  return (complianceOptions) =>
+    (complianceOptions.value === ComplianceType.Gaia_X &&
+      process.env.NEXT_PUBLIC_CATALOG_FILTER_COMPLIANCE_GAIA_X_ENABLE ===
+        'true') ||
+    (complianceOptions.value === ComplianceType.FMDM &&
+      process.env.NEXT_PUBLIC_CATALOG_FILTER_COMPLIANCE_FMDM_ENABLE === 'true')
+}
 
 export default function FilterPrice({
   serviceType,
@@ -157,25 +169,27 @@ export default function FilterPrice({
           setServiceSelections([value])
         }
       }
-    } else if (value === FilterByIsInComplianceOptions.GaiaX) {
-      if (isSelected) {
-        if (complianceSelections.length > 1) {
-          const otherValue = complianceFilterItems.find(
-            (p) => p.value !== value
-          ).value
-          await applyFilter(otherValue, 'complianceType')
-          setComplianceSelections([otherValue])
+    } else {
+      if (ComplianceTypeLookup.values().includes(value as ComplianceType)) {
+        if (isSelected) {
+          if (complianceSelections.length > 1) {
+            const otherValue = complianceFilterItems.find(
+              (p) => p.value !== value
+            ).value
+            await applyFilter(otherValue, 'complianceType')
+            setComplianceSelections([otherValue])
+          } else {
+            await applyFilter(undefined, 'complianceType')
+            setComplianceSelections([])
+          }
         } else {
-          await applyFilter(undefined, 'complianceType')
-          setComplianceSelections([])
-        }
-      } else {
-        if (complianceSelections.length) {
-          await applyFilter(undefined, 'complianceType')
-          setComplianceSelections(serviceFilterItems.map((p) => p.value))
-        } else {
-          await applyFilter(value, 'complianceType')
-          setComplianceSelections([value])
+          if (complianceSelections.length) {
+            await applyFilter(undefined, 'complianceType')
+            setComplianceSelections(complianceFilterItems.map((p) => p.value))
+          } else {
+            await applyFilter(value, 'complianceType')
+            setComplianceSelections([value])
+          }
         }
       }
     }
@@ -255,17 +269,19 @@ export default function FilterPrice({
           )
         })}
       </div>
-      {process.env.NEXT_PUBLIC_CATALOG_FILTER_COMPLIANCE_ENABLE === 'true' &&
-        complianceFilterItems && (
-          <div>
-            {complianceFilterItems.map((e, index) => {
+      {complianceFilterItems && (
+        <div>
+          {complianceFilterItems
+            .filter(complianceOptionsFilter())
+            .map((complianceOptions, index) => {
               const isInComplianceSelected =
-                e.value === complianceType ||
-                complianceSelections.includes(e.value)
+                complianceOptions.value === complianceType ||
+                complianceSelections.includes(complianceOptions.value)
               const selectFilter = cx({
                 [styles.selected]: isInComplianceSelected,
                 [styles.filter]: true
               })
+
               return (
                 <Button
                   size="small"
@@ -273,15 +289,18 @@ export default function FilterPrice({
                   key={index}
                   className={selectFilter}
                   onClick={async () => {
-                    handleSelectedFilter(isInComplianceSelected, e.value)
+                    handleSelectedFilter(
+                      isInComplianceSelected,
+                      complianceOptions.value
+                    )
                   }}
                 >
-                  {e.display}
+                  {complianceOptions.display}
                 </Button>
               )
             })}
-          </div>
-        )}
+        </div>
+      )}
       <div>
         {ignorePurgatory !== undefined && setIgnorePurgatory !== undefined && (
           <Button

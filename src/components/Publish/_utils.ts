@@ -423,7 +423,11 @@ export async function transformPublishFormToDdo(
       typeof serviceSD.verifiedPublisherName === 'string' &&
       serviceSD.verifiedPublisherName.length > 0
     ) {
-      complianceTypes.push(ComplianceType.GAIA_X)
+      process.env.NEXT_PUBLIC_SERVICE_SD_COMPLIANCE_FMDM_ENABLE === 'true' &&
+        complianceTypes.push(ComplianceType.FMDM)
+      //  TODO we may need to do an extra verification before adding the ComplianceType.Gaia_X label
+      process.env.NEXT_PUBLIC_SERVICE_SD_COMPLIANCE_GAIA_X_ENABLE === 'true' &&
+        complianceTypes.push(ComplianceType.Gaia_X)
     }
   }
 

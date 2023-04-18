@@ -52,32 +52,33 @@ export default function VerifiedBadge({
           <span>{text}</span>
         </div>
         <div className={styles.details}>
-          {complianceTypes && (
-            <ul style={{ listStyle: 'none', padding: 0 }}>
-              {complianceTypes.map((complianceType) => {
-                const complianceLabel = `${
-                  complianceType.charAt(0).toUpperCase() +
-                  complianceType.slice(1)
-                } compliant`
+          {process.env.NEXT_PUBLIC_BADGE_COMPLIANCE_LABELS_ENABLE === 'true' &&
+            complianceTypes && (
+              <ul style={{ listStyle: 'none', padding: 0 }}>
+                {complianceTypes.map((complianceType) => {
+                  const complianceLabel = `${
+                    complianceType.charAt(0).toUpperCase() +
+                    complianceType.slice(1)
+                  } compliant`
 
-                return (
-                  <li
-                    key={complianceLabel}
-                    style={{ display: 'flex', alignItems: 'center' }}
-                  >
-                    <Checkmark
-                      style={{
-                        width: '24px',
-                        height: '24px',
-                        marginRight: '0.1rem'
-                      }}
-                    />
-                    <span>{complianceLabel}</span>
-                  </li>
-                )
-              })}
-            </ul>
-          )}
+                  return (
+                    <li
+                      key={complianceLabel}
+                      style={{ display: 'flex', alignItems: 'center' }}
+                    >
+                      <Checkmark
+                        style={{
+                          width: '24px',
+                          height: '24px',
+                          marginRight: '0.1rem'
+                        }}
+                      />
+                      <span>{complianceLabel}</span>
+                    </li>
+                  )
+                })}
+              </ul>
+            )}
 
           {apiVersion && (
             <span className={styles.apiVersion}>

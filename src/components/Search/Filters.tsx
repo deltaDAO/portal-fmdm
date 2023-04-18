@@ -27,7 +27,12 @@ const accessFilterItems = [
 const purgatoryFilterItem = { display: 'purgatory ', value: 'purgatory' }
 
 const complianceFilterItems = [
-  { display: 'Gaia-X compliant', value: FilterByIsInComplianceOptions.GaiaX }
+  {
+    display:
+      process.env.NEXT_PUBLIC_CATALOG_FILTER_COMPLIANCE_GAIA_X_LABEL ||
+      'Gaia-X compliant',
+    value: FilterByIsInComplianceOptions.GaiaX
+  }
 ]
 
 export default function FilterPrice({
@@ -250,29 +255,33 @@ export default function FilterPrice({
           )
         })}
       </div>
-      <div>
-        {complianceFilterItems.map((e, index) => {
-          const isInComplianceSelected =
-            e.value === complianceType || complianceSelections.includes(e.value)
-          const selectFilter = cx({
-            [styles.selected]: isInComplianceSelected,
-            [styles.filter]: true
-          })
-          return (
-            <Button
-              size="small"
-              style="text"
-              key={index}
-              className={selectFilter}
-              onClick={async () => {
-                handleSelectedFilter(isInComplianceSelected, e.value)
-              }}
-            >
-              {e.display}
-            </Button>
-          )
-        })}
-      </div>
+      {process.env.NEXT_PUBLIC_CATALOG_FILTER_COMPLIANCE_ENABLE === 'true' &&
+        complianceFilterItems && (
+          <div>
+            {complianceFilterItems.map((e, index) => {
+              const isInComplianceSelected =
+                e.value === complianceType ||
+                complianceSelections.includes(e.value)
+              const selectFilter = cx({
+                [styles.selected]: isInComplianceSelected,
+                [styles.filter]: true
+              })
+              return (
+                <Button
+                  size="small"
+                  style="text"
+                  key={index}
+                  className={selectFilter}
+                  onClick={async () => {
+                    handleSelectedFilter(isInComplianceSelected, e.value)
+                  }}
+                >
+                  {e.display}
+                </Button>
+              )
+            })}
+          </div>
+        )}
       <div>
         {ignorePurgatory !== undefined && setIgnorePurgatory !== undefined && (
           <Button

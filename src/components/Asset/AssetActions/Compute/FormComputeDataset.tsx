@@ -11,12 +11,9 @@ import { useWeb3 } from '@context/Web3'
 import content from '../../../../../content/pages/startComputeDataset.json'
 import { Asset, ZERO_ADDRESS } from '@oceanprotocol/lib'
 import { getAccessDetails } from '@utils/accessDetailsAndPricing'
-import { useMarketMetadata } from '@context/MarketMetadata'
-import Alert from '@shared/atoms/Alert'
 import { getTokenBalanceFromSymbol } from '@utils/web3'
 import { MAX_DECIMALS } from '@utils/constants'
 import Decimal from 'decimal.js'
-import { verifyRawServiceSD } from '@components/Publish/_utils'
 
 export default function FormStartCompute({
   algorithms,
@@ -77,7 +74,6 @@ export default function FormStartCompute({
   validUntil?: string
   retry: boolean
 }): ReactElement {
-  const { siteContent } = useMarketMetadata()
   const { accountId, balance, isSupportedOceanNetwork } = useWeb3()
   const { isValid, values }: FormikContextType<{ algorithm: string }> =
     useFormikContext()

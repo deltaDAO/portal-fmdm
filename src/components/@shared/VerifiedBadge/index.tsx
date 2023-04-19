@@ -57,23 +57,14 @@ export default function VerifiedBadge({
         <div className={styles.details}>
           {process.env.NEXT_PUBLIC_BADGE_COMPLIANCE_LABELS_ENABLE === 'true' &&
             complianceTypes && (
-              <ul style={{ listStyle: 'none', padding: 0 }}>
+              <ul>
                 {complianceTypes.map((complianceType) => {
                   const complianceCaption =
                     ComplianceTypeLookup.getCaption(complianceType)
 
                   return (
-                    <li
-                      key={complianceCaption}
-                      style={{ display: 'flex', alignItems: 'center' }}
-                    >
-                      <Checkmark
-                        style={{
-                          width: '24px',
-                          height: '24px',
-                          marginRight: '0.1rem'
-                        }}
-                      />
+                    <li key={complianceCaption}>
+                      <Checkmark className={styles.checkmark} />
                       <span>{complianceCaption}</span>
                     </li>
                   )

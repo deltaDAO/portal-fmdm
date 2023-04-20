@@ -23,16 +23,18 @@ export default function SearchPage({
   const [loading, setLoading] = useState<boolean>()
   const [serviceType, setServiceType] = useState<string>()
   const [accessType, setAccessType] = useState<string>()
+  const [complianceType, setComplianceType] = useState<string>()
   const [sortType, setSortType] = useState<string>()
   const [sortDirection, setSortDirection] = useState<string>()
   const newCancelToken = useCancelToken()
 
   useEffect(() => {
     const parsed = queryString.parse(location.search)
-    const { sort, sortOrder, serviceType, accessType } = parsed
+    const { sort, sortOrder, serviceType, accessType, complianceType } = parsed
     setParsed(parsed)
     setServiceType(serviceType as string)
     setAccessType(accessType as string)
+    setComplianceType(complianceType as string)
     setSortDirection(sortOrder as string)
     setSortType(sort as string)
   }, [router])
@@ -86,8 +88,10 @@ export default function SearchPage({
           <Filters
             serviceType={serviceType}
             accessType={accessType}
+            complianceType={complianceType}
             setServiceType={setServiceType}
             setAccessType={setAccessType}
+            setComplianceType={setComplianceType}
             addFiltersToUrl
           />
           <Sort

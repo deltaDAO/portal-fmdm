@@ -1,10 +1,10 @@
 import {
   Config,
+  DatatokenCreateParams,
   DDO,
+  DispenserCreationParams,
   FreCreationParams,
   generateDid,
-  DatatokenCreateParams,
-  DispenserCreationParams,
   getHash,
   LoggerInstance,
   Metadata,
@@ -21,18 +21,23 @@ import Web3 from 'web3'
 import { algorithmContainerPresets } from './_constants'
 import { FormPublishData, MetadataAlgorithmContainer } from './_types'
 import {
-  marketFeeAddress,
-  publisherMarketOrderFee,
-  publisherMarketFixedSwapFee,
-  defaultDatatokenTemplateIndex,
-  defaultAccessTerms,
   complianceApiVersion,
-  complianceUri
+  complianceUri,
+  defaultAccessTerms,
+  defaultDatatokenTemplateIndex,
+  marketFeeAddress,
+  publisherMarketFixedSwapFee,
+  publisherMarketOrderFee
 } from '../../../app.config'
 import { sanitizeUrl } from '@utils/url'
 import { getContainerChecksum } from '@utils/docker'
 import axios from 'axios'
 import { ServiceSD } from 'src/@types/gaia-x/2210/ServiceSD'
+import { ComplianceType } from '../../@types/ComplianceType'
+import {
+  ICredentialSubject,
+  IVerifiablePresentation
+} from '../../@types/VerifyableCredentials'
 
 function getUrlFileExtension(fileUrl: string): string {
   const splittedFileUrl = fileUrl.split('.')
@@ -60,167 +65,6 @@ function dateToStringNoMS(date: Date): string {
 function transformTags(originalTags: string[]): string[] {
   const transformedTags = originalTags?.map((tag) => slugify(tag).toLowerCase())
   return transformedTags
-}
-
-export async function transformPublishFormToDdo(
-  values: FormPublishData,
-  // Those 2 are only passed during actual publishing process
-  // so we can always assume if they are not passed, we are on preview.
-  datatokenAddress?: string,
-  nftAddress?: string
-): Promise<DDO> {
-  const { metadata, services, user } = values
-  const { chainId, accountId } = user
-  const {
-    type,
-    name,
-    description,
-    tags,
-    author,
-    termsAndConditions,
-    dockerImage,
-    dockerImageCustom,
-    dockerImageCustomTag,
-    dockerImageCustomEntrypoint,
-    dockerImageCustomChecksum,
-    gaiaXInformation
-  } = metadata
-  const { access, files, links, providerUrl, timeout } = services[0]
-
-  const did = nftAddress ? generateDid(nftAddress, chainId) : '0x...'
-  const currentTime = dateToStringNoMS(new Date())
-  const isPreview = !datatokenAddress && !nftAddress
-
-  const algorithmContainerPresets =
-    type === 'algorithm' && dockerImage !== '' && dockerImage !== 'custom'
-      ? await getAlgorithmContainerPreset(dockerImage)
-      : null
-
-  // Transform from files[0].url to string[] assuming only 1 file
-  const filesTransformed = files?.length &&
-    files[0].valid && [sanitizeUrl(files[0].url)]
-  const linksTransformed = links?.length &&
-    links[0].valid && [sanitizeUrl(links[0].url)]
-
-  const accessTermsFileInfo = gaiaXInformation.termsAndConditions
-  const accessTermsUrlTransformed = accessTermsFileInfo?.length &&
-    accessTermsFileInfo[0].valid && [sanitizeUrl(accessTermsFileInfo[0].url)]
-
-  const newMetadata: Metadata = {
-    created: currentTime,
-    updated: currentTime,
-    type,
-    name,
-    description,
-    tags: transformTags(tags),
-    author,
-    license:
-      values.metadata.license || 'https://market.oceanprotocol.com/terms',
-    links: linksTransformed,
-    additionalInformation: {
-      termsAndConditions,
-      gaiaXInformation: {
-        termsAndConditions: [
-          { url: accessTermsUrlTransformed || defaultAccessTerms }
-        ],
-        ...(type === 'dataset' && {
-          containsPII: gaiaXInformation.containsPII,
-          PIIInformation: gaiaXInformation.PIIInformation
-        }),
-        serviceSD: gaiaXInformation?.serviceSD
-      }
-    },
-    ...(type === 'algorithm' &&
-      dockerImage !== '' && {
-        algorithm: {
-          language: filesTransformed?.length
-            ? getUrlFileExtension(filesTransformed[0])
-            : '',
-          version: '0.1',
-          container: {
-            entrypoint:
-              dockerImage === 'custom'
-                ? dockerImageCustomEntrypoint
-                : algorithmContainerPresets.entrypoint,
-            image:
-              dockerImage === 'custom'
-                ? dockerImageCustom
-                : algorithmContainerPresets.image,
-            tag:
-              dockerImage === 'custom'
-                ? dockerImageCustomTag
-                : algorithmContainerPresets.tag,
-            checksum:
-              dockerImage === 'custom'
-                ? dockerImageCustomChecksum
-                : algorithmContainerPresets.checksum
-          }
-        }
-      })
-  }
-
-  // this is the default format hardcoded
-
-  const file = {
-    nftAddress,
-    datatokenAddress,
-    files: [
-      {
-        type: files[0].type,
-        index: 0,
-        [files[0].type === 'ipfs'
-          ? 'hash'
-          : files[0].type === 'arweave'
-          ? 'transactionId'
-          : 'url']: files[0].url,
-        method: 'GET'
-      }
-    ]
-  }
-
-  const filesEncrypted =
-    !isPreview &&
-    files?.length &&
-    files[0].valid &&
-    (await getEncryptedFiles(file, providerUrl.url))
-
-  const newService: Service = {
-    id: getHash(datatokenAddress + filesEncrypted),
-    type: access,
-    files: filesEncrypted || '',
-    datatokenAddress,
-    serviceEndpoint: providerUrl.url,
-    timeout: mapTimeoutStringToSeconds(timeout),
-    ...(access === 'compute' && {
-      compute: values.services[0].computeOptions
-    })
-  }
-
-  const newDdo: DDO = {
-    '@context': ['https://w3id.org/did/v1'],
-    id: did,
-    nftAddress,
-    version: '4.1.0',
-    chainId,
-    metadata: newMetadata,
-    services: [newService],
-    // Only added for DDO preview, reflecting Asset response,
-    // again, we can assume if `datatokenAddress` is not passed,
-    // we are on preview.
-    ...(!datatokenAddress && {
-      datatokens: [
-        {
-          name: values.services[0].dataTokenOptions.name,
-          symbol: values.services[0].dataTokenOptions.symbol
-        }
-      ],
-      nft: {
-        ...generateNftCreateData(values?.metadata.nft, accountId)
-      }
-    })
-  }
-
-  return newDdo
 }
 
 export async function createTokensAndPricing(
@@ -344,6 +188,17 @@ export function getComplianceApiVersion(context?: string[]): string {
   return '2204'
 }
 
+export async function getServiceSD(url: string): Promise<string> {
+  if (!url) return
+
+  try {
+    const serviceSD = await axios.get(url)
+    return JSON.stringify(serviceSD.data, null, 2)
+  } catch (error) {
+    LoggerInstance.error(error.message)
+  }
+}
+
 export async function signServiceSD(rawServiceSD: any): Promise<any> {
   if (!rawServiceSD) return
   try {
@@ -388,6 +243,19 @@ export async function storeRawServiceSD(signedSD: {
   }
 }
 
+function selectBaseUrl(parsedServiceSD) {
+  let baseUrl
+  if (
+    parsedServiceSD.type &&
+    Array.isArray(parsedServiceSD.type) &&
+    (parsedServiceSD.type as string[]).indexOf('VerifiablePresentation') !== -1
+  ) {
+    return `${complianceUri}/2210vp/compliance`
+  } else {
+    return `${complianceUri}/participant/verify/raw`
+  }
+}
+
 export async function verifyRawServiceSD(rawServiceSD: string): Promise<{
   verified: boolean
   complianceApiVersion?: string
@@ -396,23 +264,25 @@ export async function verifyRawServiceSD(rawServiceSD: string): Promise<{
   if (!rawServiceSD) return { verified: false }
 
   const parsedServiceSD = JSON.parse(rawServiceSD)
+
   // TODO: put back the compliance API version check
   // const complianceApiVersion = getComplianceApiVersion(
   //   parsedServiceSD?.selfDescriptionCredential?.['@context']
   // )
-
-  const baseUrl = `${complianceUri}/api/service-offering/verify/raw`
-
   try {
+    const baseUrl = selectBaseUrl(parsedServiceSD)
     const response = await axios.post(baseUrl, parsedServiceSD)
     if (response?.status === 409) {
       return {
         verified: false,
-        responseBody: response.data.body
+        responseBody: response.data.body ? response.data.body : response.data
       }
     }
-    if (response?.status === 200) {
-      return { verified: true, complianceApiVersion }
+    if (response?.status < 400) {
+      return {
+        verified: true,
+        complianceApiVersion
+      }
     }
 
     return { verified: false }
@@ -422,15 +292,260 @@ export async function verifyRawServiceSD(rawServiceSD: string): Promise<{
   }
 }
 
-export async function getServiceSD(url: string): Promise<string> {
-  if (!url) return
+async function getPublisherFromCredentialSubject(
+  credentialSubject: ICredentialSubject
+): Promise<string | undefined> {
+  if ('gx-service-offering:providedBy' in credentialSubject) {
+    const providedBy = credentialSubject['gx-service-offering:providedBy']
+    const providedByUrl =
+      typeof providedBy === 'string' ? providedBy : providedBy?.['@value']
+
+    const response = await axios.get(sanitizeUrl(providedByUrl))
+    if (!response || response.status !== 200 || !response?.data) return
+
+    const legalName =
+      response.data?.selfDescriptionCredential?.credentialSubject?.[
+        'gx-participant:legalName'
+      ]
+    return typeof legalName === 'string' ? legalName : legalName?.['@value']
+  } else if ('gax-trust-framework:legalName' in credentialSubject) {
+    const legalName = credentialSubject['gax-trust-framework:legalName']
+    if (
+      typeof legalName === 'object' &&
+      legalName !== null &&
+      '@value' in legalName
+    ) {
+      return legalName['@value'] as string
+    }
+  }
+  return undefined
+}
+
+export async function getPublisherFromServiceSD(
+  serviceSD: any
+): Promise<string> {
+  if (!serviceSD) return
 
   try {
-    const serviceSD = await axios.get(url)
-    return JSON.stringify(serviceSD.data, null, 2)
+    const parsedServiceSD =
+      typeof serviceSD === 'string' ? JSON.parse(serviceSD) : serviceSD
+
+    if ('verifiableCredential' in parsedServiceSD) {
+      const vp = parsedServiceSD as IVerifiablePresentation
+      const verifiableCredential = vp?.verifiableCredential
+      if (!Array.isArray(verifiableCredential)) {
+        return undefined
+      }
+
+      for (const credential of verifiableCredential) {
+        const credentialSubject = credential?.credentialSubject
+        if (
+          typeof credentialSubject !== 'object' ||
+          credentialSubject === null
+        ) {
+          continue
+        }
+        const publisher = await getPublisherFromCredentialSubject(
+          credentialSubject
+        )
+        if (publisher) {
+          return publisher
+        }
+      }
+    } else {
+      const credentialSubject =
+        parsedServiceSD?.selfDescriptionCredential?.credentialSubject
+      return await getPublisherFromCredentialSubject(credentialSubject)
+    }
+    return undefined
   } catch (error) {
     LoggerInstance.error(error.message)
   }
+}
+
+export async function transformPublishFormToDdo(
+  values: FormPublishData,
+  // Those 2 are only passed during actual publishing process
+  // so we can always assume if they are not passed, we are on preview.
+  datatokenAddress?: string,
+  nftAddress?: string
+): Promise<DDO> {
+  const { metadata, services, user } = values
+  const { chainId, accountId } = user
+  const {
+    type,
+    name,
+    description,
+    tags,
+    author,
+    termsAndConditions,
+    dockerImage,
+    dockerImageCustom,
+    dockerImageCustomTag,
+    dockerImageCustomEntrypoint,
+    dockerImageCustomChecksum,
+    gaiaXInformation
+  } = metadata
+  const { access, files, links, providerUrl, timeout } = services[0]
+
+  const did = nftAddress ? generateDid(nftAddress, chainId) : '0x...'
+  const currentTime = dateToStringNoMS(new Date())
+  const isPreview = !datatokenAddress && !nftAddress
+
+  const algorithmContainerPresets =
+    type === 'algorithm' && dockerImage !== '' && dockerImage !== 'custom'
+      ? await getAlgorithmContainerPreset(dockerImage)
+      : null
+
+  // Transform from files[0].url to string[] assuming only 1 file
+  const filesTransformed = files?.length &&
+    files[0].valid && [sanitizeUrl(files[0].url)]
+  const linksTransformed = links?.length &&
+    links[0].valid && [sanitizeUrl(links[0].url)]
+
+  const accessTermsFileInfo = gaiaXInformation.termsAndConditions
+  const accessTermsUrlTransformed = accessTermsFileInfo?.length &&
+    accessTermsFileInfo[0].valid && [sanitizeUrl(accessTermsFileInfo[0].url)]
+  const serviceSD = gaiaXInformation?.serviceSD
+  const serviceSDContent = serviceSD?.url
+    ? await getServiceSD(serviceSD?.url)
+    : serviceSD?.raw
+
+  serviceSD.verifiedPublisherName = await getPublisherFromServiceSD(
+    serviceSDContent
+  )
+  const complianceTypes: Array<ComplianceType> = []
+  if (gaiaXInformation.serviceSD) {
+    const { verified } = await verifyRawServiceSD(serviceSDContent)
+    // When the compliance service passes, and we were able to extract a legalName, we assume the SD is GX compliant for now
+    if (
+      verified &&
+      typeof serviceSD.verifiedPublisherName === 'string' &&
+      serviceSD.verifiedPublisherName.length > 0
+    ) {
+      process.env.NEXT_PUBLIC_SERVICE_SD_COMPLIANCE_FMDM_ENABLE === 'true' &&
+        complianceTypes.push(ComplianceType.FMDM)
+      //  TODO we may need to do an extra verification before adding the ComplianceType.Gaia_X label
+      process.env.NEXT_PUBLIC_SERVICE_SD_COMPLIANCE_GAIA_X_ENABLE === 'true' &&
+        complianceTypes.push(ComplianceType.Gaia_X)
+    }
+  }
+
+  const newMetadata: Metadata = {
+    created: currentTime,
+    updated: currentTime,
+    type,
+    name,
+    description,
+    tags: transformTags(tags),
+    author,
+    license:
+      values.metadata.license || 'https://market.oceanprotocol.com/terms',
+    links: linksTransformed,
+    additionalInformation: {
+      termsAndConditions,
+      gaiaXInformation: {
+        termsAndConditions: [
+          { url: accessTermsUrlTransformed || defaultAccessTerms }
+        ],
+        ...(type === 'dataset' && {
+          containsPII: gaiaXInformation.containsPII,
+          PIIInformation: gaiaXInformation.PIIInformation
+        }),
+        serviceSD
+      },
+      compliance: complianceTypes
+    },
+    ...(type === 'algorithm' &&
+      dockerImage !== '' && {
+        algorithm: {
+          language: filesTransformed?.length
+            ? getUrlFileExtension(filesTransformed[0])
+            : '',
+          version: '0.1',
+          container: {
+            entrypoint:
+              dockerImage === 'custom'
+                ? dockerImageCustomEntrypoint
+                : algorithmContainerPresets.entrypoint,
+            image:
+              dockerImage === 'custom'
+                ? dockerImageCustom
+                : algorithmContainerPresets.image,
+            tag:
+              dockerImage === 'custom'
+                ? dockerImageCustomTag
+                : algorithmContainerPresets.tag,
+            checksum:
+              dockerImage === 'custom'
+                ? dockerImageCustomChecksum
+                : algorithmContainerPresets.checksum
+          }
+        }
+      })
+  }
+
+  // this is the default format hardcoded
+
+  const file = {
+    nftAddress,
+    datatokenAddress,
+    files: [
+      {
+        type: files[0].type,
+        index: 0,
+        [files[0].type === 'ipfs'
+          ? 'hash'
+          : files[0].type === 'arweave'
+          ? 'transactionId'
+          : 'url']: files[0].url,
+        method: 'GET'
+      }
+    ]
+  }
+
+  const filesEncrypted =
+    !isPreview &&
+    files?.length &&
+    files[0].valid &&
+    (await getEncryptedFiles(file, providerUrl.url))
+
+  const newService: Service = {
+    id: getHash(datatokenAddress + filesEncrypted),
+    type: access,
+    files: filesEncrypted || '',
+    datatokenAddress,
+    serviceEndpoint: providerUrl.url,
+    timeout: mapTimeoutStringToSeconds(timeout),
+    ...(access === 'compute' && {
+      compute: values.services[0].computeOptions
+    })
+  }
+
+  const newDdo: DDO = {
+    '@context': ['https://w3id.org/did/v1'],
+    id: did,
+    nftAddress,
+    version: '4.1.0',
+    chainId,
+    metadata: newMetadata,
+    services: [newService],
+    // Only added for DDO preview, reflecting Asset response,
+    // again, we can assume if `datatokenAddress` is not passed,
+    // we are on preview.
+    ...(!datatokenAddress && {
+      datatokens: [
+        {
+          name: values.services[0].dataTokenOptions.name,
+          symbol: values.services[0].dataTokenOptions.symbol
+        }
+      ],
+      nft: {
+        ...generateNftCreateData(values?.metadata.nft, accountId)
+      }
+    })
+  }
+  return newDdo
 }
 
 export function getFormattedCodeString(parsedCodeBlock: any): string {
@@ -449,35 +564,4 @@ export function updateServiceSelfDescription(
   }
 
   return ddo
-}
-
-export async function getPublisherFromServiceSD(
-  serviceSD: any
-): Promise<string> {
-  if (!serviceSD) return
-
-  try {
-    const parsedServiceSD =
-      typeof serviceSD === 'string' ? JSON.parse(serviceSD) : serviceSD
-    const providedBy =
-      parsedServiceSD?.selfDescriptionCredential?.credentialSubject?.[
-        'gx-service-offering:providedBy'
-      ]
-    const providedByUrl =
-      typeof providedBy === 'string' ? providedBy : providedBy?.['@value']
-
-    const response = await axios.get(sanitizeUrl(providedByUrl))
-    if (!response || response.status !== 200 || !response?.data) return
-
-    const legalName =
-      response.data?.selfDescriptionCredential?.credentialSubject?.[
-        'gx-participant:legalName'
-      ]
-    const publisher =
-      typeof legalName === 'string' ? legalName : legalName?.['@value']
-
-    return publisher
-  } catch (error) {
-    LoggerInstance.error(error.message)
-  }
 }

@@ -8,6 +8,10 @@ import {
 } from '../../@types/aquarius/SearchQuery'
 import { useRouter } from 'next/router'
 import styles from './Filters.module.css'
+import {
+  ComplianceType,
+  ComplianceTypeLookup
+} from '../../@types/ComplianceType'
 
 const cx = classNames.bind(styles)
 
@@ -25,11 +29,31 @@ const accessFilterItems = [
 
 const purgatoryFilterItem = { display: 'purgatory ', value: 'purgatory' }
 
+const complianceFilterItems = ComplianceTypeLookup.values().map(
+  (complianceType) => {
+    return {
+      display: ComplianceTypeLookup.getCaption(complianceType),
+      value: complianceType
+    }
+  }
+)
+
+function complianceOptionsFilter() {
+  return (complianceOptions) =>
+    (complianceOptions.value === ComplianceType.Gaia_X &&
+      process.env.NEXT_PUBLIC_CATALOG_FILTER_COMPLIANCE_GAIA_X_ENABLE ===
+        'true') ||
+    (complianceOptions.value === ComplianceType.FMDM &&
+      process.env.NEXT_PUBLIC_CATALOG_FILTER_COMPLIANCE_FMDM_ENABLE === 'true')
+}
+
 export default function FilterPrice({
   serviceType,
   accessType,
+  complianceType,
   setServiceType,
   setAccessType,
+  setComplianceType,
   addFiltersToUrl,
   ignorePurgatory,
   setIgnorePurgatory,
@@ -37,8 +61,10 @@ export default function FilterPrice({
 }: {
   serviceType: string
   accessType: string
+  complianceType: string
   setServiceType: React.Dispatch<React.SetStateAction<string>>
   setAccessType: React.Dispatch<React.SetStateAction<string>>
+  setComplianceType: React.Dispatch<React.SetStateAction<string>>
   addFiltersToUrl?: boolean
   ignorePurgatory?: boolean
   setIgnorePurgatory?: (value: boolean) => void
@@ -47,21 +73,43 @@ export default function FilterPrice({
   const router = useRouter()
   const [serviceSelections, setServiceSelections] = useState<string[]>([])
   const [accessSelections, setAccessSelections] = useState<string[]>([])
+  const [complianceSelections, setComplianceSelections] = useState<string[]>([])
 
   async function applyFilter(filter: string, filterType: string) {
-    filterType === 'accessType' ? setAccessType(filter) : setServiceType(filter)
+    switch (filterType) {
+      case 'accessType':
+        setAccessType(filter)
+        break
+      case 'serviceType':
+        setServiceType(filter)
+        break
+      case 'complianceType':
+        setComplianceType(filter)
+        break
+    }
+
     if (addFiltersToUrl) {
       let urlLocation = ''
       if (filterType.localeCompare('accessType') === 0) {
         urlLocation = await addExistingParamsToUrl(location, ['accessType'])
-      } else {
+      } else if (filterType.localeCompare('serviceType') === 0) {
         urlLocation = await addExistingParamsToUrl(location, ['serviceType'])
+      } else if (filterType.localeCompare('complianceType') === 0) {
+        urlLocation = await addExistingParamsToUrl(location, ['complianceType'])
       }
 
       if (filter && location.search.indexOf(filterType) === -1) {
-        filterType === 'accessType'
-          ? (urlLocation = `${urlLocation}&accessType=${filter}`)
-          : (urlLocation = `${urlLocation}&serviceType=${filter}`)
+        switch (filterType) {
+          case 'accessType':
+            urlLocation = `${urlLocation}&accessType=${filter}`
+            break
+          case 'serviceType':
+            urlLocation = `${urlLocation}&serviceType=${filter}`
+            break
+          case 'complianceType':
+            urlLocation = `${urlLocation}&complianceType=${filter}`
+            break
+        }
       }
 
       router.push(urlLocation)
@@ -97,7 +145,10 @@ export default function FilterPrice({
           setAccessSelections([value])
         }
       }
-    } else {
+    } else if (
+      value === FilterByTypeOptions.Data ||
+      value === FilterByTypeOptions.Algorithm
+    ) {
       if (isSelected) {
         if (serviceSelections.length > 1) {
           const otherValue = serviceFilterItems.find(
@@ -118,21 +169,47 @@ export default function FilterPrice({
           setServiceSelections([value])
         }
       }
+    } else {
+      if (ComplianceTypeLookup.values().includes(value as ComplianceType)) {
+        if (isSelected) {
+          if (complianceSelections.length > 1) {
+            const otherValue = complianceFilterItems.find(
+              (p) => p.value !== value
+            ).value
+            await applyFilter(otherValue, 'complianceType')
+            setComplianceSelections([otherValue])
+          } else {
+            await applyFilter(undefined, 'complianceType')
+            setComplianceSelections([])
+          }
+        } else {
+          if (complianceSelections.length) {
+            await applyFilter(undefined, 'complianceType')
+            setComplianceSelections(complianceFilterItems.map((p) => p.value))
+          } else {
+            await applyFilter(value, 'complianceType')
+            setComplianceSelections([value])
+          }
+        }
+      }
     }
   }
 
   async function applyClearFilter(addFiltersToUrl: boolean) {
     setServiceSelections([])
     setAccessSelections([])
+    setComplianceSelections([])
     setServiceType(undefined)
     setAccessType(undefined)
     if (ignorePurgatory !== undefined && setIgnorePurgatory !== undefined)
       setIgnorePurgatory(true)
+    setComplianceType(undefined)
 
     if (addFiltersToUrl) {
       let urlLocation = await addExistingParamsToUrl(location, [
         'accessType',
-        'serviceType'
+        'serviceType',
+        'complianceType'
       ])
       urlLocation = `${urlLocation}`
       router.push(urlLocation)
@@ -192,6 +269,38 @@ export default function FilterPrice({
           )
         })}
       </div>
+      {complianceFilterItems && (
+        <div>
+          {complianceFilterItems
+            .filter(complianceOptionsFilter())
+            .map((complianceOptions, index) => {
+              const isInComplianceSelected =
+                complianceOptions.value === complianceType ||
+                complianceSelections.includes(complianceOptions.value)
+              const selectFilter = cx({
+                [styles.selected]: isInComplianceSelected,
+                [styles.filter]: true
+              })
+
+              return (
+                <Button
+                  size="small"
+                  style="text"
+                  key={index}
+                  className={selectFilter}
+                  onClick={async () => {
+                    handleSelectedFilter(
+                      isInComplianceSelected,
+                      complianceOptions.value
+                    )
+                  }}
+                >
+                  {complianceOptions.display}
+                </Button>
+              )
+            })}
+        </div>
+      )}
       <div>
         {ignorePurgatory !== undefined && setIgnorePurgatory !== undefined && (
           <Button
@@ -208,7 +317,13 @@ export default function FilterPrice({
         )}
         {clearFilters.map((e, index) => {
           const showClear =
-            accessSelections.length > 0 || serviceSelections.length > 0
+            accessSelections.length > 0 ||
+            serviceSelections.length > 0 ||
+            complianceSelections.length > 0 ||
+            serviceType ||
+            accessType ||
+            complianceType
+
           return (
             <Button
               size="small"

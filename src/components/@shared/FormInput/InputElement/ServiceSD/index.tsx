@@ -136,7 +136,7 @@ export default function ServiceSD(props: InputProps): ReactElement {
         <URLInput
           submitText="Validate"
           {...props}
-          name={`${field.name}[0].url`}
+          name={`${field.name}.url`}
           isLoading={isLoading}
           handleButtonClick={handleVerify}
           checkUrl={true}

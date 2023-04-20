@@ -1,3 +1,5 @@
+import { ComplianceType } from '../ComplianceType'
+
 export enum SortDirectionOptions {
   Ascending = 'asc',
   Descending = 'desc'
@@ -38,7 +40,7 @@ declare global {
     }
   }
 
-  type Filters = FilterByTypeOptions | FilterByAccessOptions
+  type Filters = FilterByTypeOptions | FilterByAccessOptions | ComplianceType
 
   interface SearchQuery {
     from?: number

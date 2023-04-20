@@ -5,7 +5,8 @@
   border-radius: var(--filter-border-radius);
   border: var(--filter-border-size) solid var(--filter-border-color);
   background: var(--filter-background);
-  overflow-y: auto;
+  overflow-x: clip;
+  overflow-y: visible;
 }
 
 .sortLabel {

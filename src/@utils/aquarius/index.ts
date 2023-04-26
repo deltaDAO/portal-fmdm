@@ -9,6 +9,7 @@ import {
 } from '../../@types/aquarius/SearchQuery'
 import { transformAssetToAssetSelection } from '../assetConvertor'
 import addressConfig from '../../../address.config'
+import { isValidDid } from '../ddo'
 
 export interface UserSales {
   id: string
@@ -180,6 +181,8 @@ export async function getAsset(
   cancelToken: CancelToken
 ): Promise<AssetExtended> {
   try {
+    if (!isValidDid(did)) return
+
     const response: AxiosResponse<AssetExtended> = await axios.get(
       `${metadataCacheUri}/api/aquarius/assets/ddo/${did}`,
       { cancelToken }

@@ -1,7 +1,8 @@
 import { Asset, DDO, Service } from '@oceanprotocol/lib'
+import { IVerifiablePresentation } from '../@types/VerifyableCredentials'
 
 export function isValidDid(did: string): boolean {
-  const regex = /did:op:[A-Za-z0-9]{64}/
+  const regex = /^did:op:[A-Za-z0-9]{64}$/
   return regex.test(did)
 }
 
@@ -20,6 +21,17 @@ export function getServiceById(ddo: Asset | DDO, serviceId: string): Service {
 
   const service = ddo.services.find((s) => s.id === serviceId)
   return service
+}
+
+export function getPublisherNameOrOwner(ddo: Asset | DDO): string {
+  const { additionalInformation } = ddo.metadata
+  if (
+    additionalInformation?.gaiaXInformation?.serviceSD?.verifiedPublisherName
+  ) {
+    return additionalInformation.gaiaXInformation.serviceSD
+      .verifiedPublisherName
+  }
+  return 'nft' in ddo ? ddo.nft.owner : ddo.event.from
 }
 
 export function mapTimeoutStringToSeconds(timeout: string): number {

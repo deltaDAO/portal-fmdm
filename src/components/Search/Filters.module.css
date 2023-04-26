@@ -22,7 +22,7 @@ button.filter,
   margin-bottom: calc(var(--spacer) / 6);
   color: var(--filter-font-color);
   background: var(--filter-background);
-  min-width: 8rem;
+  min-width: 6rem;
   /* the only thing not possible to overwrite button style="text" with more specifity of selectors, so sledgehammer */
   padding: calc(var(--spacer) / 4) !important;
 }

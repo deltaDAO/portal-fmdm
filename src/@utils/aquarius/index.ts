@@ -1,14 +1,15 @@
 import { Asset, LoggerInstance } from '@oceanprotocol/lib'
 import { AssetSelectionAsset } from '@shared/FormInput/InputElement/AssetSelection'
-import axios, { CancelToken, AxiosResponse } from 'axios'
+import axios, { AxiosResponse, CancelToken } from 'axios'
 import { OrdersData_orders as OrdersData } from '../../@types/subgraph/OrdersData'
-import { metadataCacheUri, allowDynamicPricing } from '../../../app.config'
+import { allowDynamicPricing, metadataCacheUri } from '../../../app.config'
 import {
   SortDirectionOptions,
   SortTermOptions
 } from '../../@types/aquarius/SearchQuery'
 import { transformAssetToAssetSelection } from '../assetConvertor'
 import addressConfig from '../../../address.config'
+import { isValidDid } from '../ddo'
 
 export interface UserSales {
   id: string
@@ -178,9 +179,11 @@ export async function queryMetadata(
 export async function getAsset(
   did: string,
   cancelToken: CancelToken
-): Promise<Asset> {
+): Promise<AssetExtended> {
   try {
-    const response: AxiosResponse<Asset> = await axios.get(
+    if (!isValidDid(did)) return
+
+    const response: AxiosResponse<AssetExtended> = await axios.get(
       `${metadataCacheUri}/api/aquarius/assets/ddo/${did}`,
       { cancelToken }
     )
@@ -288,7 +291,8 @@ export async function getPublishedAssets(
   ignoreState = false,
   page?: number,
   type?: string,
-  accesType?: string
+  accessType?: string,
+  complianceType?: string
 ): Promise<PagedAssets> {
   if (!accountId) return
 
@@ -296,9 +300,15 @@ export async function getPublishedAssets(
 
   filters.push(getFilterTerm('nft.state', [0, 4, 5]))
   filters.push(getFilterTerm('nft.owner', accountId.toLowerCase()))
-  accesType !== undefined &&
-    filters.push(getFilterTerm('services.type', accesType))
+  accessType && filters.push(getFilterTerm('services.type', accessType))
   type !== undefined && filters.push(getFilterTerm('metadata.type', type))
+  complianceType &&
+    filters.push(
+      getFilterTerm(
+        'metadata.additionalInformation.compliance.keyword',
+        complianceType
+      )
+    )
 
   const baseQueryParams = {
     chainIds,

@@ -10,6 +10,7 @@ export function accountTruncate(account: string): string {
   const truncated = account.replace(middle, '…')
   return truncated
 }
+
 /**
  * returns a dummy web3 instance, only usable to get info from the chain
  * @param chainId

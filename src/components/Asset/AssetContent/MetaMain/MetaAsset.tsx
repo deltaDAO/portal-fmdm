@@ -6,23 +6,32 @@ import ExplorerLink from '@shared/ExplorerLink'
 import Publisher from '@shared/Publisher'
 import React, { ReactElement } from 'react'
 import styles from './MetaAsset.module.css'
+import { getPublisherNameOrOwner } from '@utils/ddo'
 
 export default function MetaAsset({
   asset,
-  isBlockscoutExplorer
+  isBlockscoutExplorer,
+  verifiedServiceProviderName
 }: {
   asset: AssetExtended
   isBlockscoutExplorer: boolean
+  verifiedServiceProviderName?: string
 }): ReactElement {
   const { isAssetNetwork } = useAsset()
   const { web3ProviderInfo } = useWeb3()
 
   const dataTokenSymbol = asset?.datatokens[0]?.symbol
+  const displayName =
+    verifiedServiceProviderName || getPublisherNameOrOwner(asset)
 
   return (
     <div className={styles.wrapper}>
       <span className={styles.owner}>
-        Owned by <Publisher account={asset?.nft?.owner} />
+        Owned by{' '}
+        <Publisher
+          account={asset?.nft?.owner}
+          verifiedServiceProviderName={displayName}
+        />
       </span>
       <span>
         <ExplorerLink

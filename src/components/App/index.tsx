@@ -12,9 +12,11 @@ import contentPurgatory from '../../../content/purgatory.json'
 import { useMarketMetadata } from '@context/MarketMetadata'
 
 export default function App({
-  children
+  children,
+  setShow
 }: {
   children: ReactElement
+  setShow: React.Dispatch<React.SetStateAction<boolean>>
 }): ReactElement {
   const { siteContent, appConfig } = useMarketMetadata()
   const { accountId } = useWeb3()
@@ -25,7 +27,7 @@ export default function App({
       {siteContent?.announcement !== '' && (
         <AnnouncementBanner text={siteContent?.announcement} />
       )}
-      <Header />
+      <Header setShow={setShow} />
 
       {isInPurgatory && (
         <Alert

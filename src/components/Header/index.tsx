@@ -1,10 +1,14 @@
 import React, { ReactElement } from 'react'
 import Menu from './Menu'
 
-export default function Header(): ReactElement {
+export default function Header({
+  setShow
+}: {
+  setShow: React.Dispatch<React.SetStateAction<boolean>>
+}): ReactElement {
   return (
     <header>
-      <Menu />
+      <Menu setShow={setShow} />
     </header>
   )
 }

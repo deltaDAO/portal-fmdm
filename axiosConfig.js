@@ -1,11 +1,9 @@
 import axios from 'axios'
 
-axios.defaults.baseURL =
-  process.env.REACT_APP_BACKEND_BASE_URL ||
-  'https://f18c-2001-1c02-198d-b600-36aa-fecb-243b-41c5.ngrok-free.app'
+axios.defaults.baseURL = process.env.NEXT_PUBLIC_BACKEND_BASE_URL
 
 const instance = axios.create({
-  baseURL: process.env.REACT_APP_BACKEND_BASE_URL
+  baseURL: process.env.NEXT_PUBLIC_BACKEND_BASE_URL
 })
 
 axios.interceptors.request.use(

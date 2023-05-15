@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react'
+import React, { ReactElement, useState } from 'react'
 import Alert from '@shared/atoms/Alert'
 import Footer from '../Footer/Footer'
 import Header from '../Header'
@@ -10,17 +10,19 @@ import styles from './index.module.css'
 import { ToastContainer } from 'react-toastify'
 import contentPurgatory from '../../../content/purgatory.json'
 import { useMarketMetadata } from '@context/MarketMetadata'
+import { AuthorizationResponsePayload } from '@sphereon/did-auth-siop'
+import AuthenticationModal from '@components/Auth/AuthenticationModal'
 
 export default function App({
-  children,
-  setShow
+  children
 }: {
   children: ReactElement
-  setShow: React.Dispatch<React.SetStateAction<boolean>>
 }): ReactElement {
   const { siteContent, appConfig } = useMarketMetadata()
   const { accountId } = useWeb3()
   const { isInPurgatory, purgatoryData } = useAccountPurgatory(accountId)
+  const [show, setShow] = useState(false)
+  const [payload, setPayload] = useState<AuthorizationResponsePayload>()
 
   return (
     <div className={styles.app}>
@@ -28,7 +30,6 @@ export default function App({
         <AnnouncementBanner text={siteContent?.announcement} />
       )}
       <Header setShow={setShow} />
-
       {isInPurgatory && (
         <Alert
           title={contentPurgatory.account.title}
@@ -45,6 +46,14 @@ export default function App({
       )}
 
       <ToastContainer position="bottom-right" newestOnTop />
+      <AuthenticationModal
+        show={show}
+        onCloseClicked={() => setShow(false)}
+        onSignInComplete={() => {
+          setShow(false)
+          setPayload(payload)
+        }}
+      />
     </div>
   )
 }

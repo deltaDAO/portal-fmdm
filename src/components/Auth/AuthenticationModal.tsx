@@ -2,7 +2,6 @@ import { Col, Container, Modal, Row } from 'react-bootstrap'
 import React, { Component } from 'react'
 import AuthenticationQR from './AuthenticationQR'
 import { AuthorizationResponsePayload } from '@sphereon/did-auth-siop'
-import './AuthenticationModal.module.css'
 
 /* This is a container dialog for the QR code component. It re emits the onSignInComplete callback.  */
 
@@ -14,6 +13,8 @@ export type AuthenticationModalProps = {
 
 interface AuthenticationModalState {
   authRequestRetrieved: boolean
+  isCopied: boolean
+  qrCodeData: string
 }
 
 export default class AuthenticationModal extends Component<
@@ -25,7 +26,11 @@ export default class AuthenticationModal extends Component<
 
   constructor(props: AuthenticationModalProps) {
     super(props)
-    this.state = { authRequestRetrieved: false }
+    this.state = {
+      authRequestRetrieved: false,
+      isCopied: false,
+      qrCodeData: ''
+    }
   }
 
   render() {
@@ -41,7 +46,6 @@ export default class AuthenticationModal extends Component<
           style={{
             display: 'flex',
             justifyContent: 'center',
-            backgroundColor: 'white',
             color: '#00205C',
             alignItems: 'center'
           }}
@@ -71,8 +75,9 @@ export default class AuthenticationModal extends Component<
                 style={{ paddingTop: '10px' }}
               >
                 <AuthenticationQR
+                  setQrCodeData={this.copyQRCode}
                   onAuthRequestRetrieved={() => {
-                    this.setState({ authRequestRetrieved: true })
+                    this.setState({ ...this.state, authRequestRetrieved: true })
                   }}
                   onSignInComplete={(payload) =>
                     this.props.onSignInComplete(payload)
@@ -92,10 +97,41 @@ export default class AuthenticationModal extends Component<
             borderColor: 'white'
           }}
         >
-          <span>Copy to clipboard</span>
+          <a
+            id="copyToClipboard"
+            href="#"
+            onClick={() => this.handleCopyClick()}
+          >
+            {this.state.isCopied ? 'Copied!' : 'Copy to clipboard'}
+          </a>
         </Modal.Footer>
       </Modal>
     )
+  }
+
+  private copyTextToClipboard = async (
+    text: string
+  ): Promise<boolean | void> => {
+    if ('clipboard' in navigator) {
+      return await navigator.clipboard.writeText(text)
+    } else {
+      return document.execCommand('copy', true, text)
+    }
+  }
+
+  private handleCopyClick = (): void => {
+    this.copyTextToClipboard(this.state.qrCodeData)
+      .then(() => {
+        this.setState({ ...this.state, isCopied: true })
+        setTimeout(() => {
+          this.setState({ ...this.state, isCopied: false })
+        }, 1500)
+      })
+      .catch(console.error)
+  }
+
+  private copyQRCode = (text: string): void => {
+    this.setState({ ...this.state, qrCodeData: text })
   }
 
   private handleClose = () => {

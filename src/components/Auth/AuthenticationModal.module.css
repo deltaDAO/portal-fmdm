@@ -1,4 +1,13 @@
 .modal-backdrop {
-  background-color: white;
-  opacity: 0.8;
+  background-color: var(--background-body-transparent);
+  backdrop-filter: blur(3px);
+  animation: fadeIn 0.2s ease-out backwards;
+}
+
+.modal {
+  background-color: var(--background-body-transparent);
+}
+
+.modal-backdrop.show {
+  opacity: 0.9;
 }

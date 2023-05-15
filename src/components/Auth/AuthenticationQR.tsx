@@ -18,6 +18,7 @@ import agent from '@components/Auth/agent'
 export type AuthenticationQRProps = {
   onAuthRequestRetrieved: () => void
   onSignInComplete: (payload: AuthorizationResponsePayload) => void
+  setQrCodeData: (text: string) => void
 }
 
 export interface AuthenticationQRState {
@@ -36,12 +37,12 @@ export default class AuthenticationQR extends Component<AuthenticationQRProps> {
 
   private _isMounted = false
 
-  private readonly definitionId =
-    process.env.PRESENTATION_DEF_ID || '9449e2db-791f-407c-b086-c21cc677d2e0'
+  private readonly definitionId = process.env.NEXT_PUBLIC_PRESENTATION_DEF_ID
 
   componentDidMount() {
     this.qrExpirationMs =
-      parseInt(process.env.REACT_APP_QR_CODE_EXPIRES_AFTER_SEC ?? '120') * 1000
+      parseInt(process.env.NEXT_PUBLIC_QR_CODE_EXPIRES_AFTER_SEC ?? '120') *
+      1000
     // actually since the QR points to a JWT it has its own expiration value as well.
 
     if (!this.state.qrCode) {
@@ -57,6 +58,7 @@ export default class AuthenticationQR extends Component<AuthenticationQRProps> {
   private generateNewQRCode() {
     this.generateAuthRequestURI()
       .then((authRequestURIResponse) => {
+        this.props.setQrCodeData(authRequestURIResponse.authRequestURI)
         agent
           .uriElement(this.createQRCodeElement(authRequestURIResponse))
           .then((qrCode) => {

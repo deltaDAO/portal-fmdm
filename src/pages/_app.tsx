@@ -1,5 +1,5 @@
 // import App from "next/app";
-import React, { ReactElement, useState } from 'react'
+import React, { ReactElement } from 'react'
 import type { AppProps } from 'next/app'
 import Web3Provider from '@context/Web3'
 import { UserPreferencesProvider } from '@context/UserPreferences'
@@ -13,12 +13,8 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import '@oceanprotocol/typographies/css/ocean-typo.css'
 import '../stylesGlobal/styles.css'
 import Decimal from 'decimal.js'
-import AuthenticationModal from '@components/Auth/AuthenticationModal'
-import { AuthorizationResponsePayload } from '@sphereon/did-auth-siop'
 
 function MyApp({ Component, pageProps }: AppProps): ReactElement {
-  const [show, setShow] = useState(false)
-  const [payload, setPayload] = useState<AuthorizationResponsePayload>()
   Decimal.set({ rounding: 1 })
   return (
     <MarketMetadataProvider>
@@ -27,15 +23,7 @@ function MyApp({ Component, pageProps }: AppProps): ReactElement {
           <UserPreferencesProvider>
             <ConsentProvider>
               <SearchBarStatusProvider>
-                <AuthenticationModal
-                  show={show}
-                  onCloseClicked={() => setShow(false)}
-                  onSignInComplete={() => {
-                    setShow(false)
-                    setPayload(payload)
-                  }}
-                />
-                <App setShow={setShow}>
+                <App>
                   <Component {...pageProps} />
                 </App>
               </SearchBarStatusProvider>

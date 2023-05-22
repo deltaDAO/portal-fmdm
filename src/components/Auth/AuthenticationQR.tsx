@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { BallTriangle } from 'react-loader-spinner'
 import {
-  AuthorizationRequestStateStatus,
+  AuthorizationResponseStateStatus,
   AuthStatusResponse,
   GenerateAuthRequestURIResponse
 } from './auth-model'
@@ -102,7 +102,7 @@ export default class AuthenticationQR extends Component<AuthenticationQRProps> {
 
   render() {
     // Show the loader until we have details on which parameters to load into the QR code
-    console.log(`====> render qr ${this.state.qrCode}`)
+    console.log(`====> render qr ${JSON.stringify(this.state.qrCode)}`)
     return this.state.qrCode ? (
       <div>{this.state.qrCode}</div>
     ) : (
@@ -170,10 +170,14 @@ export default class AuthenticationQR extends Component<AuthenticationQRProps> {
           return Promise.reject(authStatus.error ?? pollingResponse)
         }
       }
-      if (authStatus.status === AuthorizationRequestStateStatus.SENT) {
+      if (
+        AuthorizationResponseStateStatus[authStatus.status] ===
+        AuthorizationResponseStateStatus.SENT
+      ) {
         this.props.onAuthRequestRetrieved()
       } else if (
-        authStatus.status === AuthorizationRequestStateStatus.VERIFIED
+        AuthorizationResponseStateStatus[authStatus.status] ===
+        AuthorizationResponseStateStatus.VERIFIED
       ) {
         clearInterval(interval)
         return this.props.onSignInComplete(authStatus.payload!)

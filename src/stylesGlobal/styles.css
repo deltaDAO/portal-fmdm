@@ -1,5 +1,5 @@
 @import '_variables.css';
-@import 'src/components/Auth/AuthenticationModal.module.css';
+@import '../components/AuthenticationModal/AuthenticationModal.module.css';
 
 *,
 *:before,

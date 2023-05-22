@@ -11,6 +11,7 @@ import MenuDropdown from '@components/@shared/MenuDropdown'
 import SearchButton from './SearchButton'
 import Button from '@components/@shared/atoms/Button'
 import Container from '@components/@shared/atoms/Container'
+import Auth from '@components/Auth/Auth'
 
 const Wallet = loadable(() => import('./Wallet'))
 
@@ -75,7 +76,7 @@ export default function Menu({
           <SearchButton />
           {appConfig.chainIdsSupported.length > 1 && <Networks />}
           <Wallet />
-          <Button onClick={() => setShow(true)}>Sign In</Button>
+          <Auth setShow={() => setShow(true)} />
         </div>
       </nav>
     </Container>

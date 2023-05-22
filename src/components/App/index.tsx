@@ -11,7 +11,7 @@ import { ToastContainer } from 'react-toastify'
 import contentPurgatory from '../../../content/purgatory.json'
 import { useMarketMetadata } from '@context/MarketMetadata'
 import { AuthorizationResponsePayload } from '@sphereon/did-auth-siop'
-import AuthenticationModal from '@components/Auth/AuthenticationModal'
+import AuthenticationModal from '@components/AuthenticationModal/AuthenticationModal'
 
 export default function App({
   children

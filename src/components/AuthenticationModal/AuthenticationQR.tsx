@@ -13,7 +13,7 @@ import {
 } from '@sphereon/ssi-sdk-qr-react'
 
 import { AuthorizationResponsePayload } from '@sphereon/did-auth-siop'
-import agent from '@components/Auth/agent'
+import agent from '@components/AuthenticationModal/agent'
 
 export type AuthenticationQRProps = {
   onAuthRequestRetrieved: () => void

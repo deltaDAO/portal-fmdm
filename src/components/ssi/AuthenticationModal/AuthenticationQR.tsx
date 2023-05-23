@@ -10,10 +10,10 @@ import {
   QRType,
   URIData,
   ValueResult
-} from '@sphereon/ssi-sdk-qr-react'
+} from '@sphereon/ssi-sdk.qr-code-generator'
 
 import { AuthorizationResponsePayload } from '@sphereon/did-auth-siop'
-import agent from '@components/AuthenticationModal/agent'
+import agent from '@components/ssi/AuthenticationModal/agent'
 
 export type AuthenticationQRProps = {
   onAuthRequestRetrieved: () => void
@@ -37,11 +37,12 @@ export default class AuthenticationQR extends Component<AuthenticationQRProps> {
 
   private _isMounted = false
 
-  private readonly definitionId = process.env.NEXT_PUBLIC_PRESENTATION_DEF_ID
+  private readonly definitionId =
+    process.env.NEXT_PUBLIC_SSI_PRESENTATION_DEF_ID
 
   componentDidMount() {
     this.qrExpirationMs =
-      parseInt(process.env.NEXT_PUBLIC_QR_CODE_EXPIRES_AFTER_SEC ?? '120') *
+      parseInt(process.env.NEXT_PUBLIC_SSI_QR_CODE_EXPIRES_AFTER_SEC ?? '120') *
       1000
     // actually since the QR points to a JWT it has its own expiration value as well.
 
@@ -61,13 +62,13 @@ export default class AuthenticationQR extends Component<AuthenticationQRProps> {
       .then((authRequestURIResponse) => {
         this.props.setQrCodeData(authRequestURIResponse.authRequestURI)
         agent
-          .uriElement(this.createQRCodeElement(authRequestURIResponse))
+          .qrURIElement(this.createQRCodeElement(authRequestURIResponse))
           .then((qrCode) => {
             this.registerState(authRequestURIResponse, qrCode)
             // return this.setState({authRequestURIResponse, qrCode})
           })
       })
-      .catch((e) => console.error(e))
+      .catch(console.error)
   }
 
   createQRCodeElement(
@@ -102,7 +103,6 @@ export default class AuthenticationQR extends Component<AuthenticationQRProps> {
 
   render() {
     // Show the loader until we have details on which parameters to load into the QR code
-    console.log(`====> render qr ${JSON.stringify(this.state.qrCode)}`)
     return this.state.qrCode ? (
       <div>{this.state.qrCode}</div>
     ) : (
@@ -189,7 +189,9 @@ export default class AuthenticationQR extends Component<AuthenticationQRProps> {
         correlationId: this.state?.authRequestURIResponse?.correlationId,
         definitionId: this.state?.authRequestURIResponse?.definitionId
       })
-      console.log(JSON.stringify(pollingResponse))
+      if (process.env.NEXT_PUBLIC_SSI_DEBUG === 'true') {
+        console.log(JSON.stringify(pollingResponse))
+      }
     }, 2000)
   }
 }

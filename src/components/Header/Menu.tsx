@@ -11,7 +11,7 @@ import MenuDropdown from '@components/@shared/MenuDropdown'
 import SearchButton from './SearchButton'
 import Button from '@components/@shared/atoms/Button'
 import Container from '@components/@shared/atoms/Container'
-import Auth from '@components/Auth/Auth'
+import Auth from '@components/ssi/Auth/Auth'
 
 const Wallet = loadable(() => import('./Wallet'))
 

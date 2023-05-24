@@ -192,9 +192,7 @@ export default class AuthenticationQR extends Component<AuthenticationQRProps> {
         correlationId: this.state?.authRequestURIResponse?.correlationId,
         definitionId: this.state?.authRequestURIResponse?.definitionId
       })
-      if (process.env.NEXT_PUBLIC_SSI_DEBUG === 'true') {
-        debug(JSON.stringify(pollingResponse))
-      }
+      debug(JSON.stringify(pollingResponse))
     }, 2000)
   }
 }

@@ -14,6 +14,9 @@ import {
 
 import { AuthorizationResponsePayload } from '@sphereon/did-auth-siop'
 import agent from '@components/ssi/AuthenticationModal/agent'
+import Debug from 'debug'
+
+const debug = Debug('ssi:AuthenticationQR')
 
 export type AuthenticationQRProps = {
   onAuthRequestRetrieved: () => void
@@ -68,7 +71,7 @@ export default class AuthenticationQR extends Component<AuthenticationQRProps> {
             // return this.setState({authRequestURIResponse, qrCode})
           })
       })
-      .catch(console.error)
+      .catch(debug)
   }
 
   createQRCodeElement(
@@ -112,7 +115,7 @@ export default class AuthenticationQR extends Component<AuthenticationQRProps> {
 
   /* We don't want to keep used and unused states indefinitely, so expire the QR code after a configured timeout  */
   private refreshQRCode = () => {
-    console.log('Timeout expired, refreshing QR code...')
+    debug('Timeout expired, refreshing QR code...')
     if (this.qrExpirationMs > 0) {
       if (this.state) {
         this.timedOutRequestMappings.add(this.state)
@@ -158,14 +161,14 @@ export default class AuthenticationQR extends Component<AuthenticationQRProps> {
         return
       } else if (this.timedOutRequestMappings.has(this.state)) {
         try {
-          console.log('Cancelling timed out auth request.')
+          debug('Cancelling timed out auth request.')
           await agent.siopClientRemoveAuthRequestState({
             correlationId: this.state?.authRequestURIResponse?.correlationId,
             definitionId: this.state?.authRequestURIResponse?.definitionId
           })
           this.timedOutRequestMappings.delete(this.state) // only delete after deleted remotely
         } catch (error) {
-          console.log(error)
+          debug(error)
           clearInterval(interval)
           return Promise.reject(authStatus.error ?? pollingResponse)
         }
@@ -182,7 +185,7 @@ export default class AuthenticationQR extends Component<AuthenticationQRProps> {
         clearInterval(interval)
         return this.props.onSignInComplete(authStatus.payload!)
       } else {
-        console.log(`status during polling: ${JSON.stringify(authStatus)}`)
+        debug(`status during polling: ${JSON.stringify(authStatus)}`)
       }
       // Use the state, as that gets updated by the qr code
       pollingResponse = await agent.siopClientGetAuthStatus({
@@ -190,7 +193,7 @@ export default class AuthenticationQR extends Component<AuthenticationQRProps> {
         definitionId: this.state?.authRequestURIResponse?.definitionId
       })
       if (process.env.NEXT_PUBLIC_SSI_DEBUG === 'true') {
-        console.log(JSON.stringify(pollingResponse))
+        debug(JSON.stringify(pollingResponse))
       }
     }, 2000)
   }

@@ -2,7 +2,9 @@ import { Col, Container, Modal, Row } from 'react-bootstrap'
 import React, { Component } from 'react'
 import AuthenticationQR from './AuthenticationQR'
 import { AuthorizationResponsePayload } from '@sphereon/did-auth-siop'
+import Debug from 'debug'
 
+const debug = Debug('ssi:AuthenticationModal')
 /* This is a container dialog for the QR code component. It re emits the onSignInComplete callback.  */
 
 export type AuthenticationModalProps = {
@@ -154,7 +156,7 @@ export default class AuthenticationModal extends Component<
           this.setState({ ...this.state, isCopied: false })
         }, 1500)
       })
-      .catch(console.error)
+      .catch(debug)
   }
 
   private copyQRCode = (text: string): void => {

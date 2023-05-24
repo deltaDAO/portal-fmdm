@@ -40,9 +40,6 @@ export default class AuthenticationQR extends Component<AuthenticationQRProps> {
 
   private _isMounted = false
 
-  private readonly definitionId =
-    process.env.NEXT_PUBLIC_SSI_PRESENTATION_DEF_ID
-
   componentDidMount() {
     this.qrExpirationMs =
       parseInt(process.env.NEXT_PUBLIC_SSI_QR_CODE_EXPIRES_AFTER_SEC ?? '120') *

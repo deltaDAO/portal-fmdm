@@ -4,7 +4,7 @@ import AuthenticationQR from './AuthenticationQR'
 import { AuthorizationResponsePayload } from '@sphereon/did-auth-siop'
 import Debug from 'debug'
 
-const debug = Debug('ssi:AuthenticationModal')
+const debug = Debug('sphereon:portal:ssi:AuthenticationModal')
 /* This is a container dialog for the QR code component. It re emits the onSignInComplete callback.  */
 
 export type AuthenticationModalProps = {

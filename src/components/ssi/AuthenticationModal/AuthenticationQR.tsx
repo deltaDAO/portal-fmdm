@@ -16,7 +16,7 @@ import { AuthorizationResponsePayload } from '@sphereon/did-auth-siop'
 import agent from '@components/ssi/AuthenticationModal/agent'
 import Debug from 'debug'
 
-const debug = Debug('ssi:AuthenticationQR')
+const debug = Debug('sphereon:portal:ssi:AuthenticationQR')
 
 export type AuthenticationQRProps = {
   onAuthRequestRetrieved: () => void

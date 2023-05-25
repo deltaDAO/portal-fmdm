@@ -18,7 +18,10 @@ module.exports = {
                            '0xd5cdc037b198c2d32cfdb91c007f5ff65b2c2ff9',
                            '0xdd22288a08afd9b1f0d0d6188714cfc7575ce49c',
                            '0xdd22288a08afd9b1f0d0d6188714cfc7575ce49c',
-                           '0x1f3f1ce4879e0d2319cd553eadcc7b1ef775177a']
+                           '0x1f3f1ce4879e0d2319cd553eadcc7b1ef775177a'.
+                           '0x59f93a71b3e3d9c3e94280bafcce49eb02191fdc',
+                           '0x6df7790e95e3bf4406dfc83f6856bc7869861a25',
+                           '0xeab171bfd3ed54b29e97d6dfc92692f7c84da06f']
   },
   featured: [
     {

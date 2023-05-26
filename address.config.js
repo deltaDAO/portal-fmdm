@@ -1,6 +1,9 @@
 module.exports = {
   whitelists: {
-    'nft.owner': ['0xa98A6eefbAE870b88a9C7A43f4b50066A01c93b6'],
+    'nft.owner': [
+      '0xa98A6eefbAE870b88a9C7A43f4b50066A01c93b6',
+      '0xDa4fc9E82Ac4E44207a1f74137493D3437D80761'
+    ],
     'datatokens.address': [
       '0xa2E0747d1FA4006Eff891461758bC96F9cE864F2',
       '0xeDBb45Ba45EB6a56072eF224Ff944b7fBd84aE27',

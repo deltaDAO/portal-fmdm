@@ -184,11 +184,6 @@ export default class AuthenticationQR extends Component<AuthenticationQRProps> {
       ) {
         clearInterval(interval)
         return this.props.onSignInComplete(authStatus.payload!)
-      } else if (
-        authStatus.status === AuthorizationResponseStateStatus.CREATED
-      ) {
-        clearInterval(interval)
-        return this.props.onSignInComplete(authStatus.payload!)
       } else {
         debug(`status during polling: ${JSON.stringify(authStatus)}`)
       }

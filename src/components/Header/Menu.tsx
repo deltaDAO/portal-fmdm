@@ -12,6 +12,7 @@ import SearchButton from './SearchButton'
 import Button from '@components/@shared/atoms/Button'
 import Container from '@components/@shared/atoms/Container'
 import Auth from '@components/ssi/Auth/Auth'
+import { AuthorizationResponsePayload } from '@sphereon/did-auth-siop'
 
 const Wallet = loadable(() => import('./Wallet'))
 
@@ -47,9 +48,13 @@ export function MenuLink({ name, link, className }: MenuItem) {
 }
 
 export default function Menu({
-  setShow
+  setShow,
+  payload,
+  setPayload
 }: {
   setShow: React.Dispatch<React.SetStateAction<boolean>>
+  payload: AuthorizationResponsePayload
+  setPayload: React.Dispatch<React.SetStateAction<AuthorizationResponsePayload>>
 }): ReactElement {
   const { appConfig, siteContent } = useMarketMetadata()
 
@@ -76,7 +81,11 @@ export default function Menu({
           <SearchButton />
           {appConfig.chainIdsSupported.length > 1 && <Networks />}
           <Wallet />
-          <Auth setShow={() => setShow(true)} />
+          <Auth
+            setShow={() => setShow(true)}
+            payload={payload}
+            setPayload={setPayload}
+          />
         </div>
       </nav>
     </Container>

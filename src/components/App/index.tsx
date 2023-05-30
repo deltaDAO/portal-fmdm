@@ -24,12 +24,17 @@ export default function App({
   const [show, setShow] = useState(false)
   const [payload, setPayload] = useState<AuthorizationResponsePayload>()
 
+  function onSignInComplete(payload: AuthorizationResponsePayload): void {
+    setShow(false)
+    setPayload(payload)
+  }
+
   return (
     <div className={styles.app}>
       {siteContent?.announcement !== '' && (
         <AnnouncementBanner text={siteContent?.announcement} />
       )}
-      <Header setShow={setShow} />
+      <Header setShow={setShow} payload={payload} setPayload={setPayload} />
       {isInPurgatory && (
         <Alert
           title={contentPurgatory.account.title}
@@ -49,10 +54,7 @@ export default function App({
       <AuthenticationModal
         show={show}
         onCloseClicked={() => setShow(false)}
-        onSignInComplete={() => {
-          setShow(false)
-          setPayload(payload)
-        }}
+        onSignInComplete={onSignInComplete}
       />
     </div>
   )

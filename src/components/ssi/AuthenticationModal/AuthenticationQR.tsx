@@ -177,14 +177,15 @@ export default class AuthenticationQR extends Component<AuthenticationQRProps> {
           return Promise.reject(authStatus.error ?? pollingResponse)
         }
       }
-      if (
-        AuthorizationResponseStateStatus[authStatus.status] ===
-        AuthorizationResponseStateStatus.SENT
-      ) {
+      if (authStatus.status === AuthorizationResponseStateStatus.SENT) {
         this.props.onAuthRequestRetrieved()
       } else if (
-        AuthorizationResponseStateStatus[authStatus.status] ===
-        AuthorizationResponseStateStatus.VERIFIED
+        authStatus.status === AuthorizationResponseStateStatus.VERIFIED
+      ) {
+        clearInterval(interval)
+        return this.props.onSignInComplete(authStatus.payload!)
+      } else if (
+        authStatus.status === AuthorizationResponseStateStatus.CREATED
       ) {
         clearInterval(interval)
         return this.props.onSignInComplete(authStatus.payload!)

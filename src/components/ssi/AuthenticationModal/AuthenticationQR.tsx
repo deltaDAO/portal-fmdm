@@ -15,6 +15,7 @@ import {
 import { AuthorizationResponsePayload } from '@sphereon/did-auth-siop'
 import agent from '@components/ssi/AuthenticationModal/agent'
 import Debug from 'debug'
+import { DEFINITION_ID_REQUIRED_ERROR } from '@components/ssi/AuthenticationModal/constants'
 
 const debug = Debug('sphereon:portal:ssi:AuthenticationQR')
 
@@ -40,6 +41,8 @@ export default class AuthenticationQR extends Component<AuthenticationQRProps> {
 
   private _isMounted = false
 
+  private readonly definitionId = process.env.NEXT_PUBLIC_PRESENTATION_DEF_ID
+
   componentDidMount() {
     this.qrExpirationMs =
       parseInt(process.env.NEXT_PUBLIC_SSI_QR_CODE_EXPIRES_AFTER_SEC ?? '120') *
@@ -54,6 +57,9 @@ export default class AuthenticationQR extends Component<AuthenticationQRProps> {
       )
     }
     this._isMounted = true
+    if (!this.definitionId) {
+      throw new Error(DEFINITION_ID_REQUIRED_ERROR)
+    }
   }
 
   private generateNewQRCode() {

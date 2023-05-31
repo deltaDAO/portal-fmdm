@@ -250,9 +250,9 @@ function selectBaseUrl(parsedServiceSD) {
     Array.isArray(parsedServiceSD.type) &&
     (parsedServiceSD.type as string[]).indexOf('VerifiablePresentation') !== -1
   ) {
-    return `${complianceUri}/2210vp/compliance`
+    return `${complianceUri}/eco/credential-offers`
   } else {
-    return `${complianceUri}/participant/verify/raw`
+    return `${complianceUri}/eco/verify`
   }
 }
 

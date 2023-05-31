@@ -20,7 +20,8 @@ module.exports = {
       '0x1f3f1ce4879e0d2319cd553eadcc7b1ef775177a',
       '0x59f93a71b3e3d9c3e94280bafcce49eb02191fdc',
       '0x6df7790e95e3bf4406dfc83f6856bc7869861a25',
-      '0xeab171bfd3ed54b29e97d6dfc92692f7c84da06f'
+      '0xeab171bfd3ed54b29e97d6dfc92692f7c84da06f',
+      '0xDa4fc9E82Ac4E44207a1f74137493D3437D80761'
     ]
   },
   featured: [

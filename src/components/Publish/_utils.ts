@@ -223,7 +223,7 @@ export async function storeRawServiceSD(signedSD: {
 }> {
   if (!signedSD) return { verified: false, storedSdUrl: undefined }
 
-  const baseUrl = `${complianceUri}/api/service-offering/verify/raw?store=true`
+  const baseUrl = `${complianceUri}/api/eco/verify`
   try {
     const response = await axios.post(baseUrl, signedSD)
     if (response?.status === 409) {
@@ -250,9 +250,9 @@ function selectBaseUrl(parsedServiceSD) {
     Array.isArray(parsedServiceSD.type) &&
     (parsedServiceSD.type as string[]).indexOf('VerifiablePresentation') !== -1
   ) {
-    return `${complianceUri}/eco/credential-offers`
+    return `${complianceUri}/api/eco/credential-offers`
   } else {
-    return `${complianceUri}/eco/verify`
+    return `${complianceUri}/api/eco/verify`
   }
 }
 

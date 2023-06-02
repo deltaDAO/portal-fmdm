@@ -1,0 +1,89 @@
+.button {
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-small);
+  text-transform: uppercase;
+  border: var(--menu-border-size) solid var(--menu-border-color);
+  border-radius: 0 var(--menu-border-radius) var(--menu-border-radius) 0;
+  padding: calc(var(--spacer) / 4) calc(var(--spacer) / 3);
+  white-space: nowrap;
+  background: var(--background-content);
+  margin: 0;
+  transition: border 0.2s ease-out;
+  cursor: pointer;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.button,
+.address {
+  color: var(--menu-font-color);
+}
+
+.button:hover,
+.button:focus {
+  transform: none;
+  outline: 0;
+}
+
+.button.initial {
+  color: var(--menu-font-color);
+  border-radius: var(--menu-border-radius);
+}
+
+.button.initial span {
+  display: none;
+}
+
+.address {
+  display: none;
+  text-transform: none;
+  border-right: var(--menu-border-size) solid var(--menu-border-color);
+  padding-right: calc(var(--spacer) / 3);
+  padding-left: calc(var(--spacer) / 8);
+}
+
+.button svg {
+  width: 1em;
+  height: 1em;
+  fill: var(--menu-icon-color-fill);
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: calc(var(--spacer) / 3);
+  transition: transform 0.2s ease-out;
+}
+
+[aria-expanded='true'] .button svg {
+  transform: rotate(180deg);
+}
+
+.status {
+  margin-left: calc(var(--spacer) / 4);
+  position: relative;
+  top: 1px;
+}
+
+.caret,
+svg.caret {
+  display: none;
+}
+
+@media screen and (min-width: 25rem) {
+  .button.initial span {
+    display: inline;
+  }
+  .caret,
+  svg.caret {
+    display: inline-block;
+    fill: var(--menu-icon-fill-color);
+  }
+}
+
+@media screen and (min-width: 40rem) {
+  .address {
+    display: inline-block;
+  }
+  .blockies {
+    margin-right: calc(var(--spacer) / 6);
+  }
+}

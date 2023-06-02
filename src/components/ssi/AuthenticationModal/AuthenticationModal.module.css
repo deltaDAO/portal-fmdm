@@ -1,0 +1,65 @@
+.modal-backdrop {
+  background-color: var(--background-body-transparent);
+  backdrop-filter: blur(3px);
+  animation: fadeIn 0.2s ease-out backwards;
+}
+
+.modal {
+  background-color: var(--background-body-transparent);
+}
+
+.modal-backdrop.show {
+  opacity: 0.9;
+}
+
+.walletconnect-modal__header {
+  align-items: center;
+  display: flex;
+  height: 26px;
+  left: 0;
+  justify-content: space-between;
+  position: absolute;
+  top: -42px;
+  width: 100%;
+}
+
+.walletconnect-modal__headerLogo {
+  height: 21px;
+}
+
+.walletconnect-modal__close__wrapper {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  z-index: 10000;
+  background: white;
+  border-radius: 26px;
+  padding: 6px;
+  box-sizing: border-box;
+  width: 26px;
+  height: 26px;
+  cursor: pointer;
+}
+
+.walletconnect-modal__close__icon {
+  position: relative;
+  top: 7px;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: rotate(45deg);
+}
+
+.walletconnect-modal__close__line1 {
+  position: absolute;
+  width: 100%;
+  border: 1px solid rgb(48, 52, 59);
+}
+
+.walletconnect-modal__close__line2 {
+  position: absolute;
+  width: 100%;
+  border: 1px solid rgb(48, 52, 59);
+  transform: rotate(90deg);
+}

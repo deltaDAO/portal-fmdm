@@ -1,6 +1,6 @@
 // import App from "next/app";
 import React, { ReactElement } from 'react'
-import type { AppProps /*, AppContext */ } from 'next/app'
+import type { AppProps } from 'next/app'
 import Web3Provider from '@context/Web3'
 import { UserPreferencesProvider } from '@context/UserPreferences'
 import UrqlProvider from '@context/UrqlProvider'
@@ -9,6 +9,7 @@ import MarketMetadataProvider from '@context/MarketMetadata'
 import { SearchBarStatusProvider } from '@context/SearchBarStatus'
 import App from '../../src/components/App'
 
+import 'bootstrap/dist/css/bootstrap.min.css'
 import '@oceanprotocol/typographies/css/ocean-typo.css'
 import '../stylesGlobal/styles.css'
 import Decimal from 'decimal.js'

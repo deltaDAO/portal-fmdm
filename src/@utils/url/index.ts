@@ -6,6 +6,29 @@ export function sanitizeUrl(url: string) {
   return isAllowedUrlScheme ? url : 'about:blank'
 }
 
+export function isDidWeb(value: string): boolean {
+  const regex = /^did:web:.*/i
+  return regex.test(value)
+}
+
+function extractWellKnownValue(did: string): string {
+  const didPrefix = 'did:web:'
+  if (did.startsWith(didPrefix)) {
+    const value = did.slice(didPrefix.length)
+    return value
+  }
+  return ''
+}
+
+export function getWellKnownDidUrl(did: string): string {
+  const wellKnownValue = extractWellKnownValue(did)
+  if (wellKnownValue) {
+    const wellKnownDidUrl = `https://${wellKnownValue}/.well-known/did.json`
+    return wellKnownDidUrl
+  }
+  return ''
+}
+
 // check if the url is a google domain
 export const isGoogleUrl = (url: string): boolean => {
   if (!url || !isUrl(url)) return

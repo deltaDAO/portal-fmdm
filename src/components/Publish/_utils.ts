@@ -29,7 +29,7 @@ import {
   publisherMarketFixedSwapFee,
   publisherMarketOrderFee
 } from '../../../app.config'
-import { sanitizeUrl } from '@utils/url'
+import { getWellKnownDidUrl, isDidWeb, sanitizeUrl } from '@utils/url'
 import { getContainerChecksum } from '@utils/docker'
 import axios from 'axios'
 import { ServiceSD } from 'src/@types/gaia-x/2210/ServiceSD'
@@ -202,7 +202,10 @@ export async function getServiceSD(url: string): Promise<string> {
 export async function signServiceSD(rawServiceSD: any): Promise<any> {
   if (!rawServiceSD) return
   try {
-    const response = await axios.post(`${complianceUri}/api/sign`, rawServiceSD)
+    const response = await axios.post(
+      `${complianceUri}/api/eco/credential-offers`,
+      rawServiceSD
+    )
     const signedServiceSD = {
       selfDescriptionCredential: { ...rawServiceSD },
       ...response.data
@@ -295,18 +298,32 @@ export async function verifyRawServiceSD(rawServiceSD: string): Promise<{
 async function getPublisherFromCredentialSubject(
   credentialSubject: ICredentialSubject
 ): Promise<string | undefined> {
-  if ('gx-service-offering:providedBy' in credentialSubject) {
-    const providedBy = credentialSubject['gx-service-offering:providedBy']
-    const providedByUrl =
-      typeof providedBy === 'string' ? providedBy : providedBy?.['@value']
+  // todo: remove support for gx-service-offering:providedBy which is v2210
+  if (
+    'gx-service-offering:providedBy' in credentialSubject ||
+    'gx:providedBy' in credentialSubject
+  ) {
+    const providedBy =
+      credentialSubject['gx-service-offering:providedBy'] ||
+      credentialSubject['gx:providedBy']
+    let providedByUrl =
+      typeof providedBy === 'string'
+        ? providedBy
+        : providedBy['@value']
+        ? providedBy['@value']
+        : providedBy['id' as keyof unknown]
+        ? providedBy['id' as keyof unknown]
+        : undefined
 
+    if (isDidWeb(providedByUrl)) {
+      providedByUrl = getWellKnownDidUrl(providedByUrl)
+    }
     const response = await axios.get(sanitizeUrl(providedByUrl))
     if (!response || response.status !== 200 || !response?.data) return
-
     const legalName =
       response.data?.selfDescriptionCredential?.credentialSubject?.[
         'gx-participant:legalName'
-      ]
+      ] || providedByUrl
     return typeof legalName === 'string' ? legalName : legalName?.['@value']
   } else if ('gax-trust-framework:legalName' in credentialSubject) {
     const legalName = credentialSubject['gax-trust-framework:legalName']
@@ -339,17 +356,32 @@ export async function getPublisherFromServiceSD(
 
       for (const credential of verifiableCredential) {
         const credentialSubject = credential?.credentialSubject
-        if (
+        let publisher
+        if (Array.isArray(credential?.credentialSubject)) {
+          for (const subject of credential.credentialSubject) {
+            if (subject.type && subject.type === 'gx:ServiceOffering') {
+              publisher = await getPublisherFromCredentialSubject(
+                credentialSubject
+              )
+              if (publisher) {
+                return publisher
+              }
+            }
+          }
+        } else if (
           typeof credentialSubject !== 'object' ||
           credentialSubject === null
         ) {
           continue
         }
-        const publisher = await getPublisherFromCredentialSubject(
-          credentialSubject
-        )
-        if (publisher) {
-          return publisher
+        if (
+          credentialSubject.type &&
+          credentialSubject.type === 'gx:ServiceOffering'
+        ) {
+          publisher = await getPublisherFromCredentialSubject(credentialSubject)
+          if (publisher) {
+            return publisher
+          }
         }
       }
     } else {
@@ -387,7 +419,6 @@ export async function transformPublishFormToDdo(
     gaiaXInformation
   } = metadata
   const { access, files, links, providerUrl, timeout } = services[0]
-
   const did = nftAddress ? generateDid(nftAddress, chainId) : '0x...'
   const currentTime = dateToStringNoMS(new Date())
   const isPreview = !datatokenAddress && !nftAddress
@@ -398,6 +429,9 @@ export async function transformPublishFormToDdo(
       : null
 
   // Transform from files[0].url to string[] assuming only 1 file
+  if (files.length && files[0].url && !gaiaXInformation.serviceSD.url) {
+    gaiaXInformation.serviceSD.url = files[0].url
+  }
   const filesTransformed = files?.length &&
     files[0].valid && [sanitizeUrl(files[0].url)]
   const linksTransformed = links?.length &&
@@ -410,10 +444,10 @@ export async function transformPublishFormToDdo(
   const serviceSDContent = serviceSD?.url
     ? await getServiceSD(serviceSD?.url)
     : serviceSD?.raw
-
-  serviceSD.verifiedPublisherName = await getPublisherFromServiceSD(
+  const verifiedPublisherName = await getPublisherFromServiceSD(
     serviceSDContent
   )
+  serviceSD.verifiedPublisherName = verifiedPublisherName
   const complianceTypes: Array<ComplianceType> = []
   if (gaiaXInformation.serviceSD) {
     const { verified } = await verifyRawServiceSD(serviceSDContent)

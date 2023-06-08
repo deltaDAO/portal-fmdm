@@ -47,7 +47,7 @@ export default function MetaFull({ ddo }: { ddo: Asset }): ReactElement {
           <Publisher
             account={ddo?.nft?.owner}
             verifiedServiceProviderName={
-              isCompliant
+              isCompliant || ddo?.metadata?.additionalInformation?.isVerified
                 ? publisherNameOrOwner
                 : `${publisherNameOrOwner} (unverified)`
             }

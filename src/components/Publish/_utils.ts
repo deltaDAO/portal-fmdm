@@ -36,6 +36,7 @@ import { ServiceSD } from 'src/@types/gaia-x/2210/ServiceSD'
 import { ComplianceType } from '../../@types/ComplianceType'
 import {
   ICredentialSubject,
+  IVerifiableCredential,
   IVerifiablePresentation
 } from '../../@types/VerifyableCredentials'
 
@@ -300,31 +301,10 @@ async function getPublisherFromCredentialSubject(
 ): Promise<string | undefined> {
   // todo: remove support for gx-service-offering:providedBy which is v2210
   if (
-    'gx-service-offering:providedBy' in credentialSubject ||
-    'gx:providedBy' in credentialSubject
+    'gx:legalName' in credentialSubject &&
+    typeof credentialSubject['gx:legalName'] === 'string'
   ) {
-    const providedBy =
-      credentialSubject['gx-service-offering:providedBy'] ||
-      credentialSubject['gx:providedBy']
-    let providedByUrl =
-      typeof providedBy === 'string'
-        ? providedBy
-        : providedBy['@value']
-        ? providedBy['@value']
-        : providedBy['id' as keyof unknown]
-        ? providedBy['id' as keyof unknown]
-        : undefined
-
-    if (isDidWeb(providedByUrl)) {
-      providedByUrl = getWellKnownDidUrl(providedByUrl)
-    }
-    const response = await axios.get(sanitizeUrl(providedByUrl))
-    if (!response || response.status !== 200 || !response?.data) return
-    const legalName =
-      response.data?.selfDescriptionCredential?.credentialSubject?.[
-        'gx-participant:legalName'
-      ] || providedByUrl
-    return typeof legalName === 'string' ? legalName : legalName?.['@value']
+    return credentialSubject['gx:legalName']
   } else if ('gax-trust-framework:legalName' in credentialSubject) {
     const legalName = credentialSubject['gax-trust-framework:legalName']
     if (
@@ -334,59 +314,112 @@ async function getPublisherFromCredentialSubject(
     ) {
       return legalName['@value'] as string
     }
+  } else if (
+    'gx-service-offering:providedBy' in credentialSubject ||
+    'gx:providedBy' in credentialSubject
+  ) {
+    const providedBy =
+      credentialSubject['gx:providedBy'] ??
+      credentialSubject['gx-service-offering:providedBy']
+
+    let providedByUrl = typeof providedBy === 'string' ? providedBy : undefined
+    if (!providedByUrl && typeof providedBy === 'object') {
+      if ('id' in providedBy && typeof providedBy.id === 'string') {
+        providedByUrl = providedBy.id
+      } else if (
+        '@value' in providedBy &&
+        typeof providedBy['@value'] === 'string'
+      ) {
+        providedByUrl = providedBy['@value']
+      }
+    }
+
+    let didWeb: string | undefined
+    if (isDidWeb(providedByUrl)) {
+      didWeb = providedByUrl
+      providedByUrl = getWellKnownDidUrl(providedByUrl, 'participant.json')
+    }
+    const response = await axios.get(sanitizeUrl(providedByUrl))
+    if (!response || response.status >= 300 || !response?.data) {
+      return
+    }
+
+    if (didWeb) {
+      // eslint-disable-next-line @typescript-eslint/no-use-before-define
+      return getPublisherFromVP(response.data) ?? didWeb
+    }
+    const legalName =
+      response.data?.credentialSubject?.['gx:legalName'] ??
+      response.data?.selfDescriptionCredential?.credentialSubject?.[
+        'gx-participant:legalName'
+      ] ??
+      providedByUrl
+    return typeof legalName === 'string' ? legalName : legalName?.['@value']
   }
   return undefined
 }
 
-export async function getPublisherFromServiceSD(
-  serviceSD: any
-): Promise<string> {
-  if (!serviceSD) return
+export async function getPublisherFromVP(vp: any): Promise<string> {
+  if (!vp) {
+    return
+  }
 
+  let serviceOfferingSubject: ICredentialSubject | undefined
   try {
-    const parsedServiceSD =
-      typeof serviceSD === 'string' ? JSON.parse(serviceSD) : serviceSD
-
-    if ('verifiableCredential' in parsedServiceSD) {
-      const vp = parsedServiceSD as IVerifiablePresentation
-      const verifiableCredential = vp?.verifiableCredential
-      if (!Array.isArray(verifiableCredential)) {
+    const parsedVP = typeof vp === 'string' ? JSON.parse(vp) : vp
+    if ('verifiableCredential' in parsedVP) {
+      const vp = parsedVP as IVerifiablePresentation
+      const verifiableCredentials: IVerifiableCredential[] = Array.isArray(
+        vp?.verifiableCredential
+      )
+        ? vp.verifiableCredential
+        : [vp.verifiableCredential]
+      if (!verifiableCredentials) {
         return undefined
       }
 
-      for (const credential of verifiableCredential) {
+      let publisher
+      for (const credential of verifiableCredentials) {
         const credentialSubject = credential?.credentialSubject
-        let publisher
-        if (Array.isArray(credential?.credentialSubject)) {
-          for (const subject of credential.credentialSubject) {
-            if (subject.type && subject.type === 'gx:ServiceOffering') {
-              publisher = await getPublisherFromCredentialSubject(
-                credentialSubject
-              )
-              if (publisher) {
-                return publisher
-              }
-            }
-          }
-        } else if (
-          typeof credentialSubject !== 'object' ||
-          credentialSubject === null
-        ) {
+        if (typeof credentialSubject !== 'object' || !credentialSubject) {
           continue
         }
         if (
           credentialSubject.type &&
+          credentialSubject.type === 'gx:LegalParticipant' &&
+          typeof credentialSubject['gx:legalName'] === 'string'
+        ) {
+          return credentialSubject['gx:legalName']
+        }
+
+        if (Array.isArray(credentialSubject)) {
+          for (const subject of credentialSubject) {
+            if (subject.type && subject.type === 'gx:ServiceOffering') {
+              publisher = await getPublisherFromCredentialSubject(
+                credentialSubject
+              )
+              break
+            }
+          }
+        } else if (
+          credentialSubject.type &&
           credentialSubject.type === 'gx:ServiceOffering'
         ) {
-          publisher = await getPublisherFromCredentialSubject(credentialSubject)
-          if (publisher) {
-            return publisher
-          }
+          serviceOfferingSubject = credentialSubject
         }
+        if (publisher) {
+          return publisher
+        }
+      }
+      if (!publisher && serviceOfferingSubject) {
+        publisher = await getPublisherFromCredentialSubject(
+          serviceOfferingSubject
+        )
+        return publisher
       }
     } else {
       const credentialSubject =
-        parsedServiceSD?.selfDescriptionCredential?.credentialSubject
+        parsedVP?.selfDescriptionCredential?.credentialSubject
       return await getPublisherFromCredentialSubject(credentialSubject)
     }
     return undefined
@@ -444,9 +477,7 @@ export async function transformPublishFormToDdo(
   const serviceSDContent = serviceSD?.url
     ? await getServiceSD(serviceSD?.url)
     : serviceSD?.raw
-  const verifiedPublisherName = await getPublisherFromServiceSD(
-    serviceSDContent
-  )
+  const verifiedPublisherName = await getPublisherFromVP(serviceSDContent)
   serviceSD.verifiedPublisherName = verifiedPublisherName
   const complianceTypes: Array<ComplianceType> = []
   if (gaiaXInformation.serviceSD) {

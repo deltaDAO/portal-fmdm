@@ -20,10 +20,11 @@ function extractWellKnownValue(did: string): string {
   return ''
 }
 
-export function getWellKnownDidUrl(did: string): string {
+export function getWellKnownDidUrl(did: string, type?: string): string {
   const wellKnownValue = extractWellKnownValue(did)
+  const file = type ?? 'did.json'
   if (wellKnownValue) {
-    const wellKnownDidUrl = `https://${wellKnownValue}/.well-known/did.json`
+    const wellKnownDidUrl = `https://${wellKnownValue}/.well-known/${file}`
     return wellKnownDidUrl
   }
   return ''

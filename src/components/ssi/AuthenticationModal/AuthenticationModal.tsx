@@ -58,11 +58,11 @@ export default class AuthenticationModal extends Component<
           >
             Login
           </p>
-          <div className="walletconnect-modal__close__wrapper">
-            <div
-              className="walletconnect-modal__close__icon"
-              onClick={this.handleClose}
-            >
+          <div
+            className="walletconnect-modal__close__wrapper"
+            onClick={this.handleClose}
+          >
+            <div className="walletconnect-modal__close__icon">
               <div className="walletconnect-modal__close__line1"></div>
               <div className="walletconnect-modal__close__line2"></div>
             </div>

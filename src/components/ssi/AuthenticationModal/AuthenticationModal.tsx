@@ -1,4 +1,4 @@
-import { Col, Container, Modal, Row } from 'react-bootstrap'
+import { Col, Modal, Row } from 'react-bootstrap'
 import React, { Component } from 'react'
 import AuthenticationQR from './AuthenticationQR'
 import { AuthorizationResponsePayload } from '@sphereon/did-auth-siop'
@@ -42,116 +42,133 @@ export default class AuthenticationModal extends Component<
         centered
         fullscreen="true"
         show={this.props.show}
+        dialogClassName="modal-dialog" // TODO
       >
         <div className="walletconnect-modal__header">
-          <div className="walletconnect-modal__headerLogo" />
           <p
             style={{
-              fontSize: '20px',
+              fontSize: '28px',
               fontWeight: '600',
-              margin: '0',
               alignItems: 'flex-start',
               display: 'flex',
               flex: '1 1 0%',
-              marginLeft: '5px'
+              marginLeft: '5px',
+              color: '#303030'
             }}
           >
-            SSI authentication
+            Login
           </p>
-          <div className="walletconnect-modal__close__wrapper">
-            <div
-              className="walletconnect-modal__close__icon"
-              onClick={this.handleClose}
-            >
+          <div
+            className="walletconnect-modal__close__wrapper"
+            onClick={this.handleClose}
+          >
+            <div className="walletconnect-modal__close__icon">
               <div className="walletconnect-modal__close__line1"></div>
               <div className="walletconnect-modal__close__line2"></div>
             </div>
           </div>
         </div>
-        <Modal.Header
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            color: '#00205C',
-            alignItems: 'center'
-          }}
-        >
-          <Modal.Title>QR CODE</Modal.Title>
-        </Modal.Header>
-
         <Modal.Body>
-          <Container>
+          <div>
             <Row>
               <Col
-                className="d-flex justify-content-center"
-                style={{
-                  color: '#AEAEAE'
-                }}
+                className="left-column"
+                style={{ width: '540px', backgroundColor: '#EBEBEB' }}
               >
-                <h6>
-                  {this.state.authRequestRetrieved
-                    ? this.authText
-                    : this.scanText}
+                <h5
+                  style={{
+                    marginTop: 60,
+                    marginBottom: 25,
+                    color: '#303030'
+                  }}
+                >
+                  For the first time access
+                </h5>
+                <h5
+                  style={{
+                    marginBottom: 6,
+                    fontWeight: 'bold',
+                    color: '#303030'
+                  }}
+                >
+                  Step 1. Have a wallet
+                </h5>
+                <h6
+                  style={{ marginBottom: 25, fontSize: 12, color: '#303030' }}
+                >
+                  Install a compliant{' '}
+                  <a
+                    href={process.env.NEXT_PUBLIC_LOGIN_SSI_WALLET_LINK}
+                    target="_blank"
+                    className={'modal-link'}
+                  >
+                    SSI wallet
+                  </a>
+                </h6>
+                <h5
+                  style={{
+                    marginBottom: 6,
+                    fontWeight: 'bold',
+                    color: '#303030'
+                  }}
+                >
+                  Step 2. Get the Guest credential
+                </h5>
+                <h6
+                  style={{ marginBottom: 25, color: '#303030', fontSize: 12 }}
+                >
+                  Request a Guest credential via{' '}
+                  <a
+                    href={process.env.NEXT_PUBLIC_LOGIN_SSI_FORM_LINK}
+                    target="_blank"
+                    className={'modal-link'}
+                  >
+                    this form
+                  </a>{' '}
+                  and store it in your wallet*
+                </h6>
+                <h5
+                  style={{
+                    marginBottom: 6,
+                    fontWeight: 'bold',
+                    color: '#303030'
+                  }}
+                >
+                  Step 3. Scan the QR code
+                </h5>
+                <h6
+                  style={{ marginBottom: 260, color: '#303030', fontSize: 12 }}
+                >
+                  Scan the QR code on the right & share the credential form your
+                  wallet
+                </h6>
+                <h6 style={{ color: '#303030', fontSize: 12, maxWidth: 407 }}>
+                  *In the near future you will be able to choose to login with
+                  other types of credentials
                 </h6>
               </Col>
-            </Row>
-            <Row>
               <Col
-                className="d-flex justify-content-center"
-                style={{ paddingTop: '10px' }}
+                style={{ width: '540px' }}
+                className="d-flex justify-content-center align-items-center"
               >
-                <AuthenticationQR
-                  setQrCodeData={this.copyQRCode}
-                  onAuthRequestRetrieved={() => {
-                    this.setState({ ...this.state, authRequestRetrieved: true })
-                  }}
-                  onSignInComplete={this.props.onSignInComplete}
-                />
+                <div style={{ padding: 10, border: '4px solid #a6271c' }}>
+                  <AuthenticationQR
+                    setQrCodeData={this.copyQRCode}
+                    onAuthRequestRetrieved={() => {
+                      this.setState({
+                        ...this.state,
+                        authRequestRetrieved: true
+                      })
+                    }}
+                    onSignInComplete={this.props.onSignInComplete}
+                  />
+                </div>
               </Col>
             </Row>
-          </Container>
+          </div>
         </Modal.Body>
-
-        <Modal.Footer
-          style={{
-            fontSize: '15px',
-            fontWeight: '400',
-            lineHeight: '30px',
-            alignSelf: 'center',
-            borderColor: 'white'
-          }}
-        >
-          <a
-            id="copyToClipboard"
-            href="#"
-            onClick={() => this.handleCopyClick()}
-          >
-            {this.state.isCopied ? 'Copied!' : 'Copy to clipboard'}
-          </a>
-        </Modal.Footer>
       </Modal>
     )
-  }
-
-  private copyTextToClipboard = async (
-    text: string
-  ): Promise<boolean | void> => {
-    if ('clipboard' in navigator) {
-      return await navigator.clipboard.writeText(text)
-    } else {
-      return document.execCommand('copy', true, text)
-    }
-  }
-
-  private handleCopyClick = (): void => {
-    this.copyTextToClipboard(this.state.qrCodeData)
-      .then(() => {
-        this.setState({ ...this.state, isCopied: true })
-        setTimeout(() => {
-          this.setState({ ...this.state, isCopied: false })
-        }, 1500)
-      })
-      .catch(debug)
   }
 
   private copyQRCode = (text: string): void => {

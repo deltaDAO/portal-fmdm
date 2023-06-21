@@ -92,9 +92,9 @@ export default class AuthenticationQR extends Component<AuthenticationQRProps> {
       },
       renderingProps: {
         bgColor: 'white',
-        fgColor: '#00205C',
+        fgColor: '#a6271c',
         level: 'L',
-        size: 400,
+        size: 290,
         title: 'Sign in'
       }
     }
@@ -113,7 +113,7 @@ export default class AuthenticationQR extends Component<AuthenticationQRProps> {
     return this.state.qrCode ? (
       <div>{this.state.qrCode}</div>
     ) : (
-      <BallTriangle color="#352575" height="100" width="100" />
+      <BallTriangle color="#a6271c" height="100" width="100" />
     )
   }
 

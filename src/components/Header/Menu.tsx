@@ -80,7 +80,6 @@ export default function Menu({
         <div className={styles.actions}>
           <SearchButton />
           {appConfig.chainIdsSupported.length > 1 && <Networks />}
-          <Wallet />
           <Auth
             setShow={() => setShow(true)}
             payload={payload}

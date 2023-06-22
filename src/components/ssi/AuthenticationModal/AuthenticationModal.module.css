@@ -1,11 +1,36 @@
 .modal-backdrop {
   background-color: var(--background-body-transparent);
-  backdrop-filter: blur(3px);
   animation: fadeIn 0.2s ease-out backwards;
 }
 
 .modal {
-  background-color: var(--background-body-transparent);
+  user-select: none;
+}
+
+.left-column.col {
+  padding-left: 40px;
+  height: 600px;
+}
+
+.modal-content {
+  border-width: 0;
+  border-radius: 0;
+}
+
+.modal-body {
+  padding: 0;
+  margin: 0;
+  height: 600px;
+}
+
+.modal-dialog {
+  max-width: 1080px;
+  margin: 0 auto;
+}
+
+.modal-link {
+  color: #303030;
+  text-decoration: underline;
 }
 
 .modal-backdrop.show {
@@ -17,7 +42,6 @@
   display: flex;
   height: 26px;
   left: 0;
-  justify-content: space-between;
   position: absolute;
   top: -42px;
   width: 100%;
@@ -49,6 +73,7 @@
   align-items: center;
   justify-content: center;
   transform: rotate(45deg);
+  /*border-radius: 26px;*/
 }
 
 .walletconnect-modal__close__line1 {

@@ -2,9 +2,6 @@ import { Col, Modal, Row } from 'react-bootstrap'
 import React, { Component } from 'react'
 import AuthenticationQR from './AuthenticationQR'
 import { AuthorizationResponsePayload } from '@sphereon/did-auth-siop'
-import Debug from 'debug'
-
-const debug = Debug('sphereon:portal:ssi:AuthenticationModal')
 /* This is a container dialog for the QR code component. It re emits the onSignInComplete callback.  */
 
 export type AuthenticationModalProps = {
@@ -98,7 +95,8 @@ export default class AuthenticationModal extends Component<
                 >
                   Install a compliant{' '}
                   <a
-                    href={process.env.NEXT_PUBLIC_LOGIN_SSI_WALLET_LINK}
+                    href={process.env.NEXT_PUBLIC_DOWNLOAD_SSI_WALLET_LINK}
+                    rel="noreferrer"
                     target="_blank"
                     className={'modal-link'}
                   >
@@ -119,7 +117,8 @@ export default class AuthenticationModal extends Component<
                 >
                   Request a Guest credential via{' '}
                   <a
-                    href={process.env.NEXT_PUBLIC_LOGIN_SSI_FORM_LINK}
+                    href={process.env.NEXT_PUBLIC_OID4VCI_ISSSUE_FORM_LINK}
+                    rel="noreferrer"
                     target="_blank"
                     className={'modal-link'}
                   >

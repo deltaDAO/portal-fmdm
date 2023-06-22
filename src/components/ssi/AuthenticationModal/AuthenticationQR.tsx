@@ -42,12 +42,12 @@ export default class AuthenticationQR extends Component<AuthenticationQRProps> {
   private _isMounted = false
 
   private readonly definitionId =
-    process.env.NEXT_PUBLIC_SSI_PRESENTATION_DEF_ID
+    process.env.NEXT_PUBLIC_OID4VP_PRESENTATION_DEF_ID
 
   componentDidMount() {
     this.qrExpirationMs =
-      parseInt(process.env.NEXT_PUBLIC_SSI_QR_CODE_EXPIRES_AFTER_SEC ?? '120') *
-      1000
+      parseInt(process.env.NEXT_PUBLIC_SSI_QR_CODE_EXPIRES_AFTER_SEC ?? '300') *
+      750
     // actually since the QR points to a JWT it has its own expiration value as well.
 
     if (!this.state.qrCode) {
@@ -88,7 +88,7 @@ export default class AuthenticationQR extends Component<AuthenticationQRProps> {
         id: authRequestURIResponse.correlationId
       },
       onGenerate: (result: ValueResult<QRType.URI, URIData>) => {
-        // this.registerState(authRequestURIResponse, qrProps.renderingProps)
+        debug(JSON.stringify(result))
       },
       renderingProps: {
         bgColor: 'white',
@@ -156,7 +156,7 @@ export default class AuthenticationQR extends Component<AuthenticationQRProps> {
       correlationId: authRequestURIResponse?.correlationId,
       definitionId: authRequestURIResponse.definitionId
     })
-    const interval = setInterval(async (args) => {
+    const interval = setInterval(async () => {
       const authStatus: AuthStatusResponse = pollingResponse
       if (!this.state.qrCode) {
         clearInterval(interval)
@@ -180,10 +180,11 @@ export default class AuthenticationQR extends Component<AuthenticationQRProps> {
       if (authStatus.status === AuthorizationResponseStateStatus.SENT) {
         this.props.onAuthRequestRetrieved()
       } else if (
-        authStatus.status === AuthorizationResponseStateStatus.VERIFIED
+        authStatus.status === AuthorizationResponseStateStatus.VERIFIED &&
+        authStatus.payload
       ) {
         clearInterval(interval)
-        return this.props.onSignInComplete(authStatus.payload!)
+        return this.props.onSignInComplete(authStatus.payload)
       } else {
         debug(`status during polling: ${JSON.stringify(authStatus)}`)
       }

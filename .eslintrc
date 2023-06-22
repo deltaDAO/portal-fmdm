@@ -54,7 +54,8 @@
             "array": false
           }
         ],
-        "testing-library/no-node-access": "off"
+        "testing-library/no-node-access": "off",
+        "testing-library/no-debugging-utils": "off"
       }
     }
   ]

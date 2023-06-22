@@ -12,8 +12,8 @@ const agent = createAgent<IQRCodeGenerator & ISIOPv2OID4VPRPRestClient>({
   plugins: [
     new QrCodeProvider(),
     new SIOPv2OID4VPRPRestClient({
-      baseUrl: process.env.NEXT_PUBLIC_SSI_BACKEND_BASE_URL,
-      definitionId: process.env.NEXT_PUBLIC_SSI_PRESENTATION_DEF_ID
+      baseUrl: process.env.NEXT_PUBLIC_OID4VP_AGENT_BASE_URL,
+      definitionId: process.env.NEXT_PUBLIC_OID4VP_PRESENTATION_DEF_ID
     })
   ]
 })

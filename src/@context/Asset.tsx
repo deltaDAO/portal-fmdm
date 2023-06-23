@@ -20,7 +20,7 @@ import { assetStateToString } from '@utils/assetState'
 import { isValidDid } from '@utils/ddo'
 import { useAddressConfig } from '@hooks/useAddressConfig'
 import {
-  getPublisherFromServiceSD,
+  getPublisherFromVP,
   getServiceSD,
   verifyRawServiceSD
 } from '@components/Publish/_utils'
@@ -190,9 +190,7 @@ function AssetProvider({
 
         setIsServiceSDVerified(verified && !!serviceSDContent)
         setServiceSDVersion(complianceApiVersion)
-        const serviceProviderName = await getPublisherFromServiceSD(
-          serviceSDContent
-        )
+        const serviceProviderName = await getPublisherFromVP(serviceSDContent)
         setVerifiedServiceProviderName(serviceProviderName)
       } catch (error) {
         setIsServiceSDVerified(false)

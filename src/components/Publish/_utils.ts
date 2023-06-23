@@ -29,13 +29,14 @@ import {
   publisherMarketFixedSwapFee,
   publisherMarketOrderFee
 } from '../../../app.config'
-import { sanitizeUrl } from '@utils/url'
+import { getWellKnownDidUrl, isDidWeb, sanitizeUrl } from '@utils/url'
 import { getContainerChecksum } from '@utils/docker'
 import axios from 'axios'
 import { ServiceSD } from 'src/@types/gaia-x/2210/ServiceSD'
 import { ComplianceType } from '../../@types/ComplianceType'
 import {
   ICredentialSubject,
+  IVerifiableCredential,
   IVerifiablePresentation
 } from '../../@types/VerifyableCredentials'
 
@@ -202,7 +203,10 @@ export async function getServiceSD(url: string): Promise<string> {
 export async function signServiceSD(rawServiceSD: any): Promise<any> {
   if (!rawServiceSD) return
   try {
-    const response = await axios.post(`${complianceUri}/api/sign`, rawServiceSD)
+    const response = await axios.post(
+      `${complianceUri}/api/eco/credential-offers`,
+      rawServiceSD
+    )
     const signedServiceSD = {
       selfDescriptionCredential: { ...rawServiceSD },
       ...response.data
@@ -223,7 +227,7 @@ export async function storeRawServiceSD(signedSD: {
 }> {
   if (!signedSD) return { verified: false, storedSdUrl: undefined }
 
-  const baseUrl = `${complianceUri}/api/service-offering/verify/raw?store=true`
+  const baseUrl = `${complianceUri}/api/eco/verify`
   try {
     const response = await axios.post(baseUrl, signedSD)
     if (response?.status === 409) {
@@ -250,9 +254,9 @@ function selectBaseUrl(parsedServiceSD) {
     Array.isArray(parsedServiceSD.type) &&
     (parsedServiceSD.type as string[]).indexOf('VerifiablePresentation') !== -1
   ) {
-    return `${complianceUri}/2210vp/compliance`
+    return `${complianceUri}/api/eco/credential-offers`
   } else {
-    return `${complianceUri}/participant/verify/raw`
+    return `${complianceUri}/api/eco/verify`
   }
 }
 
@@ -295,19 +299,12 @@ export async function verifyRawServiceSD(rawServiceSD: string): Promise<{
 async function getPublisherFromCredentialSubject(
   credentialSubject: ICredentialSubject
 ): Promise<string | undefined> {
-  if ('gx-service-offering:providedBy' in credentialSubject) {
-    const providedBy = credentialSubject['gx-service-offering:providedBy']
-    const providedByUrl =
-      typeof providedBy === 'string' ? providedBy : providedBy?.['@value']
-
-    const response = await axios.get(sanitizeUrl(providedByUrl))
-    if (!response || response.status !== 200 || !response?.data) return
-
-    const legalName =
-      response.data?.selfDescriptionCredential?.credentialSubject?.[
-        'gx-participant:legalName'
-      ]
-    return typeof legalName === 'string' ? legalName : legalName?.['@value']
+  // todo: remove support for gx-service-offering:providedBy which is v2210
+  if (
+    'gx:legalName' in credentialSubject &&
+    typeof credentialSubject['gx:legalName'] === 'string'
+  ) {
+    return credentialSubject['gx:legalName']
   } else if ('gax-trust-framework:legalName' in credentialSubject) {
     const legalName = credentialSubject['gax-trust-framework:legalName']
     if (
@@ -317,44 +314,112 @@ async function getPublisherFromCredentialSubject(
     ) {
       return legalName['@value'] as string
     }
+  } else if (
+    'gx-service-offering:providedBy' in credentialSubject ||
+    'gx:providedBy' in credentialSubject
+  ) {
+    const providedBy =
+      credentialSubject['gx:providedBy'] ??
+      credentialSubject['gx-service-offering:providedBy']
+
+    let providedByUrl = typeof providedBy === 'string' ? providedBy : undefined
+    if (!providedByUrl && typeof providedBy === 'object') {
+      if ('id' in providedBy && typeof providedBy.id === 'string') {
+        providedByUrl = providedBy.id
+      } else if (
+        '@value' in providedBy &&
+        typeof providedBy['@value'] === 'string'
+      ) {
+        providedByUrl = providedBy['@value']
+      }
+    }
+
+    let didWeb: string | undefined
+    if (isDidWeb(providedByUrl)) {
+      didWeb = providedByUrl
+      providedByUrl = getWellKnownDidUrl(providedByUrl, 'participant.json')
+    }
+    const response = await axios.get(sanitizeUrl(providedByUrl))
+    if (!response || response.status >= 300 || !response?.data) {
+      return
+    }
+
+    if (didWeb) {
+      // eslint-disable-next-line @typescript-eslint/no-use-before-define
+      return getPublisherFromVP(response.data) ?? didWeb
+    }
+    const legalName =
+      response.data?.credentialSubject?.['gx:legalName'] ??
+      response.data?.selfDescriptionCredential?.credentialSubject?.[
+        'gx-participant:legalName'
+      ] ??
+      providedByUrl
+    return typeof legalName === 'string' ? legalName : legalName?.['@value']
   }
   return undefined
 }
 
-export async function getPublisherFromServiceSD(
-  serviceSD: any
-): Promise<string> {
-  if (!serviceSD) return
+export async function getPublisherFromVP(vp: any): Promise<string> {
+  if (!vp) {
+    return
+  }
 
+  let serviceOfferingSubject: ICredentialSubject | undefined
   try {
-    const parsedServiceSD =
-      typeof serviceSD === 'string' ? JSON.parse(serviceSD) : serviceSD
-
-    if ('verifiableCredential' in parsedServiceSD) {
-      const vp = parsedServiceSD as IVerifiablePresentation
-      const verifiableCredential = vp?.verifiableCredential
-      if (!Array.isArray(verifiableCredential)) {
+    const parsedVP = typeof vp === 'string' ? JSON.parse(vp) : vp
+    if ('verifiableCredential' in parsedVP) {
+      const vp = parsedVP as IVerifiablePresentation
+      const verifiableCredentials: IVerifiableCredential[] = Array.isArray(
+        vp?.verifiableCredential
+      )
+        ? vp.verifiableCredential
+        : [vp.verifiableCredential]
+      if (!verifiableCredentials) {
         return undefined
       }
 
-      for (const credential of verifiableCredential) {
+      let publisher
+      for (const credential of verifiableCredentials) {
         const credentialSubject = credential?.credentialSubject
-        if (
-          typeof credentialSubject !== 'object' ||
-          credentialSubject === null
-        ) {
+        if (typeof credentialSubject !== 'object' || !credentialSubject) {
           continue
         }
-        const publisher = await getPublisherFromCredentialSubject(
-          credentialSubject
-        )
+        if (
+          credentialSubject.type &&
+          credentialSubject.type === 'gx:LegalParticipant' &&
+          typeof credentialSubject['gx:legalName'] === 'string'
+        ) {
+          return credentialSubject['gx:legalName']
+        }
+
+        if (Array.isArray(credentialSubject)) {
+          for (const subject of credentialSubject) {
+            if (subject.type && subject.type === 'gx:ServiceOffering') {
+              publisher = await getPublisherFromCredentialSubject(
+                credentialSubject
+              )
+              break
+            }
+          }
+        } else if (
+          credentialSubject.type &&
+          credentialSubject.type === 'gx:ServiceOffering'
+        ) {
+          serviceOfferingSubject = credentialSubject
+        }
         if (publisher) {
           return publisher
         }
       }
+      if (!publisher && serviceOfferingSubject) {
+        publisher = await getPublisherFromCredentialSubject(
+          serviceOfferingSubject
+        )
+        return publisher
+      }
     } else {
       const credentialSubject =
-        parsedServiceSD?.selfDescriptionCredential?.credentialSubject
+        parsedVP?.selfDescriptionCredential?.credentialSubject
       return await getPublisherFromCredentialSubject(credentialSubject)
     }
     return undefined
@@ -387,7 +452,6 @@ export async function transformPublishFormToDdo(
     gaiaXInformation
   } = metadata
   const { access, files, links, providerUrl, timeout } = services[0]
-
   const did = nftAddress ? generateDid(nftAddress, chainId) : '0x...'
   const currentTime = dateToStringNoMS(new Date())
   const isPreview = !datatokenAddress && !nftAddress
@@ -398,6 +462,9 @@ export async function transformPublishFormToDdo(
       : null
 
   // Transform from files[0].url to string[] assuming only 1 file
+  if (files.length && files[0].url && !gaiaXInformation.serviceSD.url) {
+    gaiaXInformation.serviceSD.url = files[0].url
+  }
   const filesTransformed = files?.length &&
     files[0].valid && [sanitizeUrl(files[0].url)]
   const linksTransformed = links?.length &&
@@ -410,10 +477,8 @@ export async function transformPublishFormToDdo(
   const serviceSDContent = serviceSD?.url
     ? await getServiceSD(serviceSD?.url)
     : serviceSD?.raw
-
-  serviceSD.verifiedPublisherName = await getPublisherFromServiceSD(
-    serviceSDContent
-  )
+  const verifiedPublisherName = await getPublisherFromVP(serviceSDContent)
+  serviceSD.verifiedPublisherName = verifiedPublisherName
   const complianceTypes: Array<ComplianceType> = []
   if (gaiaXInformation.serviceSD) {
     const { verified } = await verifyRawServiceSD(serviceSDContent)

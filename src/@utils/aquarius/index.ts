@@ -1,15 +1,15 @@
 import { Asset, LoggerInstance } from '@oceanprotocol/lib'
 import { AssetSelectionAsset } from '@shared/FormInput/InputElement/AssetSelection'
-import axios, { AxiosResponse, CancelToken } from 'axios'
+import axios, { CancelToken, AxiosResponse } from 'axios'
 import { OrdersData_orders as OrdersData } from '../../@types/subgraph/OrdersData'
-import { allowDynamicPricing, metadataCacheUri } from '../../../app.config'
+import { metadataCacheUri, allowDynamicPricing } from '../../../app.config'
 import {
   SortDirectionOptions,
   SortTermOptions
 } from '../../@types/aquarius/SearchQuery'
 import { transformAssetToAssetSelection } from '../assetConvertor'
 import addressConfig from '../../../address.config'
-import { isValidDid } from '../ddo'
+import { isValidDid } from '@utils/ddo'
 
 export interface UserSales {
   id: string
@@ -89,20 +89,18 @@ export function generateBaseQuery(
           baseQueryParams.chainIds
             ? getFilterTerm('chainId', baseQueryParams.chainIds)
             : [],
-          getFilterTerm('_index', 'oceanv4'),
+          getFilterTerm('_index', 'v510'),
           ...(baseQueryParams.ignorePurgatory
             ? []
             : [getFilterTerm('purgatory.state', false)]),
-          [
-            {
-              bool: {
-                must_not: [
-                  !baseQueryParams.ignoreState && getFilterTerm('nft.state', 5),
-                  getDynamicPricingMustNot()
-                ]
-              }
+          {
+            bool: {
+              must_not: [
+                !baseQueryParams.ignoreState && getFilterTerm('nft.state', 5),
+                getDynamicPricingMustNot()
+              ]
             }
-          ]
+          }
         ],
         ...getWhitelistShould()
       }
@@ -179,11 +177,11 @@ export async function queryMetadata(
 export async function getAsset(
   did: string,
   cancelToken: CancelToken
-): Promise<AssetExtended> {
+): Promise<Asset> {
   try {
     if (!isValidDid(did)) return
 
-    const response: AxiosResponse<AssetExtended> = await axios.get(
+    const response: AxiosResponse<Asset> = await axios.get(
       `${metadataCacheUri}/api/aquarius/assets/ddo/${did}`,
       { cancelToken }
     )
@@ -291,8 +289,7 @@ export async function getPublishedAssets(
   ignoreState = false,
   page?: number,
   type?: string,
-  accessType?: string,
-  complianceType?: string
+  accesType?: string
 ): Promise<PagedAssets> {
   if (!accountId) return
 
@@ -300,15 +297,9 @@ export async function getPublishedAssets(
 
   filters.push(getFilterTerm('nft.state', [0, 4, 5]))
   filters.push(getFilterTerm('nft.owner', accountId.toLowerCase()))
-  accessType && filters.push(getFilterTerm('services.type', accessType))
+  accesType !== undefined &&
+    filters.push(getFilterTerm('services.type', accesType))
   type !== undefined && filters.push(getFilterTerm('metadata.type', type))
-  complianceType &&
-    filters.push(
-      getFilterTerm(
-        'metadata.additionalInformation.compliance.keyword',
-        complianceType
-      )
-    )
 
   const baseQueryParams = {
     chainIds,

@@ -7,13 +7,9 @@ import Publisher from '@shared/Publisher'
 import AssetType from '@shared/AssetType'
 import NetworkName from '@shared/NetworkName'
 import styles from './index.module.css'
-import { getServiceByName, getPublisherNameOrOwner } from '@utils/ddo'
+import { getServiceByName } from '@utils/ddo'
 import { useUserPreferences } from '@context/UserPreferences'
 import { formatNumber } from '@utils/numbers'
-import classNames from 'classnames/bind'
-import { accountTruncate } from '@utils/web3'
-
-const cx = classNames.bind(styles)
 
 export declare type AssetTeaserProps = {
   asset: AssetExtended
@@ -25,53 +21,39 @@ export declare type AssetTeaserProps = {
 export default function AssetTeaser({
   asset,
   noPublisher,
-  noDescription,
-  noPrice
+  noDescription
 }: AssetTeaserProps): ReactElement {
   const { name, type, description } = asset.metadata
   const { datatokens } = asset
   const isCompute = Boolean(getServiceByName(asset, 'compute'))
   const accessType = isCompute ? 'compute' : 'access'
   const { owner } = asset.nft
-  const complianceTypes = asset.metadata.additionalInformation?.compliance || []
-  const isCompliant = !!complianceTypes?.length
-  const { orders, allocated } = asset.stats
-  const publisherNameOrOwner = getPublisherNameOrOwner(asset)
-  const isUnsupportedPricing = asset?.accessDetails?.type === 'NOT_SUPPORTED'
+  const { orders, allocated, price } = asset.stats
+  const isUnsupportedPricing =
+    !asset.services.length ||
+    asset?.stats?.price?.value === undefined ||
+    asset?.accessDetails?.type === 'NOT_SUPPORTED'
   const { locale } = useUserPreferences()
 
   return (
     <article className={`${styles.teaser} ${styles[type]}`}>
       <Link href={`/asset/${asset.id}`} className={styles.link}>
         <aside className={styles.detailLine}>
+          <AssetType
+            className={styles.typeLabel}
+            type={type}
+            accessType={accessType}
+          />
           <span className={styles.typeLabel}>
             {datatokens[0]?.symbol.substring(0, 9)}
           </span>
+          <NetworkName networkId={asset.chainId} className={styles.typeLabel} />
         </aside>
-        <AssetType
-          className={cx({
-            typeDetails: true,
-            algo: type === 'algorithm',
-            dataset: type === 'dataset'
-          })}
-          type={type}
-          accessType={accessType}
-        />
         <header className={styles.header}>
           <Dotdotdot tagName="h1" clamp={3} className={styles.title}>
             {name.slice(0, 200)}
           </Dotdotdot>
-          {!noPublisher && (
-            <Publisher
-              account={owner}
-              verifiedServiceProviderName={
-                isCompliant
-                  ? publisherNameOrOwner
-                  : `${accountTruncate(publisherNameOrOwner)} (unverified)`
-              }
-              minimal
-            />
-          )}
+          {!noPublisher && <Publisher account={owner} minimal />}
         </header>
         {!noDescription && (
           <div className={styles.content}>
@@ -80,17 +62,12 @@ export default function AssetTeaser({
             </Dotdotdot>
           </div>
         )}
-        {!noPrice && (
-          <div className={styles.price}>
-            {isUnsupportedPricing || !asset.services.length ? (
-              <strong>No pricing schema available</strong>
-            ) : (
-              <Price accessDetails={asset.accessDetails} size="small" />
-            )}
-          </div>
-        )}
-        <div className={styles.network}>
-          <NetworkName networkId={asset.chainId} className={styles.typeLabel} />
+        <div className={styles.price}>
+          {isUnsupportedPricing ? (
+            <strong>No pricing schema available</strong>
+          ) : (
+            <Price price={price} assetId={asset.id} size="small" />
+          )}
         </div>
         <footer className={styles.footer}>
           {allocated && allocated > 0 ? (

@@ -131,7 +131,6 @@ export default function AssetList({
                   key={asset.id}
                   noPublisher={noPublisher}
                   noDescription={noDescription}
-                  noPrice={noPrice}
                 />
               ))}
           </>

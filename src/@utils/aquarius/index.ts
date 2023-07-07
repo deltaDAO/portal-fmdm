@@ -289,7 +289,7 @@ export async function getPublishedAssets(
   ignoreState = false,
   page?: number,
   type?: string,
-  accesType?: string,
+  accessType?: string,
   complianceType?: string
 ): Promise<PagedAssets> {
   if (!accountId) return
@@ -298,8 +298,8 @@ export async function getPublishedAssets(
 
   filters.push(getFilterTerm('nft.state', [0, 4, 5]))
   filters.push(getFilterTerm('nft.owner', accountId.toLowerCase()))
-  accesType !== undefined &&
-    filters.push(getFilterTerm('services.type', accesType))
+  accessType !== undefined &&
+    filters.push(getFilterTerm('services.type', accessType))
   type !== undefined && filters.push(getFilterTerm('metadata.type', type))
   complianceType &&
     filters.push(

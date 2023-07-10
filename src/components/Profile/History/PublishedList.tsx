@@ -48,8 +48,7 @@ export default function PublishedList({
           ownAccount,
           page,
           service,
-          access,
-          compliance
+          access
         )
         setQueryResult(result)
       } catch (error) {

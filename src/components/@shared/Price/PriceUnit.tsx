@@ -8,11 +8,9 @@ export default function PriceUnit({
   className,
   size = 'small',
   symbol,
-  type,
   decimals
 }: {
   price: number
-  type?: string
   className?: string
   size?: 'small' | 'mini' | 'large'
   symbol?: string
@@ -22,11 +20,13 @@ export default function PriceUnit({
 
   return (
     <div className={`${styles.price} ${styles[size]} ${className}`}>
-      {type === 'free' ? (
+      {price === 0 ? (
         <div>Free</div>
+      ) : !price || Number.isNaN(price) ? (
+        <div>-</div>
       ) : (
         <div>
-          {Number.isNaN(price) ? '-' : formatNumber(price, locale, decimals)}{' '}
+          {formatNumber(price, locale, decimals)}
           <span className={styles.symbol}>{symbol}</span>
         </div>
       )}

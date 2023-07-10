@@ -108,6 +108,7 @@ export async function setNftMetadata(
 ): Promise<TransactionReceipt> {
   const encryptedDdo = await ProviderInstance.encrypt(
     asset,
+    asset.chainId,
     asset.services[0].serviceEndpoint,
     signal
   )
@@ -142,6 +143,7 @@ export async function setNFTMetadataAndTokenURI(
 ): Promise<TransactionReceipt> {
   const encryptedDdo = await ProviderInstance.encrypt(
     asset,
+    asset.chainId,
     asset.services[0].serviceEndpoint,
     signal
   )

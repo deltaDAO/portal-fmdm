@@ -19,14 +19,12 @@ export declare type AssetTeaserProps = {
   asset: AssetExtended
   noPublisher?: boolean
   noDescription?: boolean
-  noPrice?: boolean
 }
 
 export default function AssetTeaser({
   asset,
   noPublisher,
-  noDescription,
-  noPrice
+  noDescription
 }: AssetTeaserProps): ReactElement {
   const { name, type, description } = asset.metadata
   const { datatokens } = asset
@@ -35,9 +33,12 @@ export default function AssetTeaser({
   const { owner } = asset.nft
   const complianceTypes = asset.metadata.additionalInformation?.compliance || []
   const isCompliant = !!complianceTypes?.length
-  const { orders, allocated } = asset.stats
+  const { orders, allocated, price } = asset.stats
   const publisherNameOrOwner = getPublisherNameOrOwner(asset)
-  const isUnsupportedPricing = asset?.accessDetails?.type === 'NOT_SUPPORTED'
+  const isUnsupportedPricing =
+    !asset.services.length ||
+    asset?.stats?.price?.value === undefined ||
+    asset?.accessDetails?.type === 'NOT_SUPPORTED'
   const { locale } = useUserPreferences()
 
   return (
@@ -80,15 +81,13 @@ export default function AssetTeaser({
             </Dotdotdot>
           </div>
         )}
-        {!noPrice && (
-          <div className={styles.price}>
-            {isUnsupportedPricing || !asset.services.length ? (
-              <strong>No pricing schema available</strong>
-            ) : (
-              <Price accessDetails={asset.accessDetails} size="small" />
-            )}
-          </div>
-        )}
+        <div className={styles.price}>
+          {isUnsupportedPricing ? (
+            <strong>No pricing schema available</strong>
+          ) : (
+            <Price price={price} assetId={asset.id} size="small" />
+          )}
+        </div>
         <div className={styles.network}>
           <NetworkName networkId={asset.chainId} className={styles.typeLabel} />
         </div>

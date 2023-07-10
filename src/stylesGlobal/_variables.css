@@ -29,6 +29,11 @@
   --link-font-color: var(--color-highlight);
   --nft-refresh-icon-fill: var(--brand-white);
   --badge-background-color: var(--color-primary);
+  --nft-placeholder-background: linear-gradient(
+    to right bottom,
+    var(--brand-green-light),
+    var(--brand-green-dark)
+  );
 
   /* Menubar */
   --menu-logo-color: var(--color-primary);

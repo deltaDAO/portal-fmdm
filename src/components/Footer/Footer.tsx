@@ -49,7 +49,7 @@ export default function Footer(): ReactElement {
               <Button
                 className={styles.linkButton}
                 style="text"
-                href="https://v4.portal.minimal-gaia-x.eu/imprint"
+                href="https://pontus-x.eu/imprint"
               >
                 Imprint
               </Button>
@@ -57,7 +57,7 @@ export default function Footer(): ReactElement {
               <Button
                 className={styles.linkButton}
                 style="text"
-                href="https://www.minimal-gaia-x.eu/privacy/en"
+                href="https://pontus-x.eu/privacy/en"
               >
                 Privacy
               </Button>

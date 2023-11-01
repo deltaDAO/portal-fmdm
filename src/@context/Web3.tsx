@@ -228,7 +228,7 @@ function Web3Provider({ children }: { children: ReactNode }): ReactElement {
   // -----------------------------------
   useEffect(() => {
     if (web3Loading) return
-    getApprovedBaseTokens(chainId || 1)
+    getApprovedBaseTokens(chainId || 100)
   }, [chainId, getApprovedBaseTokens, web3Loading])
 
   // -----------------------------------

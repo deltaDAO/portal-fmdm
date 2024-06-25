@@ -74,7 +74,6 @@ function Map({ data }: MapProps) {
           newCoords.push({ lat, lng })
 
           return (
-            // @ts-ignore
             <CircleMarker
               key={`${row.id}-${lat}-${lng}-${index}`}
               center={{ lat, lng }}
@@ -82,6 +81,7 @@ function Map({ data }: MapProps) {
                 click: () => setCurrentMapDataEntry(entry)
               }}
               color={getMapColor(row.job.inputDID)}
+              radius={5}
             >
               <Tooltip>
                 <div className={styles.tooltip}>

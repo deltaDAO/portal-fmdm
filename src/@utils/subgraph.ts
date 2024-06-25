@@ -55,6 +55,14 @@ const OpcsApprovedTokensQuery = gql`
   }
 `
 
+export const tokenAddressesEUROe = {
+  100: '0xe974c4894996e012399dedbda0be7314a73bbff1',
+  137: '0x820802Fa8a99901F52e39acD21177b0BE6EE2974',
+  32456: '0x8A4826071983655805bF4f29828577Cd6b1aC0cB',
+  32457: '0xdd0a0278f6BAF167999ccd8Aa6C11A9e2fA37F0a',
+  80001: '0xA089a21902914C3f3325dBE2334E9B466071E5f1'
+}
+
 export function getSubgraphUri(chainId: number): string {
   const config = getOceanConfig(chainId)
   return config.subgraphUri
@@ -164,23 +172,29 @@ export async function getOpcsApprovedTokens(
 ): Promise<TokenInfo[]> {
   const context = getQueryContext(chainId)
 
-  const tokenDetailsEUROe = {
-    address: '0xe974c4894996e012399dedbda0be7314a73bbff1',
-    decimals: 6,
-    name: 'EUROe',
-    symbol: 'EUROe'
-  }
-
   try {
     const response = await fetchData(OpcsApprovedTokensQuery, null, context)
     if (!response?.data) return
 
     // TODO: remove the mocked EUROe integration
-    return response.data.opcs[0].approvedTokens.includes(
-      (token) => token.address === tokenDetailsEUROe.address
+    const { approvedTokens } = response.data.opcs[0]
+    if (!Object.keys(tokenAddressesEUROe).includes(chainId.toString()))
+      return approvedTokens
+
+    return approvedTokens.includes(
+      (token) => token.address === tokenAddressesEUROe[chainId]
     )
-      ? response.data.opcs[0].approvedTokens
-      : [...response.data.opcs[0].approvedTokens, tokenDetailsEUROe]
+      ? approvedTokens
+      : [
+          ...approvedTokens,
+          {
+            address: tokenAddressesEUROe[chainId],
+            // TODO: revert once decimals changed to 6 on pontus-x
+            decimals: chainId === 32456 ? 18 : 6,
+            name: 'EUROe',
+            symbol: 'EUROe'
+          }
+        ]
   } catch (error) {
     LoggerInstance.error('Error getOpcsApprovedTokens: ', error.message)
     throw Error(error.message)

@@ -19,7 +19,7 @@ export default function PricingFields(): ReactElement {
 
   const defaultBaseToken =
     approvedBaseTokens?.find((token) =>
-      token.name.toLowerCase().includes('ocean')
+      token.name.toLowerCase().includes('euro')
     ) || approvedBaseTokens?.[0]
 
   // Switch type value upon tab change

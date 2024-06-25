@@ -24,7 +24,9 @@ module.exports = {
       '0x59f93a71b3e3d9c3e94280bafcce49eb02191fdc',
       '0x6df7790e95e3bf4406dfc83f6856bc7869861a25',
       '0xeab171bfd3ed54b29e97d6dfc92692f7c84da06f',
-      '0xDa4fc9E82Ac4E44207a1f74137493D3437D80761'
+      '0xDa4fc9E82Ac4E44207a1f74137493D3437D80761',
+      '0x085BD42cFf8a197866635F24200d34BEa2E562e7', // TODO: remove road damage usecase test
+      '0xfe93047A10e4540977386004bF2863D4230639C2' // TODO: remove road damage usecase test
     ]
   },
   featured: [

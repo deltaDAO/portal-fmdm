@@ -27,6 +27,15 @@
       "link": "/publish"
     },
     {
+      "name": "Use Cases",
+      "subItems": [
+        {
+          "name": "Road Damage Detection",
+          "link": "/usecases/roaddamage"
+        }
+      ]
+    },
+    {
       "name": "Profile",
       "link": "/profile"
     }

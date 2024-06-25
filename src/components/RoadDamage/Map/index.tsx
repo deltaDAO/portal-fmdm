@@ -74,6 +74,7 @@ function Map({ data }: MapProps) {
           newCoords.push({ lat, lng })
 
           return (
+            // @ts-ignore
             <CircleMarker
               key={`${row.id}-${lat}-${lng}-${index}`}
               center={{ lat, lng }}

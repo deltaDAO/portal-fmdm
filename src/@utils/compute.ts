@@ -26,6 +26,7 @@ import { AssetSelectionAsset } from '@shared/FormInput/InputElement/AssetSelecti
 import { transformAssetToAssetSelection } from './assetConvertor'
 import { ComputeEditForm } from '../components/Asset/Edit/_types'
 import { getFileDidInfo } from './provider'
+import { toast } from 'react-toastify'
 
 const getComputeOrders = gql`
   query ComputeOrders($user: String!) {
@@ -227,17 +228,27 @@ async function getJobs(
   accountId: string,
   assets: Asset[]
 ): Promise<ComputeJobMetaData[]> {
+  const uniqueProviders = [...new Set(providerUrls)]
+  const providersComputeJobsExtended: ComputeJobExtended[] = []
   const computeJobs: ComputeJobMetaData[] = []
-  // commented loop since we decide how to filter jobs
-  // for await (const providerUrl of providerUrls) {
-  try {
-    const providerComputeJobs = (await ProviderInstance.computeStatus(
-      providerUrls[0],
-      accountId
-    )) as ComputeJob[]
 
-    if (providerComputeJobs) {
-      providerComputeJobs.sort((a, b) => {
+  try {
+    for (let i = 0; i < uniqueProviders.length; i++) {
+      const providerComputeJobs = (await ProviderInstance.computeStatus(
+        uniqueProviders[i],
+        accountId
+      )) as ComputeJob[]
+
+      providerComputeJobs.forEach((job) =>
+        providersComputeJobsExtended.push({
+          ...job,
+          providerUrl: uniqueProviders[i]
+        })
+      )
+    }
+
+    if (providersComputeJobsExtended) {
+      providersComputeJobsExtended.sort((a, b) => {
         if (a.dateCreated > b.dateCreated) {
           return -1
         }
@@ -247,7 +258,7 @@ async function getJobs(
         return 0
       })
 
-      providerComputeJobs.forEach((job) => {
+      providersComputeJobsExtended.forEach((job) => {
         const did = job.inputDID[0]
         const asset = assets.filter((x) => x.id === did)[0]
         if (asset) {
@@ -262,10 +273,37 @@ async function getJobs(
       })
     }
   } catch (err) {
-    LoggerInstance.error(err.message)
+    LoggerInstance.error('[Compute to Data] Error:', err.message)
+    toast.error(err.message)
   }
-  // }
   return computeJobs
+}
+
+/**
+ * in case multiple providers return the same computeJob, filter these duplicates
+ * e.g. same instance listens on multiple domains
+ */
+export function filterForUniqueJobs(
+  jobs: ComputeJobMetaData[],
+  assets: Asset[]
+): ComputeJobMetaData[] {
+  const uniqueJobs = jobs.filter((job) => {
+    const { inputDID, providerUrl } = job
+
+    // compare providerUrl where the job status was accessed from
+    // with the serviceEndpoint found in asset with first inputDID
+    const inputAsset = assets.find((asset) => asset.id === inputDID[0])
+
+    return providerUrl === inputAsset?.services[0]?.serviceEndpoint
+  })
+
+  LoggerInstance.debug('[compute] filtering unique jobs', {
+    jobs,
+    assets,
+    uniqueJobs
+  })
+
+  return uniqueJobs
 }
 
 export async function getComputeJobs(
@@ -326,8 +364,18 @@ export async function getComputeJobs(
     providerUrls.push(asset.services[0].serviceEndpoint)
   )
 
-  computeResult.computeJobs = await getJobs(providerUrls, accountId, assets)
+  const allProviderJobs = await getJobs(providerUrls, accountId, assets)
+  computeResult.computeJobs = filterForUniqueJobs(allProviderJobs, assets)
+
   computeResult.isLoaded = true
+
+  LoggerInstance.debug('[compute] getComputeJobs', {
+    computeResult,
+    results,
+    assets,
+    allProviderJobs,
+    datatokenAddressList
+  })
 
   return computeResult
 }

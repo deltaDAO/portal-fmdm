@@ -79,6 +79,7 @@ function ProfileProvider({
         )
         setAssets(result.results)
         setAssetsTotal(result.totalResults)
+
         LoggerInstance.log(
           `[profile] Fetched ${result.totalResults} assets.`,
           result.results

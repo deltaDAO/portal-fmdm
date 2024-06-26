@@ -73,16 +73,21 @@ export default function JobList(props: {
         newCancelToken()
       )
 
-      setJobs(
-        // Filter computeJobs for dids configured in _constants
-        computeJobs.computeJobs.filter(
-          (job) =>
-            roadDamageAlgoDids.includes(job.algoDID) &&
-            job.status === 70 &&
-            job.results.filter((result) => result.filename === resultFileName)
-              .length > 0
-        )
+      // Filter computeJobs for dids configured in _constants
+      const filteredJobs = computeJobs.computeJobs.filter(
+        (job) =>
+          roadDamageAlgoDids.includes(job.algoDID) &&
+          job.status === 70 &&
+          job.results.filter((result) => result.filename === resultFileName)
+            .length > 0
       )
+
+      LoggerInstance.log(
+        `[RoadDamage] Fetched compute jobs. Found ${filteredJobs.length} road damage jobs.`,
+        { computeJobs, filteredJobs }
+      )
+
+      setJobs(filteredJobs)
       setIsLoadingJobs(!computeJobs.isLoaded)
     } catch (error) {
       LoggerInstance.error(error.message)

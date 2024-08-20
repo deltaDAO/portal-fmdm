@@ -89,7 +89,7 @@ export const initialValues: FormPublishData = {
       timeout: '',
       access: 'access',
       providerUrl: {
-        url: 'https://provider.mainnet.oceanprotocol.com',
+        url: 'https://provider.test.pontus-x.eu',
         valid: true,
         custom: false
       },
@@ -97,7 +97,7 @@ export const initialValues: FormPublishData = {
     }
   ],
   pricing: {
-    baseToken: { address: '', name: '', symbol: 'OCEAN', decimals: 18 },
+    baseToken: { address: '', name: '', symbol: 'EUROe', decimals: 6 },
     price: 0,
     type: allowFixedPricing === 'true' ? 'fixed' : 'free',
     freeAgreement: false

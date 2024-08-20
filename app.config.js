@@ -7,7 +7,8 @@ module.exports = {
   // In components can be accessed with the useMarketMetadata hook:
   // const { appConfig } = useMarketMetadata()
   // return appConfig.metadataCacheUri
-  metadataCacheUri: process.env.NEXT_PUBLIC_METADATA_CACHE_URI,
+  metadataCacheUri:
+    process.env.NEXT_PUBLIC_METADATACACHE_URI || 'https://aquarius.pontus-x.eu',
 
   complianceUri: process.env.NEXT_PUBLIC_COMPLIANCE_URI,
 

@@ -15,7 +15,10 @@ export function getOceanConfig(network: string | number): Config {
       network === 'bsc' ||
       network === 56 ||
       network === 'gaiaxtestnet' ||
-      network === 2021000
+      network === 2021000 ||
+      network === 'pontusx' ||
+      network === 32456 ||
+      network === 32457
       ? undefined
       : process.env.NEXT_PUBLIC_INFURA_PROJECT_ID
   ) as Config

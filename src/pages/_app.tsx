@@ -13,6 +13,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import '@oceanprotocol/typographies/css/ocean-typo.css'
 import '../stylesGlobal/styles.css'
 import Decimal from 'decimal.js'
+import { UseCasesProvider } from '../@context/UseCases'
 
 function MyApp({ Component, pageProps }: AppProps): ReactElement {
   Decimal.set({ rounding: 1 })
@@ -21,13 +22,15 @@ function MyApp({ Component, pageProps }: AppProps): ReactElement {
       <Web3Provider>
         <UrqlProvider>
           <UserPreferencesProvider>
-            <ConsentProvider>
-              <SearchBarStatusProvider>
-                <App>
-                  <Component {...pageProps} />
-                </App>
-              </SearchBarStatusProvider>
-            </ConsentProvider>
+            <UseCasesProvider>
+              <ConsentProvider>
+                <SearchBarStatusProvider>
+                  <App>
+                    <Component {...pageProps} />
+                  </App>
+                </SearchBarStatusProvider>
+              </ConsentProvider>
+            </UseCasesProvider>
           </UserPreferencesProvider>
         </UrqlProvider>
       </Web3Provider>

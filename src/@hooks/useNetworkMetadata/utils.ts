@@ -12,7 +12,9 @@ export function getNetworkType(network: EthereumListsChain): string {
   if (
     network &&
     !network.name?.includes('Testnet') &&
-    !network.title?.includes('Testnet')
+    !network.title?.includes('Testnet') &&
+    !network.name?.includes('Devnet') &&
+    !network.title?.includes('Devnet')
   ) {
     return NetworkType.Mainnet
   } else {
@@ -45,6 +47,12 @@ export function getNetworkDisplayName(data: EthereumListsChain): string {
       break
     case 100:
       displayName = 'GEN-X Testnet'
+      break
+    case 32456:
+      displayName = 'Pontus-X Devnet'
+      break
+    case 32457:
+      displayName = 'Pontus-X Testnet'
       break
     default:
       displayName = data

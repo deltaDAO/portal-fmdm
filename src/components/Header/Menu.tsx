@@ -1,18 +1,17 @@
-import React, { ReactElement } from 'react'
-import Link from 'next/link'
-import loadable from '@loadable/component'
-import Logo from '@shared/atoms/Logo'
-import Networks from './UserPreferences/Networks'
-import styles from './Menu.module.css'
-import { useRouter } from 'next/router'
-import { useMarketMetadata } from '@context/MarketMetadata'
-import classNames from 'classnames/bind'
 import MenuDropdown from '@components/@shared/MenuDropdown'
-import SearchButton from './SearchButton'
 import Button from '@components/@shared/atoms/Button'
 import Container from '@components/@shared/atoms/Container'
-import Auth from '@components/ssi/Auth/Auth'
+import { useMarketMetadata } from '@context/MarketMetadata'
+import loadable from '@loadable/component'
+import Logo from '@shared/atoms/Logo'
 import { AuthorizationResponsePayload } from '@sphereon/did-auth-siop'
+import classNames from 'classnames/bind'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
+import React, { ReactElement } from 'react'
+import styles from './Menu.module.css'
+import SearchButton from './SearchButton'
+import Networks from './UserPreferences/Networks'
 
 const Wallet = loadable(() => import('./Wallet'))
 
@@ -80,11 +79,7 @@ export default function Menu({
         <div className={styles.actions}>
           <SearchButton />
           {appConfig.chainIdsSupported.length > 1 && <Networks />}
-          <Auth
-            setShow={() => setShow(true)}
-            payload={payload}
-            setPayload={setPayload}
-          />
+          <Wallet />
         </div>
       </nav>
     </Container>

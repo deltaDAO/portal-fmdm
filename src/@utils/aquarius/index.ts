@@ -139,9 +139,7 @@ export function transformQueryResult(
 
   result.aggregations = queryResult.aggregations
   // Temporary fix to handle old Aquarius deployment
-  result.totalResults =
-    queryResult.hits.total?.value ||
-    (queryResult.hits.total as unknown as number)
+  result.totalResults = queryResult.hits.total?.value
 
   result.totalPages =
     result.totalResults / size < 1

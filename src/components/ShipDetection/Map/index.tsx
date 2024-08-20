@@ -9,12 +9,12 @@ import styles from './index.module.css'
 import { LoggerInstance } from '@oceanprotocol/lib'
 import 'leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css'
 import 'leaflet/dist/leaflet.css'
-import { RoadDamageUseCaseData } from '../../../@context/UseCases/models/RoadDamage.model'
+import { ShipDetectionUseCaseData } from '../../../@context/UseCases/models/ShipDetection.model'
 import RoadDamageDetails from '../Details'
 import { getConfidenceColor, getMapColor } from '../_utils'
 
 export interface MapProps {
-  data: RoadDamageUseCaseData[]
+  data: ShipDetectionUseCaseData[]
 }
 
 function Map({ data }: MapProps) {
@@ -48,7 +48,7 @@ function Map({ data }: MapProps) {
 
     setCenter(centroid as LatLngTuple)
 
-    LoggerInstance.log('[RoadDamage]: updated map view bounds', {
+    LoggerInstance.log('[ShipDetection]: updated map view bounds', {
       coords,
       centroid
     })
@@ -59,10 +59,9 @@ function Map({ data }: MapProps) {
     const mapMarkers = data
       .map((row) => {
         return row.result.map((entry, index) => {
-          if (!entry.roadDamages || entry.roadDamages.length < 1)
-            return undefined
+          if (!entry.shipList || entry.shipList.length < 1) return undefined
 
-          const roadDamageCoordinates = entry.roadDamages.find(
+          const roadDamageCoordinates = entry.shipList.find(
             (damage) => damage.gpsCoordinates?.lat && damage.gpsCoordinates?.lng
           ).gpsCoordinates
 
@@ -85,11 +84,11 @@ function Map({ data }: MapProps) {
             >
               <Tooltip>
                 <div className={styles.tooltip}>
-                  <strong>Road Damage</strong>
+                  <strong>Ship Detection</strong>
                   <br />
                   <div className={styles.types}>
                     Types:{' '}
-                    {entry.roadDamages.map((damage, i) => (
+                    {entry.shipList.map((damage, i) => (
                       <span
                         key={`road-damage-entry-${index}-damage-types-${i}`}
                         style={{ color: getConfidenceColor(damage.confidence) }}
@@ -98,7 +97,7 @@ function Map({ data }: MapProps) {
                         {' ('}
                         {Math.round(damage.confidence * 100)}
                         {'%)'}
-                        {i < entry.roadDamages.length - 1 && ', '}
+                        {i < entry.shipList.length - 1 && ', '}
                       </span>
                     ))}
                   </div>
@@ -119,7 +118,7 @@ function Map({ data }: MapProps) {
 
     setCoords(newCoords)
     setMarkers(mapMarkers)
-    LoggerInstance.log('[RoadDamage]: updated map view markers', {
+    LoggerInstance.log('[ShipDetection]: updated map view markers', {
       count: mapMarkers.length,
       coords
     })

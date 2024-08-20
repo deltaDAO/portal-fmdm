@@ -26,7 +26,9 @@ module.exports = {
       '0xeab171bfd3ed54b29e97d6dfc92692f7c84da06f',
       '0xDa4fc9E82Ac4E44207a1f74137493D3437D80761',
       '0x085BD42cFf8a197866635F24200d34BEa2E562e7', // TODO: remove road damage usecase test
-      '0xfe93047A10e4540977386004bF2863D4230639C2' // TODO: remove road damage usecase test
+      '0xfe93047A10e4540977386004bF2863D4230639C2', // TODO: remove road damage usecase test
+      '0x3dF7E2407f611CC6DF4E7FA5fC38d47402ED2C47', // TODO: remove ship detection demo usecase
+      '0xf8De1aF9a68c561D47400522Ae08396F78e5c6fB' // TODO: remove ship detection demo usecase
     ]
   },
   featured: [

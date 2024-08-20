@@ -8,17 +8,17 @@ import React, {
 } from 'react'
 import { DATABASE_NAME, DATABASE_VERSION } from './_contants'
 import {
-  ROAD_DAMAGE_TABLE,
-  RoadDamageUseCaseData
-} from './models/RoadDamage.model'
+  SHIP_DETECTION_TABLE,
+  ShipDetectionUseCaseData
+} from './models/ShipDetection.model'
 import { LoggerInstance } from '@oceanprotocol/lib'
 
 export class UseCaseDB extends Dexie {
-  roadDamages!: Table<RoadDamageUseCaseData>
+  shipDetections!: Table<ShipDetectionUseCaseData>
   constructor() {
     super(DATABASE_NAME)
     this.version(DATABASE_VERSION).stores({
-      ...ROAD_DAMAGE_TABLE
+      ...SHIP_DETECTION_TABLE
     })
   }
 }
@@ -27,11 +27,11 @@ export const database = new UseCaseDB()
 
 interface UseCasesValue {
   createOrUpdateRoadDamage: (
-    roadDamage: RoadDamageUseCaseData
+    roadDamage: ShipDetectionUseCaseData
   ) => Promise<IndexableType>
-  roadDamageList: RoadDamageUseCaseData[]
+  roadDamageList: ShipDetectionUseCaseData[]
   updateRoadDamages: (
-    roadDamages: RoadDamageUseCaseData[]
+    roadDamages: ShipDetectionUseCaseData[]
   ) => Promise<IndexableType>
   deleteRoadDamage: (id: number) => Promise<void>
   clearRoadDamages: () => Promise<void>
@@ -40,10 +40,10 @@ interface UseCasesValue {
 const UseCasesContext = createContext(null)
 
 function UseCasesProvider({ children }: { children: ReactNode }): ReactElement {
-  const roadDamageList = useLiveQuery(() => database.roadDamages.toArray())
+  const roadDamageList = useLiveQuery(() => database.shipDetections.toArray())
 
   const createOrUpdateRoadDamage = async (
-    roadDamage: RoadDamageUseCaseData
+    roadDamage: ShipDetectionUseCaseData
   ) => {
     if (
       !roadDamage.job ||
@@ -61,14 +61,14 @@ function UseCasesProvider({ children }: { children: ReactNode }): ReactElement {
       (row) => roadDamage.job.jobId === row.job.jobId
     )
 
-    const updated = await database.roadDamages.put(
+    const updated = await database.shipDetections.put(
       {
         ...roadDamage
       },
       exists?.id
     )
 
-    LoggerInstance.log(`[UseCases]: create or update roadDamages table`, {
+    LoggerInstance.log(`[UseCases]: create or update shipDetections table`, {
       roadDamage,
       updated
     })
@@ -77,11 +77,11 @@ function UseCasesProvider({ children }: { children: ReactNode }): ReactElement {
   }
 
   const updateRoadDamages = async (
-    roadDamages: RoadDamageUseCaseData[]
+    roadDamages: ShipDetectionUseCaseData[]
   ): Promise<IndexableType> => {
-    const updated = await database.roadDamages.bulkPut(roadDamages)
+    const updated = await database.shipDetections.bulkPut(roadDamages)
 
-    LoggerInstance.log(`[UseCases]: update roadDamages table`, {
+    LoggerInstance.log(`[UseCases]: update shipDetections table`, {
       roadDamages,
       updated
     })
@@ -90,15 +90,15 @@ function UseCasesProvider({ children }: { children: ReactNode }): ReactElement {
   }
 
   const deleteRoadDamage = async (id: number) => {
-    await database.roadDamages.delete(id)
+    await database.shipDetections.delete(id)
 
-    LoggerInstance.log(`[UseCases]: deleted #${id} from roadDamages table`)
+    LoggerInstance.log(`[UseCases]: deleted #${id} from shipDetections table`)
   }
 
   const clearRoadDamages = async () => {
-    await database.roadDamages.clear()
+    await database.shipDetections.clear()
 
-    LoggerInstance.log(`[UseCases]: cleared roadDamages table`)
+    LoggerInstance.log(`[UseCases]: cleared shipDetections table`)
   }
 
   return (

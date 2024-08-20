@@ -7,7 +7,7 @@ import React, {
   useState
 } from 'react'
 import { useUseCases } from '../../@context/UseCases'
-import { RoadDamageUseCaseData } from '../../@context/UseCases/models/RoadDamage.model'
+import { ShipDetectionUseCaseData } from '../../@context/UseCases/models/ShipDetection.model'
 import { useUserPreferences } from '../../@context/UserPreferences'
 import { useCancelToken } from '../../@hooks/useCancelToken'
 import { getAsset } from '../../@utils/aquarius'
@@ -26,7 +26,7 @@ import { useWeb3 } from '../../@context/Web3'
 import { toast } from 'react-toastify'
 
 export default function JobList(props: {
-  setMapData: (mapData: RoadDamageUseCaseData[]) => void
+  setMapData: (mapData: ShipDetectionUseCaseData[]) => void
   scrollToMapRef: MutableRefObject<HTMLDivElement>
 }): ReactElement {
   const { chainIds } = useUserPreferences()
@@ -83,7 +83,7 @@ export default function JobList(props: {
       )
 
       LoggerInstance.log(
-        `[RoadDamage] Fetched compute jobs. Found ${filteredJobs.length} road damage jobs.`,
+        `[ShipDetection] Fetched compute jobs. Found ${filteredJobs.length} ship detection jobs.`,
         { computeJobs, filteredJobs }
       )
 
@@ -136,7 +136,7 @@ export default function JobList(props: {
 
       if (!resultData) return
 
-      const newuseCaseData: RoadDamageUseCaseData = {
+      const newuseCaseData: ShipDetectionUseCaseData = {
         job,
         result: resultData
       }

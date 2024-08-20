@@ -1,6 +1,6 @@
 import dynamic from 'next/dynamic'
 import React, { ReactElement, useRef, useState } from 'react'
-import { RoadDamageUseCaseData } from '../../@context/UseCases/models/RoadDamage.model'
+import { ShipDetectionUseCaseData } from '../../@context/UseCases/models/ShipDetection.model'
 import JobList from './JobList'
 import styles from './index.module.css'
 import Wallet from '../Header/Wallet'
@@ -12,7 +12,7 @@ export default function RoadDamageMap(): ReactElement {
 
   const scrollToMapRef = useRef<HTMLDivElement>()
 
-  const [mapData, setMapData] = useState<RoadDamageUseCaseData[]>([])
+  const [mapData, setMapData] = useState<ShipDetectionUseCaseData[]>([])
 
   return (
     <div>

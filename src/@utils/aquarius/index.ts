@@ -273,7 +273,7 @@ export async function getAlgorithmDatasetsForCompute(
 
   const datasets = await transformAssetToAssetSelection(
     datasetProviderUri,
-    computeDatasets.results,
+    computeDatasets?.results || [],
     []
   )
   return datasets

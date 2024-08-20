@@ -26,6 +26,10 @@ const columns: TableOceanColumn<ComputeJobMetaData>[] = [
     selector: (row) => <NetworkName networkId={row.networkId} />
   },
   {
+    name: 'Provider',
+    selector: (row) => <span title={row.providerUrl}>{row.providerUrl}</span>
+  },
+  {
     name: 'Created',
     selector: (row) => <Time date={row.dateCreated} isUnix relative />
   },
@@ -115,7 +119,7 @@ export default function ComputeJobs({
       <Table
         columns={
           minimal
-            ? // for minimal view, we only want 'Status', actions and 'Finished'
+            ? // for minimal view, we only want 'Status' [5], actions and 'Finished' [4]
               [columns[5], actionsColumn, columns[4]]
             : [...columns, actionsColumn]
         }

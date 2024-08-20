@@ -7,9 +7,9 @@ import {
 } from './_types'
 import { CONFIDENCE_COLOR_MAP, ROAD_DAMAGE_RESULT_ZIP } from './_constants'
 import { LoggerInstance } from '@oceanprotocol/lib'
+import { ShipDetectionUseCaseData } from '../../@context/UseCases/models/ShipDetection.model'
 import randomColor from 'randomcolor'
 import { createHash } from 'crypto'
-import { ShipDetectionUseCaseData } from '../../@context/UseCases/models/ShipDetection.model'
 
 export function getConfidenceColor(confidence: number) {
   // make sure array is sorted correctly for next find call

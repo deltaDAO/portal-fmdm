@@ -11,6 +11,12 @@
     calc(var(--spacer) * 1.5);
 }
 
+.useCaseLink {
+  margin-top: calc(var(--spacer) / 2);
+  border-top: 1px solid var(--border-color);
+  padding-top: calc(var(--spacer) / 2);
+}
+
 .warning {
   padding-bottom: 0;
   border-bottom: 0;

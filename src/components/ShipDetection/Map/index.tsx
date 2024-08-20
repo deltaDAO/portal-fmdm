@@ -9,9 +9,9 @@ import styles from './index.module.css'
 import { LoggerInstance } from '@oceanprotocol/lib'
 import 'leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css'
 import 'leaflet/dist/leaflet.css'
+import { ShipDetectionUseCaseData } from '../../../@context/UseCases/models/ShipDetection.model'
 import RoadDamageDetails from '../Details'
 import { getConfidenceColor, getMapColor } from '../_utils'
-import { ShipDetectionUseCaseData } from '../../../@context/UseCases/models/ShipDetection.model'
 
 export interface MapProps {
   data: ShipDetectionUseCaseData[]
@@ -84,7 +84,7 @@ function Map({ data }: MapProps) {
             >
               <Tooltip>
                 <div className={styles.tooltip}>
-                  <strong>Ship</strong>
+                  <strong>Ship Detection</strong>
                   <br />
                   <div className={styles.types}>
                     Types:{' '}

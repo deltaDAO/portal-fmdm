@@ -41,10 +41,6 @@ const columns: TableOceanColumn<ComputeJobMetaData>[] = [
   {
     name: 'Status',
     selector: (row) => <Status>{row.statusText}</Status>
-  },
-  {
-    name: 'Actions',
-    selector: (row) => <Details job={row} />
   }
 ]
 

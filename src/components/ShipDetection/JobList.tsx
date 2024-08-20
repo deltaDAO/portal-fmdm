@@ -7,6 +7,7 @@ import React, {
   useState
 } from 'react'
 import { useUseCases } from '../../@context/UseCases'
+import { ShipDetectionUseCaseData } from '../../@context/UseCases/models/ShipDetection.model'
 import { useUserPreferences } from '../../@context/UserPreferences'
 import { useCancelToken } from '../../@hooks/useCancelToken'
 import { getAsset } from '../../@utils/aquarius'
@@ -23,7 +24,6 @@ import {
 } from './_utils'
 import { useWeb3 } from '../../@context/Web3'
 import { toast } from 'react-toastify'
-import { ShipDetectionUseCaseData } from '../../@context/UseCases/models/ShipDetection.model'
 
 export default function JobList(props: {
   setMapData: (mapData: ShipDetectionUseCaseData[]) => void

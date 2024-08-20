@@ -47,6 +47,8 @@ import { getDummyWeb3 } from '@utils/web3'
 import { initializeProviderForCompute } from '@utils/provider'
 import { useUserPreferences } from '@context/UserPreferences'
 import { useAsset } from '@context/Asset'
+import { ROAD_DAMAGE_ALGO_DIDS } from '../../../ShipDetection/_constants'
+import Button from '../../../@shared/atoms/Button'
 
 const refreshInterval = 10000 // 10 sec.
 export default function Compute({
@@ -514,19 +516,30 @@ export default function Compute({
           <SuccessConfetti success="Your job started successfully! Watch the progress below or on your profile." />
         )}
       </footer>
-      {accountId && asset?.accessDetails?.datatoken && (
-        <ComputeHistory
-          title="Your Compute Jobs"
-          refetchJobs={() => setRefetchJobs(!refetchJobs)}
-        >
-          <ComputeJobs
-            minimal
-            jobs={jobs}
-            isLoading={isLoadingJobs}
-            refetchJobs={() => setRefetchJobs(!refetchJobs)}
-          />
-        </ComputeHistory>
-      )}
+      {/* TODO: remove hardcoded (e.g. move to asset.useCase or similar) */}
+      {accountId &&
+        Object.values(ROAD_DAMAGE_ALGO_DIDS).includes(asset?.id) && (
+          <div className={styles.useCaseLink}>
+            <Button to="/usecases/shipdetection" style="text">
+              BVLOS Drone Based Ship Detection
+            </Button>
+          </div>
+        )}
+      {/* 
+          // TODO: Re-activate once bug fixed
+          {accountId && asset?.accessDetails?.datatoken && (
+            <ComputeHistory
+              title="Your Compute Jobs"
+              refetchJobs={() => setRefetchJobs(!refetchJobs)}
+            >
+              <ComputeJobs
+                minimal
+                jobs={jobs}
+                isLoading={isLoadingJobs}
+                refetchJobs={() => setRefetchJobs(!refetchJobs)}
+              />
+            </ComputeHistory>
+          )} */}
     </>
   )
 }

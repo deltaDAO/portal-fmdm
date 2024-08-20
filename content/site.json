@@ -30,8 +30,8 @@
       "name": "Use Cases",
       "subItems": [
         {
-          "name": "Road Damage Detection",
-          "link": "/usecases/roaddamage"
+          "name": "BVLOS Drone Based Ship Detection",
+          "link": "/usecases/shipdetection"
         }
       ]
     },

@@ -525,19 +525,21 @@ export default function Compute({
             </Button>
           </div>
         )}
-      {accountId && asset?.accessDetails?.datatoken && (
-        <ComputeHistory
-          title="Your Compute Jobs"
-          refetchJobs={() => setRefetchJobs(!refetchJobs)}
-        >
-          <ComputeJobs
-            minimal
-            jobs={jobs}
-            isLoading={isLoadingJobs}
-            refetchJobs={() => setRefetchJobs(!refetchJobs)}
-          />
-        </ComputeHistory>
-      )}
+      {/* 
+          // TODO: Re-activate once bug fixed
+          {accountId && asset?.accessDetails?.datatoken && (
+            <ComputeHistory
+              title="Your Compute Jobs"
+              refetchJobs={() => setRefetchJobs(!refetchJobs)}
+            >
+              <ComputeJobs
+                minimal
+                jobs={jobs}
+                isLoading={isLoadingJobs}
+                refetchJobs={() => setRefetchJobs(!refetchJobs)}
+              />
+            </ComputeHistory>
+          )} */}
     </>
   )
 }

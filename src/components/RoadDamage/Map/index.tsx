@@ -84,7 +84,7 @@ function Map({ data }: MapProps) {
             >
               <Tooltip>
                 <div className={styles.tooltip}>
-                  <strong>Road Damage</strong>
+                  <strong>Ship</strong>
                   <br />
                   <div className={styles.types}>
                     Types:{' '}

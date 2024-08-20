@@ -166,7 +166,7 @@ export default function JobList(props: {
     if (!confirm('All data will be removed from your cache. Proceed?')) return
 
     await clearRoadDamages()
-    toast.success('Road Damage data was cleared.')
+    toast.success('Ship Detection data was cleared.')
   }
 
   const getCustomActionsPerComputeJob: GetCustomActions = (

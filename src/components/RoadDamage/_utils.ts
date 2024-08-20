@@ -47,7 +47,7 @@ export async function transformBinaryToRoadDamageResult(
   try {
     zip = await JSZip.loadAsync(binary)
 
-    LoggerInstance.log(`[RoadDamage]: unzipped result data:`, { zip })
+    LoggerInstance.log(`[ShipDetection]: unzipped result data:`, { zip })
 
     detectionsJSON = await zip.file(detectionsFileName).async('string')
   } catch (error) {
@@ -87,7 +87,7 @@ export async function transformBinaryToRoadDamageResult(
       })
     } catch (error) {
       LoggerInstance.error(
-        `[RoadDamage]: could not load image at ${path}`,
+        `[ShipDetection]: could not load image at ${path}`,
         error
       )
     }

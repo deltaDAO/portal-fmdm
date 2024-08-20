@@ -12,7 +12,7 @@ export default function RoadDamageDetails({
 }: {
   damage: RoadDamageResultWithImage
 }): ReactElement {
-  const { image, roadDamages } = damage
+  const { image, shipList } = damage
   return (
     <div className={styles.wrapper}>
       <div className={styles.image}>
@@ -23,11 +23,11 @@ export default function RoadDamageDetails({
         />
       </div>
       <Accordion defaultExpanded title="Detections">
-        {roadDamages.map((damage, index) => (
+        {shipList.map((damage, index) => (
           <div key={`road-damage-details-${index}`} className={styles.detail}>
             <div>
               <h4 className={styles.title}>
-                {damage.type} (<span>{damage.damageClass}</span>,{' '}
+                {damage.type} (
                 <span style={{ color: getConfidenceColor(damage.confidence) }}>
                   {damage.confidence.toFixed(2)}
                 </span>

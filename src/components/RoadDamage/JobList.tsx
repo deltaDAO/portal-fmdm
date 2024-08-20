@@ -83,7 +83,7 @@ export default function JobList(props: {
       )
 
       LoggerInstance.log(
-        `[RoadDamage] Fetched compute jobs. Found ${filteredJobs.length} road damage jobs.`,
+        `[ShipDetection] Fetched compute jobs. Found ${filteredJobs.length} ship detection jobs.`,
         { computeJobs, filteredJobs }
       )
 
@@ -166,7 +166,7 @@ export default function JobList(props: {
     if (!confirm('All data will be removed from your cache. Proceed?')) return
 
     await clearRoadDamages()
-    toast.success('Road Damage data was cleared.')
+    toast.success('Ship Detection data was cleared.')
   }
 
   const getCustomActionsPerComputeJob: GetCustomActions = (

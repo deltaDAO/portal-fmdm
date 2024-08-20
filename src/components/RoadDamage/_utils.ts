@@ -7,9 +7,9 @@ import {
 } from './_types'
 import { CONFIDENCE_COLOR_MAP, ROAD_DAMAGE_RESULT_ZIP } from './_constants'
 import { LoggerInstance } from '@oceanprotocol/lib'
-import { RoadDamageUseCaseData } from '../../@context/UseCases/models/RoadDamage.model'
 import randomColor from 'randomcolor'
 import { createHash } from 'crypto'
+import { ShipDetectionUseCaseData } from '../../@context/UseCases/models/ShipDetection.model'
 
 export function getConfidenceColor(confidence: number) {
   // make sure array is sorted correctly for next find call
@@ -38,7 +38,7 @@ export async function getResultBinaryData(url: string) {
 
 export async function transformBinaryToRoadDamageResult(
   binary: any
-): Promise<RoadDamageUseCaseData['result']> {
+): Promise<ShipDetectionUseCaseData['result']> {
   let zip: JSZip
   let detectionsJSON: string
 
@@ -70,7 +70,7 @@ export async function transformBinaryToRoadDamageResult(
   const result: RoadDamageResultWithImage[] = []
 
   for (const detection of detections) {
-    const { resultName, roadDamages } = detection
+    const { resultName, shipList } = detection
     const path = `${imagesFolderName}/${resultName}`
 
     try {
@@ -83,7 +83,7 @@ export async function transformBinaryToRoadDamageResult(
 
       result.push({
         image,
-        roadDamages
+        shipList
       })
     } catch (error) {
       LoggerInstance.error(

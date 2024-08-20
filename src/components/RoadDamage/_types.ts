@@ -8,16 +8,14 @@ export interface RoadDamageMetadata {
 
 export interface RoadDamage {
   type: RoadDamageType
-  damageClass: string
   lastObservation: string
-  heading: string
   gpsCoordinates: GPSCoordinate
   confidence: number
 }
 
 export interface RoadDamageResult {
   resultName: string
-  roadDamages: RoadDamage[]
+  shipList: RoadDamage[]
 }
 
 export interface GPSCoordinate {
@@ -39,5 +37,5 @@ export interface RoadDamageImage {
  */
 export interface RoadDamageResultWithImage {
   image: RoadDamageImage
-  roadDamages: RoadDamage[]
+  shipList: RoadDamage[]
 }

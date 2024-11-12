@@ -2,43 +2,56 @@
 @import url('../../public/static/fonts/fonts.css');
 
 :root {
-  --color-primary: var(--brand-blue);
-  --color-secondary: var(--brand-grey-light);
-  --color-highlight: var(--brand-blue);
+  --color-primary: var(--brand-blue-dark);
+  --color-secondary: var(--brand-grey);
+  --color-highlight: var(--brand-blue-dark);
+
+  --background-fill-colored: var(--brand-blue-dark);
+  --background-fill-light: var(--brand-grey-white);
+  --background-markdown-code: var(--brand-grey-white);
+  --link-color: var(--brand-blue-light);
+  --link-hover-color: var(--brand-blue-light);
 
   /* Only use these vars for most color referencing for easy light/dark mode */
-  --font-color-text: var(--brand-grey);
-  --font-color-heading: var(--brand-black);
+  --font-color-text: var(--brand-blue-dark);
+  --font-color-text-inverted: var(--brand-white);
+  --font-color-heading: var(--brand-blue-dark);
   --font-color-light: var(--color-secondary);
   --background-body: var(--brand-white);
   --background-body-transparent: rgba(255, 255, 255, 0.8);
   --background-content: var(--brand-white);
-  --background-highlight: var(--brand-grey-dimmed);
-  --border-color: var(--brand-grey-lighter);
+  --background-highlight: var(--brand-grey-white);
+  --border-color: var(--brand-grey-white);
   --box-shadow-color: rgba(0, 0, 0, 0.05);
-  --checkbox-selected-background: var(--brand-blue);
-  --bookmark-icon-fill-color: var(--brand-grey-lighter);
-  --bookmark-icon-selected-fill-color: var(--brand-grey);
+  --checkbox-selected-background: var(--brand-blue-dark);
+  --bookmark-icon-fill-color: var(--brand-grey);
+  --bookmark-icon-selected-fill-color: var(--color-primary);
   --link-font-color: var(--color-highlight);
   --nft-refresh-icon-fill: var(--brand-white);
   --badge-background-color: var(--color-primary);
-  --nft-placeholder-background: var(--brand-gradient);
+  --nft-placeholder-background: linear-gradient(
+    to right bottom,
+    var(--brand-green-light),
+    var(--brand-green-dark)
+  );
 
   /* Menubar */
-  --menu-logo-color: var(--brand-gaia-x-blue);
-  --menu-logo-color-hover: var(--brand-gaia-x-blue);
+  --menu-logo-color: var(--color-primary);
+  --menu-logo-color-hover: var(--color-primary);
+  --menu-logo-size-sm: 17rem;
+  --menu-logo-size-lg: 20rem;
   --menu-logo-size-width-sm: 3.5rem;
   --menu-logo-size-height-sm: 3.5rem;
   --menu-logo-size-width-lg: 15rem;
   --menu-logo-size-height-lg: 3.5rem;
   --menu-font-color: var(--color-primary);
-  --menu-font-color-active: var(--font-color-heading);
-  --menu-font-color-hover: var(--color-primary);
+  --menu-font-color-active: var(--brand-blue-light);
+  --menu-font-color-hover: var(--brand-blue-light);
   --menu-active-indicator-color: var(--brand-blue);
   --menu-mobile-navigation-border-size: var(--border-size-sm);
-  --menu-mobile-navigation-border-color: var(--brand-grey-lighter);
+  --menu-mobile-navigation-border-color: none;
   --menu-border-color: var(--color-primary);
-  --menu-border-radius: var(--border-radius-sm);
+  --menu-border-radius: var(--border-radius);
   --menu-border-size: var(--border-size);
   --menu-icon-fill-color: var(--color-primary);
   --menu-icon-fill-color-hover: var(--color-primary);
@@ -48,11 +61,11 @@
   --menu-link-font-weight-active: var(--font-weight-bold);
   --menu-caret-size: var(--font-size-small);
   --menu-caret-fill-color: var(--color-primary);
-  --menu-caret-active-fill-color: var(--color-primary);
+  --menu-caret-active-fill-color: var(--brand-blue-light);
   --menu-network-badge-font-color: var(--brand-white);
 
   /* Footer */
-  --footer-background-color: var(--brand-grey);
+  --footer-background-color: var(--brand-blue-dark);
   --footer-font-color: var(--brand-white);
   --footer-font-color-highlight: var(--brand-cyan);
   --footer-link-category-font-color: var(--brand-white);
@@ -67,8 +80,8 @@
   --input-font-color: var(--font-color-heading);
   --input-placeholder-font-color: var(--brand-grey);
   --input-disabled-font-color: var(--font-color-light);
-  --input-border-color: var(--brand-grey-lighter);
-  --input-border-size: var(--border-size-sm);
+  --input-border-color: var(--brand-grey-white);
+  --input-border-size: var(--border-size);
   --input-border-radius: var(--border-radius);
   --input-background: var(--brand-white);
   --input-background-highlight: var(--background-highlight);
@@ -77,7 +90,8 @@
   --input-selected-border-color: var(--font-color-heading);
 
   /* Buttons */
-  --button-border-radius: var(--border-radius);
+  --button-border-radius: 5px;
+  --button-border-size: 2px;
   --button-font-color: var(--brand-white);
   --button-background: var(--font-color-light);
   --button-hover-font-color: var(--brand-white);
@@ -85,14 +99,22 @@
   --button-active-font-color: var(--brand-white);
   --button-active-background: var(--font-color-light);
   --button-primary-font-color: var(--brand-white);
-  --button-primary-background: var(--brand-gradient);
-  --button-primary-border-color: var(--brand-black);
-  --button-primary-hover-background: var(--color-primary);
+  --button-primary-background: var(--brand-blue-dark);
+  --button-primary-border-color: var(--brand-blue-dark);
+  --button-primary-hover-font-color: var(--brand-blue-dark);
+  --button-primary-hover-background: var(--brand-white);
   --button-primary-hover-border-color: var(--color-primary);
-  --button-ghost-font-color: var(--color-primary);
-  --button-ghost-background: var(--brand-white);
-  --button-ghost-hover-background: var(--brand-red-dark);
-  --button-text-font-color: var(--color-highlight);
+  --button-ghost-font-color: var(--brand-white);
+  --button-ghost-background: var(--brand-blue-light);
+  --button-ghost-border-color: var(--brand-blue-lite);
+  --button-ghost-hover-font-color: var(--brand-blue-light);
+  --button-ghost-hover-background: var(--brand-white);
+  --button-outline-font-color: var(--brand-blue-dark);
+  --button-outline-background: var(--brand-white);
+  --button-outline-border-color: var(--brand-blue-dark);
+  --button-outline-hover-font-color: var(--brand-white);
+  --button-outline-hover-background: var(--brand-blue-dark);
+  --button-text-font-color: var(--brand-blue-light);
 
   /* Loading spinner */
   --loader-border-color: var(--brand-blue);
@@ -133,6 +155,30 @@
   --filter-clear-color: var(--color-primary);
   --filter-clear-hover-color: var(--color-highlight);
 
+  --filter-font-color: var(--color-secondary);
+
+  --filter-hover-font-color: var(--color-primary);
+
+  --filter-hover-background: var(--color-secondary);
+
+  --filter-selected-font-color: var(--color-primary);
+
+  --filter-background: var(--background-content);
+
+  --filter-selected-background: var(--color-secondary);
+
+  --filter-border-radius: var(--border-radius);
+
+  --filter-border-size: var(--border-size);
+
+  --filter-border-color: var(--color-secondary);
+
+  --filter-selected-border-color: var(--color-secondary);
+
+  --filter-clear-font-color: var(--color-secondary);
+
+  --filter-clear-hover-font-color: var(--color-highlight);
+
   /* Confetti */
   --confetti-color-one: var(--brand-blue-light);
   --confetti-color-two: var(--brand-cyan);
@@ -140,9 +186,9 @@
   --confetti-color-four: var(--brand-grey-light);
   --confetti-color-five: var(--brand-grey-lighter);
 
-  --font-family-base: 'Titillium Web', -apple-system, BlinkMacSystemFont,
-    'Segoe UI', Helvetica, Arial, sans-serif;
-  --font-family-heading: 'Titillium Web', -apple-system, BlinkMacSystemFont,
+  --font-family-base: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    Helvetica, Arial, sans-serif;
+  --font-family-heading: 'Poppins', -apple-system, BlinkMacSystemFont,
     'Segoe UI', Helvetica, Arial, sans-serif;
   --font-family-monospace: 'Fira Code', 'Fira Mono', Menlo, Monaco, Consolas,
     'Courier New', monospace;
@@ -160,13 +206,14 @@
   --font-size-h3: 1.7rem;
   --font-size-h4: 1.3rem;
   --font-size-h5: 1.1rem;
-  --font-weight-base: 500;
-  --font-weight-bold: 600;
-  --line-height: 1.6;
+  --font-weight-light: 300;
+  --font-weight-base: 400;
+  --font-weight-bold: 500;
+  --line-height: 2;
 
   --spacer: 2rem;
   --border-radius-sm: 2px;
-  --border-radius: 0.2rem;
+  --border-radius: 5px;
   --border-size-sm: 1px;
   --border-size: 2px;
 

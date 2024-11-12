@@ -36,7 +36,7 @@
   margin-left: auto;
 }
 
-@media screen and (min-width: 94rem) {
+/* @media screen and (min-width: 94rem) {
   .navigation {
     order: 2;
     width: auto;
@@ -48,13 +48,13 @@
     order: 3;
     margin-left: auto;
   }
-}
+} */
 
-@media screen and (min-width: 94rem) {
+/* @media screen and (min-width: 94rem) {
   .menu {
     padding: calc(var(--spacer) / 1.5);
   }
-}
+} */
 
 .navigation {
   white-space: nowrap;
@@ -91,7 +91,6 @@
 .active {
   display: block;
   padding: calc(var(--spacer) / 8) 0;
-  text-transform: uppercase;
   transform: none;
   position: relative;
   z-index: 1;

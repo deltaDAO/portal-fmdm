@@ -1,0 +1,7 @@
+.container {
+  position: static;
+}
+
+.absolute {
+  position: relative !important;
+}

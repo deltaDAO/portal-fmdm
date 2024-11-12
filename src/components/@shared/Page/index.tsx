@@ -6,6 +6,8 @@ import SearchBar from '@components/Header/SearchBar'
 import { useUserPreferences } from '@context/UserPreferences'
 import ExternalContentWarning from '../ExternalContentWarning'
 import Header from 'src/components/Home/Header'
+import { useSearchBarStatus } from '@context/SearchBarStatus'
+import styles from './index.module.css'
 
 export interface PageProps {
   children: ReactNode
@@ -32,13 +34,15 @@ export default function Page({
 
   return (
     <>
-      <Seo title={title} description={description} uri={uri} />
-      {title && !noPageHeader && isHome && <Header />}
       <Container>
         <SearchBar
           placeholder="Search for service offerings"
           isSearchPage={isSearchPage}
         />
+      </Container>
+      <Seo title={title} description={description} uri={uri} />
+      {title && !noPageHeader && isHome && <Header />}
+      <Container className={styles.container}>
         {isAssetPage && !allowExternalContent && <ExternalContentWarning />}
         {children}
       </Container>

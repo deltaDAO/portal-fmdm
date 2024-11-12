@@ -13,6 +13,7 @@ import Button from '@components/@shared/atoms/Button'
 import UserPreferences from './UserPreferences'
 import Automation from './UserPreferences/Automation'
 import NetworkMenu from './NetworkMenu'
+import Container from '@components/@shared/atoms/Container'
 const Wallet = loadable(() => import('./Wallet'))
 
 const cx = classNames.bind(styles)
@@ -56,31 +57,33 @@ export default function Menu(): ReactElement {
   const { appConfig, siteContent } = useMarketMetadata()
 
   return (
-    <nav className={styles.menu}>
-      <Link href="/" className={styles.logo}>
-        <Logo />
-      </Link>
+    <Container>
+      <nav className={styles.menu}>
+        <Link href="/" className={styles.logo}>
+          <Logo />
+        </Link>
 
-      <ul className={styles.navigation}>
-        {siteContent?.menu.map((item: MenuItem) => (
-          <li key={item.name}>
-            {item?.subItems ? (
-              <MenuDropdown label={item.name} items={item.subItems} />
-            ) : (
-              <MenuLink {...item} />
-            )}
-          </li>
-        ))}
-      </ul>
+        <ul className={styles.navigation}>
+          {siteContent?.menu.map((item: MenuItem) => (
+            <li key={item.name}>
+              {item?.subItems ? (
+                <MenuDropdown label={item.name} items={item.subItems} />
+              ) : (
+                <MenuLink {...item} />
+              )}
+            </li>
+          ))}
+        </ul>
 
-      <div className={styles.actions}>
-        <SearchButton />
-        {appConfig.chainIdsSupported.length > 1 && <Networks />}
-        <NetworkMenu />
-        <Wallet />
-        <Automation />
-        <UserPreferences />
-      </div>
-    </nav>
+        <div className={styles.actions}>
+          <SearchButton />
+          {appConfig.chainIdsSupported.length > 1 && <Networks />}
+          <NetworkMenu />
+          <Wallet />
+          <Automation />
+          <UserPreferences />
+        </div>
+      </nav>
+    </Container>
   )
 }

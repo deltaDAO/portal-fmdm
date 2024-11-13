@@ -92,8 +92,7 @@
       {
         "label": "Catalogue",
         "link": "/search?sort=nft.created&sortOrder=desc"
-      },
-      { "label": "First time visiting", "link": "/onboarding" }
+      }
     ]
   }
 }

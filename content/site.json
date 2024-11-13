@@ -84,6 +84,16 @@
           }
         ]
       }
+    ],
+    "designedBy": "Designed by The Goodplace",
+    "links": [
+      { "label": "About this demo", "link": "/about" },
+      { "label": "About Gaia-X", "link": "/gaia-x" },
+      {
+        "label": "Catalogue",
+        "link": "/search?sort=nft.created&sortOrder=desc"
+      },
+      { "label": "First time visiting", "link": "/onboarding" }
     ]
   }
 }

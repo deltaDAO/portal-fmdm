@@ -36,26 +36,6 @@
   margin-left: auto;
 }
 
-/* @media screen and (min-width: 94rem) {
-  .navigation {
-    order: 2;
-    width: auto;
-    margin: 0;
-    text-align: left;
-    border: none;
-  }
-  .actions {
-    order: 3;
-    margin-left: auto;
-  }
-} */
-
-/* @media screen and (min-width: 94rem) {
-  .menu {
-    padding: calc(var(--spacer) / 1.5);
-  }
-} */
-
 .navigation {
   white-space: nowrap;
   overflow-y: hidden;

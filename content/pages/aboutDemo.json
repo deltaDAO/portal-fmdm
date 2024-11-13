@@ -1,0 +1,31 @@
+{
+  "header": {
+    "title": "About this demo",
+    "body": "This environment has been built for Rijkswaterstaat (part of the Dutch Ministry of Infrastructure and Water Management). It aims at facilitating the discussion and awareness building about how different types of data, collected by Rijkswaterstaat, can be leveraged for solving societal challenges.\n\nWhich data can be shared as open data, which not? Which data should be free, which paid? What options exist to materialize Rijkswaterstaat data? How to set fair and market conform pricing on data? What options exist to collaborate with third party organization for providing data access to restricted data, keeping security and privacy in mind? What is the EU Gaia-X initiative and what advantages could this offer for data sharing across borders? How does Gaia-X relate to existing data sharing initiatives and which different Gaia-X implementations exist already?\n\nObjectives:\n- Implement an open source, practical example to discuss future proof data sharing\n- Learn about cross-border data sharing and latest Gaia-X concepts\n- Use an example Gaia-X implementation for comparison with other data sharing initiatives (not to compete but to collaborate on achieving the best future proof solution)\n- Provide a base infrastructure that may be leveraged for hackathons, proof of concepts collaboration with other organizations;\n\nThese topics apply to many other public and private organizations in the Netherlands and other countries. In upcoming phases interested public and private organization from the Netherlands or other countries can start participating on this initiative. For instance, by adding datasets or algorithms to the marketplace."
+  },
+  "footer": {
+    "title": "How to join?",
+    "body": "For more information on this environment or how to get involved and participate in potential next steps please contact:",
+    "contacts": [
+      {
+        "name": "Arthur Maring",
+        "image": "/images/contacts/arthur.png",
+        "text": "Innovation Manager Smart Mobility, Rijkswaterstaat",
+        "cta": {
+          "label": "Get in touch with Arthur",
+          "link": "mailto:arthur.maring@rws.nl"
+        }
+      },
+      {
+        "name": "Harmen van der Kooij",
+        "image": "/images/contacts/harmen.jpeg",
+        "text": "Lead Mobility Track at Dutch Blockchain Coalition",
+        "cta": {
+          "label": "Get in touch with Harmen",
+          "link": "mailto:harmen.vanderkooij@dutchblockchaincoalition.org"
+        }
+      }
+    ]
+  },
+  "image": "/images/headerCarousel/1-road.jpeg"
+}

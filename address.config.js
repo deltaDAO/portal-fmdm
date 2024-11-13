@@ -2,59 +2,37 @@ const PONTUSX_ADDRESSES = require('./pontusxAddresses.json')
 
 module.exports = {
   whitelists: {
-    'nft.owner': [],
-    'datatokens.address': []
+    'nft.owner': [
+      '0xa98A6eefbAE870b88a9C7A43f4b50066A01c93b6',
+      '0xDa4fc9E82Ac4E44207a1f74137493D3437D80761'
+    ],
+    'datatokens.address': [
+      '0xa2E0747d1FA4006Eff891461758bC96F9cE864F2',
+      '0xeDBb45Ba45EB6a56072eF224Ff944b7fBd84aE27',
+      '0x9793Ea60ce9a9B809066ce3872e89c9442dDd4E6',
+      '0x5000889c6ca759af6dd899fffb05392c0fe02cec',
+      '0xdf489b1d3304613433eebac48ee2adb2fc3134d9',
+      '0xe2e72af9879232da54d51b7f24eae88f6d94baef',
+      '0x18a294bb4dbd6aed6f8bd59853b43372a5b28f3b',
+      '0xdd545364d9dc5270992d69dc893dac276c176aac',
+      '0xb0133a4221f6d319e522b3b87448e27bc30a776b',
+      '0x4738dbcdea8e215323495882499aae7943ae4c9e',
+      '0xb8ca9fc04082ee46da1be29c286257f6d68a6f85',
+      '0xc7d8837c835402c17155f90a05f239e2f30a0406',
+      '0xb56ed2b2e4dbcc40fae70c713758c4b37ace5681',
+      '0xd5cdc037b198c2d32cfdb91c007f5ff65b2c2ff9',
+      '0xdd22288a08afd9b1f0d0d6188714cfc7575ce49c',
+      '0x1f3f1ce4879e0d2319cd553eadcc7b1ef775177a',
+      '0x59f93a71b3e3d9c3e94280bafcce49eb02191fdc',
+      '0x6df7790e95e3bf4406dfc83f6856bc7869861a25',
+      '0xeab171bfd3ed54b29e97d6dfc92692f7c84da06f',
+      '0xDa4fc9E82Ac4E44207a1f74137493D3437D80761',
+      '0x3dF7E2407f611CC6DF4E7FA5fC38d47402ED2C47', // TODO: remove ship detection demo usecase
+      '0xf8De1aF9a68c561D47400522Ae08396F78e5c6fB', // TODO: remove ship detection demo usecase
+      '0x69A70e8bDc64F158093E51B41c601Fe7253e31c1',
+      '0x5d6eBb2A3adFcdbD30b0108be04331a08e47121b'
+    ]
   },
-  featured: [
-    {
-      title: 'Smart Mobility, Automotive',
-      assets: [
-        'did:op:f892fdeb6e4aead439a992ee66322d96d625f7acfed999e633c4b5c81b0968a9', // Hamburg Urban Data
-        'did:op:60345a1cffaf69e978846858760f69ebe6688e3fa1b9a21f2cdb81b82c415049', // Road Condition Short
-        'did:op:4103da1b9000f90c4262b94353b23175e490f47e3fd9bf3bda440f550178f423', // Road Condition Long
-        'did:op:423ae6f53c14980e871ba8109f1f493077c1691dac7a56c413a973238a90f2fa', // Hamburg Road 18
-        'did:op:61788149bc0837d0bea0ee32b04eb8bebb20c2e73e1098cfdec4807d86eddac7', // Hamburg Road 17
-        'did:op:1cccfa6b2de76b2f831183c9404675a84f12c336c2ebde87dbfad9e2b39c1295', // SH Road 16
-        'did:op:f6b81477c783e84cb9fbb0d7b57b1974b6f0a86067f2f17bbdd9f2e2dd7802a3', // SH Road 15
-        'did:op:555b7d7c03f365c9166afb4524fe5e332f9794fbeb5e9770fe47d1da9adff9c4', // SH Road 14
-        'did:op:aea8d72bd0ea2f2633599caa69488b212ecaa7fb0b44abb0e3c58494da143b95', // SH Road 13
-        'did:op:1501d13f41eca77a6a5449a1ecf5d8ff5ca4a1881889af5b8912629ab71856e5', // zone
-        'did:op:14f5679644249e7889b85d9964abb96eb31eb5537651d3458b9616d29450772c' // ArcGIS
-      ]
-    },
-    {
-      title: 'Manufacturing, Industry 4.0',
-      assets: [
-        'did:op:ec6abd810b3f3d9f3cf7fbbfd3462e289ee9700f0a1ca492adaf6a8c7d0bdce7', // EuPro 882
-        'did:op:291ac52240e7c422aa8e67f9369efa7b30cbdc3f494922f1b646a8091a97fdb6', // CO2
-        'did:op:c524a2ad8aab175315cdbb106289114079637529af988874c1a31e9a179e4540', // Condition Monitoring
-        'did:op:3bee178505bf07494aeaafe67b5d98b5ebd0986bb56d6673e718f8ac4e090c8a', // EuPro 881
-        'did:op:daecfe8261713a3854bdb59de6e6eba1e614dae3a40f436f955f2a94559a88ca', // EuPro 880
-        'did:op:f203cde14dc2fa67b58156009463cae1b6679b76e6387da8c43951846788d1a8', // Defects Algo
-        'did:op:535c60bdf170de37d818f69765f1382dd680b63f245b1a30b897b46ddc753064', // Defects Data
-        'did:op:8b6e04b2f06290c75926756f814413c134a4fb701c607824fd7f7877f0292483', // AAS
-        'did:op:e75f58835ca5ac41bdd3464a4229108e1f74e81b71bd691ecca37ac33a79a6e8', // AAS
-        'did:op:ba056765418629a645d1cea3b6254d1ae8f374fd893edba6c4ddee5f097fefc2', // AAS
-        'did:op:ea274c721f8c7d36787401dbe7b0fd83670ee50a83aee9d7f1e49060257aa618', // AAS
-        'did:op:77cb936c42ca521393cdb423926c022b0cbb4442aff2b63a9cfecb2c74941843', // AAS
-        'did:op:b5c7eb3887469a532a021020365259055084af3d7bd047a8a79a865ee848598e' // AAS
-      ]
-    },
-    {
-      title: 'Text Analysis, Language Processing, and more',
-      assets: [
-        'did:op:73c511711d6ad19794cd3797149e3a9fbd6d615246ae2be8d56938985b715ed4', // Cross Asia Text
-        'did:op:fca47f74bd99d3a3c523bc3242497df4a098ceb028940428db18200c26e74995', // Cross Asia Algo
-        'did:op:ee381eb15d25d27b663565984601699473afeba4ba2efa43d9b6f9c88827f625', // XAsia Prob Data
-        'did:op:a63864d02fbda42fa945eb071093bfd69e2b9de2e083382028c531d468996875' // XAsia Prob Algo
-      ]
-    },
-    {
-      title: 'Finance, Business Analytics, and more',
-      assets: [
-        'did:op:ab4b4a4953b8fddb69c5a68ce12c10727a002cc160fb9d0dd37aadbfb8de95af' // PMO
-      ]
-    }
-  ],
+  featured: [],
   verifiedAddresses: PONTUSX_ADDRESSES
 }

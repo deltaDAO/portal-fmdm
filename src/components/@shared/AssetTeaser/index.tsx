@@ -10,6 +10,7 @@ import styles from './index.module.css'
 import { getServiceByName } from '@utils/ddo'
 import { useUserPreferences } from '@context/UserPreferences'
 import { formatNumber } from '@utils/numbers'
+import classNames from 'classnames/bind'
 
 export declare type AssetTeaserProps = {
   asset: AssetExtended
@@ -34,13 +35,19 @@ export default function AssetTeaser({
     price.value === undefined ||
     asset?.accessDetails?.type === 'NOT_SUPPORTED'
   const { locale } = useUserPreferences()
+  const cx = classNames.bind(styles)
 
+  console.log('type:', type)
   return (
     <article className={`${styles.teaser} ${styles[type]}`}>
       <Link href={`/asset/${asset.id}`} className={styles.link}>
         <aside className={styles.detailLine}>
           <AssetType
-            className={styles.typeLabel}
+            className={cx({
+              typeDetails: true,
+              algo: type === 'algorithm',
+              dataset: type === 'dataset'
+            })}
             type={asset?.metadata?.additionalInformation?.saas ? 'saas' : type}
             accessType={
               asset?.metadata?.additionalInformation?.saas ? 'saas' : accessType

@@ -135,10 +135,14 @@
   --teaser-title-font-color: var(--font-color-heading);
   --teaser-background: var(--background-content);
   --teaser-border-radius: var(--border-radius);
-  --teaser-border-size: var(--border-size-sm);
+  --teaser-border-size: var(--border-size);
   --teaser-border-color: var(--border-color);
   --teaser-box-shadow: 0 6px 17px 0 var(--box-shadow-color);
   --teaser-hover-box-shadow: 0 10px 25px 0 var(--box-shadow-color);
+  --teaser-algo-label-background: var(--brand-green);
+  --teaser-algo-label-font-color: var(--brand-white);
+  --teaser-dataset-label-background: var(--brand-green-light);
+  --teaser-dataset-label-font-color: var(--brand-white);
 
   /* Pagination component */
   --pagination-font-color: var(--color-secondary);

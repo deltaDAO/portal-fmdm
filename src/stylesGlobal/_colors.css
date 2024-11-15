@@ -29,11 +29,6 @@
     var(--brand-blue-light)
   );
 
-  --brand-grey: #2b2e3b;
-  --brand-grey-light: #4c5167;
-  --brand-grey-lighter: #d0d2dd;
-  --brand-grey-dimmed: #f5f6fb;
-
   --brand-alert-green: #5fb359;
   --brand-alert-red: #d80606;
   --brand-alert-orange: #b35f36;

@@ -10,7 +10,6 @@
   font-size: var(--font-size-base);
   font-family: var(--font-family-base);
   font-weight: var(--font-weight-bold);
-
   border-radius: var(--button-border-radius);
   transition: 0.2s ease-out;
   color: var(--button-font-color);
@@ -22,15 +21,11 @@
 
 .button:hover,
 .button:focus {
-  color: var(--button-hover-font-color);
-  background: var(--button-hover-background);
   text-decoration: none;
   box-shadow: 0 12px 30px 0 rgba(0, 0, 0, 0.1);
-  transform: translate3d(0, -0.05rem, 0);
 }
 
 .button:active {
-  background: var(--button-active-background);
   transition: none;
   transform: none;
   box-shadow: 0 5px 18px 0 rgba(0, 0, 0, 0.1);
@@ -45,15 +40,14 @@
 .primary,
 .primary:focus,
 .primary:active {
-  border: var(--border-size-md) solid var(--button-primary-border-color);
   background: var(--button-primary-background);
-  transform: none;
+  border: var(--button-border-size) solid var(--button-primary-border-color);
 }
 
 .primary:hover {
+  color: var(--button-primary-hover-font-color);
   background: var(--button-primary-hover-background);
-  border-color: var(--button-primary-hover-border-color);
-  transform: none;
+  border: var(--button-border-size) solid var(--button-primary-border-color);
 }
 
 .ghost,
@@ -61,12 +55,33 @@
 .ghost:active {
   color: var(--button-ghost-font-color);
   background: var(--button-ghost-background);
+  border: var(--button-border-size) solid var(--button-ghost-border-color);
 }
 
 .ghost:hover {
-  color: var(--button-ghost-font-color);
+  color: var(--button-ghost-hover-font-color);
   background: var(--button-ghost-hover-background);
-  transform: none;
+  border: var(--button-border-size) solid var(--button-ghost-border-color);
+}
+
+.outline,
+.outline:focus,
+.outline:active {
+  background: linear-gradient(
+    to right,
+    var(--button-outline-hover-background) 50%,
+    var(--button-outline-background) 50%
+  );
+  /* 202% used to fix a Firefox specific behavior not moving the background as expected */
+  background-size: 202% 100%;
+  background-position: bottom right;
+  border: var(--button-border-size) solid var(--button-outline-border-color);
+  color: var(--button-outline-font-color);
+}
+
+.outline:hover {
+  background-position: bottom left;
+  color: var(--button-outline-hover-font-color);
 }
 
 .text,

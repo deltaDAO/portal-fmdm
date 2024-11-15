@@ -37,7 +37,6 @@ export default function AssetTeaser({
   const { locale } = useUserPreferences()
   const cx = classNames.bind(styles)
 
-  console.log('type:', type)
   return (
     <article className={`${styles.teaser} ${styles[type]}`}>
       <Link href={`/asset/${asset.id}`} className={styles.link}>

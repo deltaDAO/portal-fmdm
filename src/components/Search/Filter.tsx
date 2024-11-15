@@ -151,13 +151,32 @@ export default function Filter({
 
   return (
     <>
-      <div className={styles.sidePositioning}>
-        <Accordion
-          title="Filters"
-          defaultExpanded={expanded}
-          badgeNumber={selectedFiltersCount}
-          action={
-            selectedFiltersCount > 0 && (
+      <div className={styles.topPositioning}>
+        <div className={styles.compactFilterContainer}>
+          <div className={styles.compactOptionsContainer}>
+            {filterList.map((filter) => (
+              <>
+                {filter.options.map((option) => {
+                  const isSelected = filters[filter.id].includes(option.value)
+                  return (
+                    <Button
+                      className={`${isSelected && styles.selected} ${
+                        styles.button
+                      }`}
+                      key={option.value}
+                      name={option.label}
+                      size="small"
+                      onClick={async () => {
+                        handleSelectedFilter(option.value, filter.id)
+                      }}
+                    >
+                      {option.label}
+                    </Button>
+                  )
+                })}
+              </>
+            ))}
+            {selectedFiltersCount > 0 && (
               <Button
                 size="small"
                 style="text"
@@ -166,77 +185,11 @@ export default function Filter({
                 }}
                 className={styles.clearBtn}
               >
-                Clear filters
+                Clear
               </Button>
-            )
-          }
-        >
-          <div className={styleClasses}>
-            {filterList.map((filter) => (
-              <div key={filter.id} className={styles.filterType}>
-                <h5 className={styles.filterTypeLabel}>{filter.label}</h5>
-                {filter.options.map((option) => {
-                  const isSelected = filters[filter.id].includes(option.value)
-                  return (
-                    <Input
-                      key={option.value}
-                      name={option.label}
-                      type="checkbox"
-                      options={[option.label]}
-                      checked={isSelected}
-                      onChange={async () => {
-                        handleSelectedFilter(option.value, filter.id)
-                      }}
-                    />
-                  )
-                })}
-              </div>
-            ))}
-            {showPurgatoryOption && (
-              <div className={styles.filterType}>
-                <h5 className={styles.filterTypeLabel}>Purgatory</h5>
-                <Input
-                  name={purgatoryFilterItem.value}
-                  type="checkbox"
-                  options={[purgatoryFilterItem.display]}
-                  checked={ignorePurgatory}
-                  onChange={async () => {
-                    setIgnorePurgatory(!ignorePurgatory)
-                  }}
-                />
-              </div>
             )}
           </div>
-        </Accordion>
-      </div>
-      <div className={styles.topPositioning}>
-        {filterList.map((filter) => (
-          <div key={filter.id} className={styles.compactFilterContainer}>
-            <Accordion
-              title={filter.label}
-              badgeNumber={filters[filter.id].length}
-              compact
-            >
-              <div className={styles.compactOptionsContainer}>
-                {filter.options.map((option) => {
-                  const isSelected = filters[filter.id].includes(option.value)
-                  return (
-                    <Input
-                      key={option.value}
-                      name={option.label}
-                      type="checkbox"
-                      options={[option.label]}
-                      checked={isSelected}
-                      onChange={async () => {
-                        handleSelectedFilter(option.value, filter.id)
-                      }}
-                    />
-                  )
-                })}
-              </div>
-            </Accordion>
-          </div>
-        ))}
+        </div>
         {showPurgatoryOption && (
           <div className={styles.compactFilterContainer}>
             <Accordion

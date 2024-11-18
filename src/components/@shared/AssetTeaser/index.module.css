@@ -63,7 +63,6 @@ a.link:focus {
 .typeLabel {
   font-size: var(--font-size-mini);
   display: inline-block;
-  border-left: 1px solid var(--border-color);
 }
 
 .networkName {
@@ -72,7 +71,6 @@ a.link:focus {
 }
 
 .typeLabel:first-child {
-  border-left: none;
   padding-left: 0;
   margin-left: 0;
 }

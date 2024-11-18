@@ -25,7 +25,7 @@
 }
 
 .viewSelector svg path {
-  fill: var(--teaser-border-color);
+  fill: var(--brand-grey);
   transition: 0.2s ease-in-out;
 }
 

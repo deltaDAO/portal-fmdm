@@ -14,6 +14,7 @@ import { ConnectKitProvider } from 'connectkit'
 import { connectKitTheme, wagmiClient } from '@utils/wallet'
 import AutomationProvider from '../@context/Automation/AutomationProvider'
 import { FilterProvider } from '@context/Filter'
+import { UseCasesProvider } from '@context/UseCases'
 
 function MyApp({ Component, pageProps }: AppProps): ReactElement {
   Decimal.set({ rounding: 1 })
@@ -29,15 +30,17 @@ function MyApp({ Component, pageProps }: AppProps): ReactElement {
             <UrqlProvider>
               <UserPreferencesProvider>
                 <AutomationProvider>
-                  <ConsentProvider>
-                    <SearchBarStatusProvider>
-                      <FilterProvider>
-                        <App>
-                          <Component {...pageProps} />
-                        </App>
-                      </FilterProvider>
-                    </SearchBarStatusProvider>
-                  </ConsentProvider>
+                  <UseCasesProvider>
+                    <ConsentProvider>
+                      <SearchBarStatusProvider>
+                        <FilterProvider>
+                          <App>
+                            <Component {...pageProps} />
+                          </App>
+                        </FilterProvider>
+                      </SearchBarStatusProvider>
+                    </ConsentProvider>
+                  </UseCasesProvider>
                 </AutomationProvider>
               </UserPreferencesProvider>
             </UrqlProvider>

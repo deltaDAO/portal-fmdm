@@ -56,7 +56,6 @@ export default function Button({
       {...props}
     >
       {children}
-      &nbsp;&#8599;
     </a>
   ) : (
     <button className={styleClasses} {...props}>

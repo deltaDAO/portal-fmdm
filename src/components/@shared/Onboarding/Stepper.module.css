@@ -46,7 +46,7 @@
   display: block;
   width: var(--circle-size);
   height: var(--circle-size);
-  border-radius: var(--border-radius);
+  border-radius: 50%;
   background: var(--background-gradient);
   /* 202% used to fix a Firefox specific behavior not moving the background as expected */
   background-size: 202% 100%;

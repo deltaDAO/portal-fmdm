@@ -10,8 +10,6 @@ import { useRouter } from 'next/router'
 import queryString from 'query-string'
 import styles from './Filter.module.css'
 import { useFilter, Filters } from '@context/Filter'
-import Input from '@components/@shared/FormInput'
-import Accordion from '@components/@shared/Accordion'
 import customFilters from '../../../filters.config'
 
 const cx = classNames.bind(styles)
@@ -154,28 +152,50 @@ export default function Filter({
       <div className={styles.topPositioning}>
         <div className={styles.compactFilterContainer}>
           <div className={styles.compactOptionsContainer}>
-            {filterList.map((filter) => (
-              <>
-                {filter.options.map((option) => {
-                  const isSelected = filters[filter.id].includes(option.value)
-                  return (
-                    <Button
-                      className={`${isSelected && styles.selected} ${
-                        styles.button
-                      }`}
-                      key={option.value}
-                      name={option.label}
-                      size="small"
-                      onClick={async () => {
-                        handleSelectedFilter(option.value, filter.id)
-                      }}
-                    >
-                      {option.label}
-                    </Button>
-                  )
-                })}
-              </>
-            ))}
+            {filterList.map((filter) => {
+              return (
+                <div
+                  className={styles.compactOptionsContainer}
+                  key={filter.label}
+                >
+                  {filter.options.map((option) => {
+                    const isSelected = filters[filter.id].includes(option.value)
+                    return (
+                      <Button
+                        className={`${isSelected && styles.selected} ${
+                          styles.button
+                        }`}
+                        key={option.value}
+                        name={option.label}
+                        size="small"
+                        onClick={async () => {
+                          handleSelectedFilter(option.value, filter.id)
+                        }}
+                      >
+                        {option.label}
+                      </Button>
+                    )
+                  })}
+                </div>
+              )
+            })}
+            {showPurgatoryOption && (
+              <div>
+                <Button
+                  className={`${ignorePurgatory && styles.selected} ${
+                    styles.button
+                  }`}
+                  name={purgatoryFilterItem.value}
+                  size="small"
+                  onClick={async () => {
+                    setIgnorePurgatory(!ignorePurgatory)
+                  }}
+                >
+                  {purgatoryFilterItem.value}
+                </Button>
+              </div>
+            )}
+
             {selectedFiltersCount > 0 && (
               <Button
                 size="small"
@@ -190,25 +210,6 @@ export default function Filter({
             )}
           </div>
         </div>
-        {showPurgatoryOption && (
-          <div className={styles.compactFilterContainer}>
-            <Accordion
-              title="Purgatory"
-              badgeNumber={ignorePurgatory ? 1 : 0}
-              compact
-            >
-              <Input
-                name={purgatoryFilterItem.value}
-                type="checkbox"
-                options={[purgatoryFilterItem.display]}
-                checked={ignorePurgatory}
-                onChange={async () => {
-                  setIgnorePurgatory(!ignorePurgatory)
-                }}
-              />
-            </Accordion>
-          </div>
-        )}
       </div>
     </>
   )

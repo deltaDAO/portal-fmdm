@@ -9,6 +9,10 @@
   overflow-y: visible;
 }
 
+.topPositioning {
+  flex: 1;
+}
+
 .sortTypeLabel {
   composes: label from '@shared/FormInput/Label.module.css';
   padding: 0;

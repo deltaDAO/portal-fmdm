@@ -1,4 +1,5 @@
 .topPositioning {
+  flex: 1;
   display: flex;
   flex-wrap: wrap;
   gap: calc(var(--spacer) / 4);

@@ -80,7 +80,7 @@ export function parseFilters(
     if (key === 'complianceType') {
       return filtersList[key].length > 0
         ? getFilterTerm(
-            'metadata.additionalInformation.compliance',
+            'metadata.additionalInformation.compliance.keyword',
             filtersList[key]
           )
         : undefined

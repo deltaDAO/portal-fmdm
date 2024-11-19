@@ -7,6 +7,7 @@
   background: var(--filter-background);
   overflow-x: clip;
   overflow-y: visible;
+  flex-wrap: wrap;
 }
 
 .topPositioning {
@@ -27,7 +28,6 @@
 .sorted {
   display: inline-block;
   padding: calc(var(--spacer) / 6) 0;
-  /* margin-right: calc(var(--spacer) / 4); */
   color: var(--filter-font-color);
   text-transform: capitalize;
   border-radius: 0;

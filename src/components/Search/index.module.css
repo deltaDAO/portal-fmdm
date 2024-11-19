@@ -6,7 +6,7 @@
 
 .filterContainer {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   flex-wrap: wrap;
   gap: calc(var(--spacer) / 4);
   width: 100%;

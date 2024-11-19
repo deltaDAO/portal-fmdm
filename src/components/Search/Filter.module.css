@@ -78,7 +78,7 @@
 }
 
 .compactFilterContainer {
-  min-width: max-content;
+  min-width: fit-content;
   height: min-content;
   padding: calc(var(--spacer) / 4);
   border: 1px solid var(--border-color);
@@ -87,6 +87,7 @@
 
 .compactOptionsContainer {
   display: flex;
+  flex-wrap: wrap;
   gap: calc(var(--spacer) / 4);
 }
 

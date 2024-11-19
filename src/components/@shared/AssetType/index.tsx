@@ -32,13 +32,6 @@ export default function AssetType({
       ) : (
         <Compute role="img" aria-label="Compute" className={styles.icon} />
       )}
-      <div className={styles.accessLabel}>
-        {accessType === 'saas'
-          ? null
-          : accessType === 'access'
-          ? 'download'
-          : 'compute'}
-      </div>
       <div
         className={cx({
           typeLabel: true,

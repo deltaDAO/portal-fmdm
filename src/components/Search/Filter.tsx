@@ -11,6 +11,10 @@ import queryString from 'query-string'
 import styles from './Filter.module.css'
 import { useFilter, Filters } from '@context/Filter'
 import customFilters from '../../../filters.config'
+import {
+  ComplianceType,
+  ComplianceTypeLookup
+} from '../../@types/ComplianceType'
 
 const cx = classNames.bind(styles)
 
@@ -23,6 +27,15 @@ interface FilterStructure {
     value: string
   }[]
 }
+
+const complianceFilterItems = ComplianceTypeLookup.values().map(
+  (complianceType) => {
+    return {
+      label: ComplianceTypeLookup.getCaption(complianceType),
+      value: complianceType
+    }
+  }
+)
 
 const filterList: FilterStructure[] = [
   {
@@ -43,6 +56,12 @@ const filterList: FilterStructure[] = [
       { label: 'download', value: FilterByAccessOptions.Download },
       { label: 'compute', value: FilterByAccessOptions.Compute }
     ]
+  },
+  {
+    id: 'complianceType',
+    label: 'Compliance Type',
+    type: 'filterList',
+    options: [...complianceFilterItems]
   },
   ...(Array.isArray(customFilters?.filters) &&
   customFilters?.filters?.length > 0 &&
@@ -154,10 +173,7 @@ export default function Filter({
           <div className={styles.compactOptionsContainer}>
             {filterList.map((filter) => {
               return (
-                <div
-                  className={styles.compactOptionsContainer}
-                  key={filter.label}
-                >
+                <>
                   {filter.options.map((option) => {
                     const isSelected = filters[filter.id].includes(option.value)
                     return (
@@ -176,7 +192,7 @@ export default function Filter({
                       </Button>
                     )
                   })}
-                </div>
+                </>
               )
             })}
             {showPurgatoryOption && (

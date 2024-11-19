@@ -77,6 +77,14 @@ export function parseFilters(
         ? getFilterTerm(filterQueryPath[key], uniqueTags)
         : undefined
     }
+    if (key === 'complianceType') {
+      return filtersList[key].length > 0
+        ? getFilterTerm(
+            'metadata.additionalInformation.compliance',
+            filtersList[key]
+          )
+        : undefined
+    }
     if (filtersList[key].length > 0)
       return getFilterTerm(filterQueryPath[key], filtersList[key])
 

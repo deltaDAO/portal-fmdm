@@ -59,7 +59,7 @@
   width: 2rem;
   height: 2rem;
   border-radius: 50%;
-  border: 1px solid var(--border-color);
+  border: var(--border-size) solid var(--color-highlight);
   margin-right: calc(var(--spacer) / 4);
 }
 

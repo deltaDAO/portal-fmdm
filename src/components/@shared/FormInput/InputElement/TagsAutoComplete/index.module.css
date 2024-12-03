@@ -1,5 +1,5 @@
 .select [class$='control'] {
-  border-color: var(--input-border-color);
+  border: var(--input-border-size) solid var(--input-border-color);
   border-radius: var(--input-border-radius);
   box-shadow: none;
   background-color: var(--input-background);

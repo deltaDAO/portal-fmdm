@@ -24,7 +24,7 @@ class Point {
   }
 }
 
-const waveColors = ['#009793', '#008baa', '#004967']
+const waveColors = ['#00b96e', '#316aea', '#87c300', '#108a43']
 
 export class SvgWaves {
   properties: WaveProperties

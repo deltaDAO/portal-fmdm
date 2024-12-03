@@ -1,6 +1,6 @@
 .menu {
   width: 100%;
-  padding: calc(var(--spacer) / 2);
+  padding: var(--spacer) 0 calc(var(--spacer) / 2) 0;
   display: flex;
   align-items: center;
   flex-wrap: wrap;

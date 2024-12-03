@@ -1,6 +1,6 @@
 .step,
 .active {
-  --circle-size: clamp(1rem, 5vw, 2.5rem);
+  --circle-size: clamp(1rem, 5vw, 2.4rem);
   --spacing: clamp(0.35rem, 2vw, 0.5rem);
   --background-gradient: linear-gradient(
     to right,

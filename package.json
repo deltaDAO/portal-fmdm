@@ -97,7 +97,7 @@
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@types/debug": "^4.1.8",
-    "@types/jest": "^29.2.5",
+    "@types/jest": "^29.5.14",
     "@types/js-cookie": "^3.0.2",
     "@types/leaflet": "^1.9.8",
     "@types/loadable__component": "^5.13.4",

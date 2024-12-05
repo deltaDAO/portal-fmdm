@@ -1,62 +1,54 @@
 import { ReactElement } from 'react'
 import styles from './index.module.css'
-import classNames from 'classnames/bind'
 import content from '../../../../content/pages/home/content.json'
 import Markdown from '@components/@shared/Markdown'
-import Button from '@components/@shared/atoms/Button'
-import InteractiveModalImage from '@components/@shared/atoms/InteractiveModalImage'
-
-const cx = classNames.bind(styles)
-
+import Checkmark from '@images/checkmark.svg'
+import Container from '@components/@shared/atoms/Container'
+import HighlightBox from './HighlightBox'
 interface HomeContentData {
   teaser: {
     title: string
     text: string
   }
-  paragraphs: {
-    title: string
-    body: string
-    cta: string
-    ctaTo: string
-    image: string
+  points: {
+    text: string
   }[]
+  firstTimeVisiting: {
+    title: string
+    text: string
+    buttonLabel: string
+    link: string
+  }
 }
 
 export default function HomeContent(): ReactElement {
-  const { paragraphs, teaser }: HomeContentData = content
+  const { teaser, points, firstTimeVisiting }: HomeContentData = content
 
   return (
-    <div className={styles.container}>
-      <div className={styles.teaser}>
-        <h2>{teaser.title}</h2>
-        <Markdown text={teaser.text} />
-      </div>
-      <div className={styles.paragraphs}>
-        {paragraphs.map((paragraph, i) => (
-          <div
-            key={paragraph.title}
-            className={
-              i % 2 === 1
-                ? cx({ paragraph: true, mirror: true })
-                : styles.paragraph
-            }
-          >
-            <div className={styles.interactivity}>
-              <InteractiveModalImage
-                src={paragraph.image}
-                alt={paragraph.title}
-              />
-            </div>
-            <div className={styles.content}>
-              <h2>{paragraph.title}</h2>
-              <Markdown text={paragraph.body} />
-              <Button href={paragraph.ctaTo} style="primary">
-                {paragraph.cta}
-              </Button>
-            </div>
+    <Container className={styles.wrapper}>
+      <h2>{teaser.title}</h2>
+      <div className={styles.container}>
+        <div className={styles.teaser}>
+          <Markdown text={teaser.text} />
+        </div>
+        <div className={styles.secondarySection}>
+          <div className={styles.points}>
+            {points.map((point, i) => (
+              <span key={i}>
+                <Checkmark className={styles.checkmark} />
+                <Markdown className={styles.pointText} text={point.text} />
+              </span>
+            ))}
           </div>
-        ))}
+          <HighlightBox
+            icon="eye"
+            title={firstTimeVisiting.title}
+            body={firstTimeVisiting.text}
+            buttonLabel={firstTimeVisiting.buttonLabel}
+            link={firstTimeVisiting.link}
+          />
+        </div>
       </div>
-    </div>
+    </Container>
   )
 }

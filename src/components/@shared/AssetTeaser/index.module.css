@@ -11,7 +11,7 @@
   background: var(--teaser-background);
   border-radius: var(--teaser-border-radius);
   border: var(--teaser-border-size) solid var(--teaser-border-color);
-  box-shadow: var(--teaser-box-shadow);
+  box-shadow: none;
   position: relative;
   padding-top: calc(var(--spacer) / 2);
   padding-bottom: calc(var(--spacer) / 2);
@@ -63,9 +63,6 @@ a.link:focus {
 .typeLabel {
   font-size: var(--font-size-mini);
   display: inline-block;
-  border-left: 1px solid var(--border-color);
-  padding-left: calc(var(--spacer) / 4);
-  margin-left: calc(var(--spacer) / 4);
 }
 
 .networkName {
@@ -74,7 +71,35 @@ a.link:focus {
 }
 
 .typeLabel:first-child {
-  border-left: none;
   padding-left: 0;
   margin-left: 0;
+}
+
+.typeDetails {
+  position: absolute;
+  top: calc(var(--spacer) / 3);
+  right: calc(var(--spacer) / 3);
+  width: auto;
+  font-size: var(--font-size-mini);
+  border-radius: var(--teaser-border-radius);
+  padding: 5px;
+}
+
+.typeDetails.dataset {
+  background-color: var(--teaser-dataset-label-background);
+  color: var(--teaser-dataset-label-font-color);
+}
+
+.typeDetails.dataset * {
+  border-color: var(--teaser-dataset-label-font-color);
+}
+
+.typeDetails.algo {
+  background-color: var(--teaser-algo-label-background);
+  color: var(--teaser-algo-label-font-color);
+  border-color: var(--teaser-algo-label-font-color);
+}
+
+.typeDetails.algo * {
+  border-color: var(--teaser-algo-label-font-color);
 }

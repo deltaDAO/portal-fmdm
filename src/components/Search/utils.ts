@@ -43,6 +43,7 @@ export function getSearchQuery(
   serviceType?: string | string[],
   accessType?: string | string[],
   filterSet?: string | string[],
+  complianceType?: string | string[],
   showSaas?: boolean
 ): SearchQuery {
   text = escapeEsReservedCharacters(text)
@@ -120,8 +121,8 @@ export function getSearchQuery(
   }
 
   const filtersList = getInitialFilters(
-    { accessType, serviceType, filterSet },
-    ['accessType', 'serviceType', 'filterSet']
+    { accessType, serviceType, filterSet, complianceType },
+    ['accessType', 'serviceType', 'filterSet', 'complianceType']
   )
   parseFilters(filtersList, filterSets).forEach((term) => filters.push(term))
 
@@ -154,6 +155,7 @@ export async function getResults(
     serviceType?: string | string[]
     accessType?: string | string[]
     filterSet?: string[]
+    complianceType?: string | string[]
   },
   chainIds: number[],
   cancelToken?: CancelToken
@@ -168,7 +170,8 @@ export async function getResults(
     sortOrder,
     serviceType,
     accessType,
-    filterSet
+    filterSet,
+    complianceType
   } = params
 
   const showSaas =
@@ -199,6 +202,7 @@ export async function getResults(
     sanitizedServiceType,
     accessType,
     filterSet,
+    complianceType,
     showSaas
   )
 

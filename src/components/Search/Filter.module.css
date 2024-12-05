@@ -1,11 +1,39 @@
-.sidePositioning {
-  display: none;
-}
-
 .topPositioning {
+  flex: 1;
   display: flex;
   flex-wrap: wrap;
   gap: calc(var(--spacer) / 4);
+}
+
+.button {
+  color: var(--brand-grey);
+  background-color: var(--filter-button-bg-color);
+  border: var(--filter-border-size) solid var(--filter-border-color);
+  border-radius: var(--filter-border-radius);
+  padding: calc(var(--spacer) / 3);
+  min-width: 6rem;
+  cursor: pointer;
+  box-shadow: none;
+}
+
+.button:hover {
+  background-color: var(--filter-hover-background);
+  color: var(--filter-hover-font-color);
+  box-shadow: none;
+}
+
+.selected,
+.selected:active {
+  color: var(--filter-selected-font-color);
+  background: var(--filter-selected-background);
+  border-color: var(--filter-selected-border-color);
+  box-shadow: none;
+}
+
+.selected::after {
+  content: '✕';
+  margin-left: calc(var(--spacer) / 6);
+  color: var(--filter-selected-font-color);
 }
 
 .filterList {
@@ -14,12 +42,6 @@
   gap: calc(var(--spacer) / 2);
 }
 
-.sidePositioning h3 {
-  color: var(--filter-title-color);
-  font-size: var(--filter-title-font-size);
-}
-
-.sidePositioning h5,
 .topPositioning h3 {
   color: var(--filter-type-color);
   font-size: var(--filter-type-font-size);
@@ -56,22 +78,19 @@
 }
 
 .compactFilterContainer {
-  min-width: max-content;
+  min-width: fit-content;
   height: min-content;
   padding: calc(var(--spacer) / 4);
   border: 1px solid var(--border-color);
   border-radius: var(--border-radius);
 }
 
-.compactOptionsContainer > div {
-  margin-top: calc(var(--spacer) / 4) 0;
+.compactOptionsContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: calc(var(--spacer) / 4);
 }
 
-@media screen and (min-width: 65rem) {
-  .sidePositioning {
-    display: block;
-  }
-  .topPositioning {
-    display: none;
-  }
+.compactOptionsContainer > div {
+  margin-top: calc(var(--spacer) / 4) 0;
 }

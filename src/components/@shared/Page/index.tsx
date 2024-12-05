@@ -5,6 +5,9 @@ import Container from '@shared/atoms/Container'
 import SearchBar from '@components/Header/SearchBar'
 import { useUserPreferences } from '@context/UserPreferences'
 import ExternalContentWarning from '../ExternalContentWarning'
+import Header from 'src/components/Home/Header'
+import { useSearchBarStatus } from '@context/SearchBarStatus'
+import styles from './index.module.css'
 
 export interface PageProps {
   children: ReactNode
@@ -37,6 +40,10 @@ export default function Page({
           placeholder="Search for service offerings"
           isSearchPage={isSearchPage}
         />
+      </Container>
+
+      {title && isHome && <Header />}
+      <Container className={styles.container}>
         {isAssetPage && !allowExternalContent && <ExternalContentWarning />}
         {title && !noPageHeader && (
           <PageHeader

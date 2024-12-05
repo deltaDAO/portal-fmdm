@@ -92,6 +92,11 @@ export interface SiteContent {
         link: string
       }[]
     }[]
+    designedBy: string
+    links: {
+      label: string
+      link: string
+    }[]
   }
 }
 

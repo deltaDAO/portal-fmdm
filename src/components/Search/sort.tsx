@@ -6,10 +6,10 @@ import {
   SortTermOptions
 } from '../../@types/aquarius/SearchQuery'
 import { useRouter } from 'next/router'
-import Accordion from '@components/@shared/Accordion'
-import Input from '@components/@shared/FormInput'
 import { Sort as SortInterface, useFilter } from '@context/Filter'
 import queryString from 'query-string'
+import Button from '@components/@shared/atoms/Button'
+import classNames from 'classnames/bind'
 
 const sortItems = [
   { display: 'Relevance', value: SortTermOptions.Relevance },
@@ -56,6 +56,10 @@ export default function Sort({
     setSort(initialFilters)
   }, [])
 
+  const directionArrow = String.fromCharCode(
+    sort.sortOrder === SortDirectionOptions.Ascending ? 9650 : 9660
+  )
+
   async function sortResults(
     sortBy?: SortTermOptions,
     direction?: SortDirectionOptions
@@ -73,76 +77,46 @@ export default function Sort({
     router.push(urlLocation)
   }
 
+  function handleSortButtonClick(value: SortTermOptions) {
+    if (value === sort.sort) {
+      if (sort.sortOrder === SortDirectionOptions.Descending) {
+        sortResults(null, SortDirectionOptions.Ascending)
+      } else {
+        sortResults(null, SortDirectionOptions.Descending)
+      }
+    } else {
+      sortResults(value, null)
+    }
+  }
+  const cx = classNames.bind(styles)
+
   return (
     <>
-      <div className={styles.sidePositioning}>
-        <Accordion title="Sort" defaultExpanded={expanded}>
-          <div className={styles.sortList}>
-            <div className={styles.sortType}>
-              <h5 className={styles.sortTypeLabel}>Type</h5>
-              {sortItems.map((item) => (
-                <Input
-                  key={item.value}
-                  name="sortType"
-                  type="radio"
-                  options={[item.display]}
-                  value={item.value}
-                  checked={sort.sort === item.value}
-                  onChange={() => sortResults(item.value, null)}
-                />
-              ))}
-            </div>
-            <div className={styles.sortDirection}>
-              <h5 className={styles.sortDirectionLabel}>Direction</h5>
-              {sortDirections.map((item) => (
-                <Input
-                  key={item.value}
-                  name="sortDirection"
-                  type="radio"
-                  options={[item.display]}
-                  value={item.value}
-                  checked={sort.sortOrder === item.value}
-                  onChange={() => sortResults(null, item.value)}
-                />
-              ))}
-            </div>
-          </div>
-        </Accordion>
-      </div>
       <div className={styles.topPositioning}>
-        <div className={styles.compactFilterContainer}>
-          <Accordion title="Sort Type" compact>
-            <div className={styles.compactOptionsContainer}>
-              {sortItems.map((item) => (
-                <Input
+        <div className={styles.sort}>
+          <div className={styles.sortList}>
+            <h5 className={styles.sortTypeLabel}>SORT</h5>
+            {sortItems.map((item) => {
+              const sorted = cx({
+                [styles.selected]: item.value === sort.sort,
+                [styles.sorted]: true
+              })
+              return (
+                <Button
                   key={item.value}
+                  className={sorted}
                   name="sortTypeCompact"
-                  type="radio"
-                  options={[item.display]}
-                  value={item.value}
-                  checked={sort.sort === item.value}
-                  onChange={() => sortResults(item.value, null)}
-                />
-              ))}
-            </div>
-          </Accordion>
-        </div>
-        <div className={styles.compactFilterContainer}>
-          <Accordion title="Sort Direction" compact>
-            <div className={styles.compactOptionsContainer}>
-              {sortDirections.map((item) => (
-                <Input
-                  key={item.value}
-                  name="sortDirectionCompact"
-                  type="radio"
-                  options={[item.display]}
-                  value={item.value}
-                  checked={sort.sortOrder === item.value}
-                  onChange={() => sortResults(null, item.value)}
-                />
-              ))}
-            </div>
-          </Accordion>
+                  size="small"
+                  onClick={() => handleSortButtonClick(item.value)}
+                >
+                  {item.display}
+                  {item.value === sort.sort && (
+                    <span className={styles.direction}>{directionArrow}</span>
+                  )}
+                </Button>
+              )
+            })}
+          </div>
         </div>
       </div>
     </>

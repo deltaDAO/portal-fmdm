@@ -3,7 +3,6 @@ import styles from './Header.module.css'
 import content from '../../../../content/onboarding/index.json'
 import Container from '../atoms/Container'
 import Markdown from '../Markdown'
-import LightBulb from '@images/lightBulb.svg'
 
 interface OnboardingHeaderData {
   title: string
@@ -21,7 +20,6 @@ export default function Header(): ReactElement {
         <h2 className={styles.title}>{title}</h2>
         <Markdown text={body} className={styles.paragraph} />
       </div>
-      <LightBulb />
     </Container>
   )
 }

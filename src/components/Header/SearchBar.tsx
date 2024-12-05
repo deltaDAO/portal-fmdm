@@ -102,24 +102,30 @@ export default function SearchBar({
   })
 
   return (
-    <form className={styles.search} autoComplete={!value ? 'off' : 'on'}>
-      <animated.div style={springStile} className={styles.springContainer}>
-        <InputElement
-          ref={searchBarRef}
-          type="search"
-          name="search"
-          placeholder={placeholder || 'Search...'}
-          value={value}
-          onChange={handleChange}
-          required
-          size="small"
-          className={styles.input}
-          onKeyPress={handleKeyPress}
-        />
-        <button onClick={handleButtonClick} className={styles.button}>
-          <SearchIcon className={styles.searchIcon} />
-        </button>
-      </animated.div>
-    </form>
+    <>
+      {isSearchPage || isSearchBarVisible ? (
+        <form className={styles.search} autoComplete={!value ? 'off' : 'on'}>
+          <animated.div style={springStile} className={styles.springContainer}>
+            <InputElement
+              ref={searchBarRef}
+              type="search"
+              name="search"
+              placeholder={placeholder || 'Search...'}
+              value={value}
+              onChange={handleChange}
+              required
+              size="small"
+              className={styles.input}
+              onKeyPress={handleKeyPress}
+            />
+            <button onClick={handleButtonClick} className={styles.button}>
+              <SearchIcon className={styles.searchIcon} />
+            </button>
+          </animated.div>
+        </form>
+      ) : (
+        <> </>
+      )}
+    </>
   )
 }

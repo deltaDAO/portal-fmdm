@@ -1,29 +1,24 @@
 {
   "teaser": {
-    "title": "Pontus-X: Technical Data Sovereignty",
-    "text": "Pontus-X represents the next generation of data infrastructure: an **open, transparent and secure digital ecosystem**, where data and services can be made available, collated and shared in an environment of trust. The architecture of Pontus-X is based on Gaia-X and on the principle of decentralization."
+    "title": "Challenges in mobility",
+    "text": "The mobility sector is facing several challenges: from managing CO2 emissions and the transition to electric vehicles and alternatives modes of mobility to maintaining road security, reducing traffic jams, parking problems, and ensuring inclusivity.\n\nThe Future Mobility Data Marketplace matches supply and demand of any kind of data and algorithms that can be relevant for mobility. It allows data scientists, data consumers and data providers, like cities, mobility service providers and automotive companies to share, collaborate and commercialize their data services. In a secure and privacy friendly manner and ensuring that data owners stay in full control over their data\n\nThe Future Mobility Data Marketplace is based on the Gaia-X concepts. Gaia-X is part of the “Digital Europe” program aiming at making Europe's digital infrastructure future proof and self-sovereign.\n\n- Digital Sovereignty - Data owner stays in control\n- Preventing copies of data - Data stays at the source\n- Bridging supply and demand of data and AI algorithms\n- Sharing options for both open and restricted data\n- Labels - “Digital quality stamps” for datasets and algorithms"
   },
-  "paragraphs": [
-    {
-      "title": "The Gaia-X Powered Ecosystem on DLT",
-      "body": "The principle of decentralization is a perfect fit for **Distributed Ledger Technology**. [Ocean Enterprise](https://www.oceanenterprise.io/) is a fully open-source technology stack, leveraging DLT and decentralization, aiming to give control back to the owners of data services. Pontus-X is built on top of [Oasis Network](https://oasisprotocol.org/) showcasing how future industrial digital service ecosystems work today.",
-      "cta": "Learn More",
-      "ctaTo": "https://docs.pontus-x.eu/docs/introduction/overview",
-      "image": "/images/ecosystem.webp"
-    },
-    {
-      "title": "Compute-to-Data and its benefits",
-      "body": "One core concept of Ocean Enterprise is the **Compute-to-Data (CtD)** approach. Compute-to-Data is the functionality that solves the current trade-off between the benefits of using private data and the risks of exposing it. It allows data consumers to run compute jobs on private data while the data stays on-premise with the data provider.",
-      "cta": "Learn More",
-      "ctaTo": "https://docs.pontus-x.eu/docs/technical-architecture/architecture-overview",
-      "image": "/images/ctd_benefits.webp"
-    },
-    {
-      "title": "Gaia-X Digital Clearing House (GXDCH)",
-      "body": "The Pontus-X ecosystem provided a direct integration with the Gaia-X Digital Clearing Houses (GXDCH). We fast track your onboarding to X-ecosystems and to offering your services in Gaia-X‍ ecosystems. The GXDCH safeguard the distributed, decentralised ways of running the Gaia-X compliance.",
-      "cta": "Learn More",
-      "ctaTo": "https://gaia-x.eu/gxdch/",
-      "image": "/images/gxdch_powered.webp"
-    }
-  ]
+  "points": [
+    { "text": "Managing CO2 emissions" },
+    { "text": "Transition to Electric Vehicles" },
+    { "text": "Move to Mobility as a Service" },
+    { "text": "Maintaining road security" },
+    { "text": "Reducing traffic jams" },
+    { "text": "Solving parking problems" },
+    { "text": "Ensuring inclusivity" },
+    { "text": "Preventing platform monopolies" },
+    { "text": "Citizen privacy" },
+    { "text": "Sustainable business models" }
+  ],
+  "firstTimeVisiting": {
+    "title": "First time visiting",
+    "text": "Before interacting with all the marketplace functionalities, you'll have to ensure you have the correct setup (wallet, testnet, tokens). We can help you jump-start the process!",
+    "buttonLabel": "Quick start guide",
+    "link": "onboarding"
+  }
 }

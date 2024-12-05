@@ -1,167 +1,46 @@
 {
-  "siteTitle": "Pontus-X Ecosystem - powered by Gaia-X",
-  "siteTagline": "Streamlined interoperability across digital service ecosystems.",
+  "siteTitle": "Future Mobility Data Marketplace",
+  "siteTagline": "Solving mobility challenges",
   "siteUrl": "https://portal.pontus-x.eu",
   "siteImage": "/share.png",
   "copyright": "All Rights Reserved. Powered by [Gaia-X](https://gaia-x.eu/), [Oasis](https://oasisprotocol.org/) and [Ocean Enterprise](https://www.oceanenterprise.io/). Built by [deltaDAO](https://delta-dao.com).",
   "menu": [
+    {
+      "name": "About",
+      "subItems": [
+        {
+          "name": "This demo",
+          "link": "/about"
+        },
+        {
+          "name": "Gaia-X",
+          "link": "/gaia-x"
+        }
+      ]
+    },
     {
       "name": "Catalogue",
       "link": "/search?sort=nft.created&sortOrder=desc"
     },
     {
       "name": "Publish",
-      "link": "/publish/1"
+      "link": "/publish"
     },
     {
-      "name": "Verify",
-      "link": "/verify"
-    },
-    {
-      "name": "Faucet",
-      "link": "/faucet"
-    },
-
-    {
-      "name": "Log",
-      "link": "https://explorer.pontus-x.eu/"
-    },
-    {
-      "name": "Ecosystem",
+      "name": "Use Cases",
       "subItems": [
         {
-          "name": "EuProGigant",
-          "link": "https://portal.euprogigant.io/",
-          "description": "Gaia-X Lighthouse EuProGigant is the first funded binational industrial project with the practical implementation of the Gaia-X principles.",
-          "image": "euprogigant-logo.webp",
-          "category": "manufacturing",
-          "isLive": true
-        },
-        {
-          "name": "GX4FM moveID",
-          "link": "https://portal.moveid.eu/",
-          "description": "Gaia-X Lighthouse Gaia-X 4 Future Mobility aims to develop a decentralized digital mobility identity infrastructure for Europe.",
-          "image": "gx4fm_moveid.webp",
-          "category": "mobility",
-          "isLive": true
-        },
-        {
-          "name": "COOPERANTS",
-          "link": "https://federator.cooperants.info/marketplace",
-          "description": "Gaia-X Lighthouse COOPERANTS is the collaborative alliance in the Aeronautics and space sector that solves pressing digital collaboration problems by creating a common data space.",
-          "image": "cooperants-logo.webp",
-          "category": "manufacturing",
-          "isLive": true
-        },
-        {
-          "name": "ACCURATE",
-          "link": "https://accurate.pontus-x.eu",
-          "description": "Gaia-X Lighthouse ACCURATE aims to boost the competitiveness of European manufacturing companies with DSS and Manufacturing as a Service frameworks. ",
-          "image": "accurate-logo.webp",
-          "category": "manufacturing",
-          "isLive": true
-        },
-        {
-          "name": "Airbus",
-          "link": "https://airbus.pontus-x.eu/",
-          "description": "For those who make this world a safer place. We pioneer defense and space for their mission success.",
-          "image": "airbus-logo.webp",
-          "category": "manufacturing",
-          "isLive": true
-        },
-        {
-          "name": "FIWARE",
-          "link": "https://fiware-marketplace-a4eqd.ondigitalocean.app/",
-          "description": "A curated framework of Open Source Platform components to accelerate the development of Smart Solutions.",
-          "image": "logo-fiware-full.webp",
-          "category": "smart city",
-          "isLive": true
-        },
-        {
-          "name": "Berlin State Library",
-          "link": "https://sbb.pontus-x.eu/",
-          "description": "Explore the Open Science Ecosystem, a collaboration of libraries, universities, and science pioneers under Gaia-X principles for limitless shared knowledge.",
-          "image": "sbb-logo.webp",
-          "category": "language models",
-          "isLive": true
-        },
-        {
-          "name": "Car Repair 4.0",
-          "link": "https://portal.autowerkstatt40.org/",
-          "description": "Car Repair 4.0 develops a hub infrastructure that connects car workshops to Gaia-X ecosystems and enables AI-supported fault tracking.",
-          "image": "carrepair40.webp",
-          "category": "AI",
-          "isLive": true
-        },
-        {
-          "name": "Flex4Res",
-          "link": "https://flex4res.pontus-x.eu/",
-          "description": "Flex4Res stands for Data spaces for FLEXible production lines and supply chains FOR RESilient manufacturing. Flex4Res develops an open platform for secure and sovereign data exchange",
-          "image": "flex4res-logo.webp",
-          "category": "manufacturing",
-          "isLive": true
-        },
-        {
-          "name": "Future Mobility Marketplace",
-          "link": "https://marketplace.future-mobility-alliance.org/",
-          "description": "Find or publish datasets and AI algorithms for solving challenges in mobility.",
-          "image": "fmdm-logo.webp",
-          "category": "mobility",
-          "isLive": true
-        },
-        {
-          "name": "AgrospAI",
-          "link": "https://agrospai.udl.cat/",
-          "description": "Agri-food Data Space Demonstrator for Sovereign Data-Sharing and Artificial Intelligence Services.",
-          "image": "agrospai-logo.webp",
-          "category": "agriculture",
-          "isLive": true
-        },
-        {
-          "name": "Polish Agriculture Data Space",
-          "link": "https://dataspaces.psnc.pl/",
-          "description": "An open data space platform for sharing and marketing agri-related datasets guaranteeing data sovereignty.",
-          "image": "PSNC.webp",
-          "category": "agriculture",
-          "isLive": true
-        },
-        {
-          "name": "Service-Meister",
-          "link": "https://servicemeister.pontus-x.eu/",
-          "description": "An AI-based Service Ecosystem for Technical Service in the Age of Industry 4.0.",
-          "image": "service-meister-logo.webp",
-          "category": "AI",
-          "isLive": true
-        },
-        {
-          "name": "deltaDAO AI marketplace",
-          "link": "https://market.delta-dao.com/",
-          "description": "With deltaDAO's AI Marketplace, you have the freedom to decide how your AI service is offered. By keeping your AI private, you retain full control and do not disclose your valuable IP.",
-          "image": "deltadao-logo.webp",
-          "category": "AI",
-          "isLive": false
+          "name": "BVLOS Drone Based Ship Detection",
+          "link": "/usecases/shipdetection"
         }
       ]
     },
     {
-      "name": "Resources",
-      "subItems": [
-        {
-          "name": "Documentation",
-          "link": "https://docs.pontus-x.eu/"
-        },
-        {
-          "name": "Landing Page",
-          "link": "https://www.pontus-x.eu/"
-        },
-        {
-          "name": "nautilus",
-          "link": "https://nautilus.delta-dao.com/"
-        }
-      ]
+      "name": "Profile",
+      "link": "/profile"
     }
   ],
-  "announcement": "The Pontus-X Devnet is currently undergoing a scheduled load test. The network remains stable and fully operational during this period.",
+  "announcement": "",
   "devPreviewAnnouncement": "You are visiting the SITE-TITLE-PLACEHOLDER Developer Preview. Please note that some functionalities are in beta and may not work as expected. Visit the [SITE-TITLE-PLACEHOLDER portal](SITE-LINK-PLACEHOLDER) instead.",
   "warning": {
     "ctd": "Please note that Compute-to-Data is still in alpha phase."
@@ -205,6 +84,16 @@
           }
         ]
       }
+    ],
+    "designedBy": "Designed by The Goodplace",
+    "links": [
+      { "label": "About this demo", "link": "/about" },
+      { "label": "About Gaia-X", "link": "/gaia-x" },
+      {
+        "label": "Catalogue",
+        "link": "/search?sort=nft.created&sortOrder=desc"
+      },
+      { "label": "First time visiting", "link": "/onboarding" }
     ]
   }
 }

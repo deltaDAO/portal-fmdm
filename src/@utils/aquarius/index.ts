@@ -165,7 +165,9 @@ export function generateBaseQuery(
                   ? [getFilterTerm('nft.state', 5)]
                   : []),
                 getDynamicPricingMustNot(),
-                ...(baseQueryParams.showSaas === false ? [saasFieldExists] : [])
+                ...(baseQueryParams.showSaas === false && isMetadataTypeSelected
+                  ? [saasFieldExists]
+                  : [])
               ]
             }
           }

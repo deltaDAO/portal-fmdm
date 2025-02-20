@@ -20,10 +20,15 @@
 
 .paragraph p {
   margin-bottom: 0;
+  color: var(--brand-white);
+}
+
+.container svg {
+  display: none;
 }
 
 @media screen and (min-width: 40rem) {
-  .container svg {
+  .container > svg {
     width: 8rem;
     display: inline;
   }

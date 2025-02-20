@@ -6,8 +6,11 @@ import Debug from './Debug'
 import Caret from '@images/caret.svg'
 import ExternalContent from './ExternalContent'
 import AutomationWalletMode from './AutomationWalletMode'
+import { useMarketMetadata } from '@context/MarketMetadata'
 
 export default function UserPreferences(): ReactElement {
+  const { appConfig } = useMarketMetadata()
+
   return (
     <Tooltip
       content={
@@ -15,9 +18,11 @@ export default function UserPreferences(): ReactElement {
           <li>
             <ExternalContent />
           </li>
-          <li>
-            <AutomationWalletMode />
-          </li>
+          {appConfig.automationConfig.enableAutomation === 'true' && (
+            <li>
+              <AutomationWalletMode />
+            </li>
+          )}
           <li>
             <Debug />
           </li>

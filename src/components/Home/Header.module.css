@@ -16,13 +16,17 @@
 }
 
 .content {
-  max-width: 32rem;
+  max-width: 33rem;
   margin: auto 0;
 }
 
 .title,
 .body {
   color: var(--font-color-text-inverted);
+}
+
+.title {
+  max-width: 32rem;
 }
 
 .actions {

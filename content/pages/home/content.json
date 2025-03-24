@@ -1,19 +1,21 @@
 {
   "teaser": {
-    "title": "Challenges in mobility",
-    "text": "The mobility sector is facing several challenges: from managing CO2 emissions and the transition to electric vehicles and alternatives modes of mobility to maintaining road security, reducing traffic jams, parking problems, and ensuring inclusivity.\n\nThe Future Mobility Data Marketplace matches supply and demand of any kind of data and algorithms that can be relevant for mobility. It allows data scientists, data consumers and data providers, like cities, mobility service providers and automotive companies to share, collaborate and commercialize their data services. In a secure and privacy friendly manner and ensuring that data owners stay in full control over their data\n\nThe Future Mobility Data Marketplace is based on the Gaia-X concepts. Gaia-X is part of the “Digital Europe” program aiming at making Europe's digital infrastructure future proof and self-sovereign.\n\n- Digital Sovereignty - Data owner stays in control\n- Preventing copies of data - Data stays at the source\n- Bridging supply and demand of data and AI algorithms\n- Sharing options for both open and restricted data\n- Labels - “Digital quality stamps” for datasets and algorithms"
+    "title": "Making data more accessible",
+    "text": "Open Dataspace Lab connects supply and demand for all types of data and AI algorithms, enabling secure, privacy-friendly, and compliant data exchange. It empowers data providers, consumers, and developers—such as businesses, researchers, and public organizations—to share, collaborate, and commercialize their data services while maintaining full control over their data.\n\nBuilt on Gaia-X principles, the marketplace ensures digital sovereignty, security, and compliance through state-of-the-art technologies like blockchain and AI. Data remains at the source, preventing unnecessary copies while allowing both open and restricted sharing models.\n\n-\tDigital sovereignty - Data owners retain full control\n- Preventing copies of data - Data stays at the source\n-\tDAO - Self-organized governance for transparency and scalability\n- Bridging supply and demand of data and AI algorithms \n- Sharing options for both open and restricted data \n- Labels - “Digital quality stamps” for datasets and algorithms\n\nBy fostering a decentralized and future-proof data ecosystem, Open Dataspace Lab enables organizations to unlock the true value of data while ensuring transparency, security, and sustainability."
   },
   "points": [
-    { "text": "Managing CO2 emissions" },
-    { "text": "Transition to Electric Vehicles" },
-    { "text": "Move to Mobility as a Service" },
-    { "text": "Maintaining road security" },
-    { "text": "Reducing traffic jams" },
-    { "text": "Solving parking problems" },
-    { "text": "Ensuring inclusivity" },
-    { "text": "Preventing platform monopolies" },
-    { "text": "Citizen privacy" },
-    { "text": "Sustainable business models" }
+    { "text": "Transition to Mobility as a Service" },
+    { "text": "Ensure inclusivity and citizen privacy" },
+    { "text": "Prevent platform monopolies" },
+    { "text": "Enable sustainable business models" },
+    { "text": "Support open and restricted data sharing" },
+    { "text": "Facilitate drone and federated data exchange" },
+    { "text": "Promote data & AI ecosystems (e.g. Pontus-X)" },
+    { "text": "Build GAIA-X ecosystems with public-private partners" },
+    { "text": "Ensure digital sovereignty and data control" },
+    { "text": "Use smart contracts for GDPR compliance" },
+    { "text": "Apply quality labels to data and algorithms" },
+    { "text": "Support transparent, scalable governance via DAOs" }
   ],
   "firstTimeVisiting": {
     "title": "First time visiting",

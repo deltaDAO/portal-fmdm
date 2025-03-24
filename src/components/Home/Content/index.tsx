@@ -26,9 +26,9 @@ export default function HomeContent(): ReactElement {
 
   return (
     <Container className={styles.wrapper}>
-      <h2>{teaser.title}</h2>
       <div className={styles.container}>
         <div className={styles.teaser}>
+          <h2>{teaser.title}</h2>
           <Markdown text={teaser.text} />
         </div>
         <div className={styles.secondarySection}>

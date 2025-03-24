@@ -17,8 +17,8 @@
 
 .logo svg {
   display: block;
-  width: 300px;
-  height: 60px;
+  width: 198px;
+  height: 66px;
   margin: unset;
 }
 
@@ -102,9 +102,8 @@
     justify-content: space-between;
   }
   .logo {
-    justify-content: flex-start;
+    justify-content: center;
     align-items: flex-start;
-    margin-top: var(--spacer);
     margin-right: auto;
     padding: 0;
   }

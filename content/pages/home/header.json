@@ -8,11 +8,7 @@
     { "label": "About this demo", "link": "/about" }
   ],
   "carousel": [
-    "/images/headerCarousel/1-road.jpeg",
-    "/images/headerCarousel/2-bikes.jpeg",
-    "/images/headerCarousel/3-ev-charge.jpeg",
-    "/images/headerCarousel/4-e-scooter.jpeg",
-    "/images/headerCarousel/5-drone.webp",
-    "/images/headerCarousel/6-drone-foto.jpg"
+    "/images/headerCarousel/1-drone-foto.jpg",
+    "/images/headerCarousel/2-road.jpeg"
   ]
 }

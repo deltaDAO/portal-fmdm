@@ -1,7 +1,7 @@
 {
   "header": {
     "title": "About this demo",
-    "body": "This environment has been built for Rijkswaterstaat (part of the Dutch Ministry of Infrastructure and Water Management). It aims at facilitating the discussion and awareness building about how different types of data, collected by Rijkswaterstaat, can be leveraged for solving societal challenges.\n\nWhich data can be shared as open data, which not? Which data should be free, which paid? What options exist to materialize Rijkswaterstaat data? How to set fair and market conform pricing on data? What options exist to collaborate with third party organization for providing data access to restricted data, keeping security and privacy in mind? What is the EU Gaia-X initiative and what advantages could this offer for data sharing across borders? How does Gaia-X relate to existing data sharing initiatives and which different Gaia-X implementations exist already?\n\nObjectives:\n- Implement an open source, practical example to discuss future proof data sharing\n- Learn about cross-border data sharing and latest Gaia-X concepts\n- Use an example Gaia-X implementation for comparison with other data sharing initiatives (not to compete but to collaborate on achieving the best future proof solution)\n- Provide a base infrastructure that may be leveraged for hackathons, proof of concepts collaboration with other organizations;\n\nThese topics apply to many other public and private organizations in the Netherlands and other countries. In upcoming phases interested public and private organization from the Netherlands or other countries can start participating on this initiative. For instance, by adding datasets or algorithms to the marketplace."
+    "body": "This environment has been developed for Rijkswaterstaat\n (part of the Dutch Ministry of Infrastructure and Water Management) to facilitate discussions and raise awareness about leveraging data to address societal challenges. It explores topics such as data accessibility, pricing, secure collaboration with third parties, and the role of Gaia-X in cross-border data sharing.\n\nObjectives:\n- Implement an open-source, practical example of future-proof data sharing\n- Explore cross-border data exchange and Gaia-X concepts\n- Compare Gaia-X implementations with other initiatives to foster collaboration\n- Provide a base infrastructure for hackathons, proofs-of-concept, and partnerships \n\nWe are already publishing data and compute-to-data solutions on Beyond Visual Line-of-Sight drone pilots and proof-of-concepts via the ODL Pontus-X node, conducted in the Rotterdam Harbour Area. In 2025, we plan to expand these use cases to drone pilots and proof-of-concepts on the North Sea, as depicted on the map. These efforts are relevant to many public and private organizations across the Netherlands and beyond. In future phases, interested parties can join this initiative by adding datasets or algorithms to the marketplace."
   },
   "footer": {
     "title": "How to join?",
@@ -10,22 +10,40 @@
       {
         "name": "Arthur Maring",
         "image": "/images/contacts/arthur.png",
-        "text": "Innovation Manager Smart Mobility, Rijkswaterstaat",
+        "text": "Innovatior,\nRijkswaterstaat",
         "cta": {
           "label": "Get in touch with Arthur",
           "link": "mailto:arthur.maring@rws.nl"
         }
       },
       {
-        "name": "Harmen van der Kooij",
-        "image": "/images/contacts/harmen.jpeg",
-        "text": "Lead Mobility Track at Dutch Blockchain Coalition",
+        "name": "Rob Broekman",
+        "image": "/images/contacts/rob.png",
+        "text": "Lead Remote Sensing Data,\nNVWA Innovatielab",
         "cta": {
-          "label": "Get in touch with Harmen",
-          "link": "mailto:harmen.vanderkooij@dutchblockchaincoalition.org"
+          "label": "Get in touch with Rob",
+          "link": "mailto:r.j.j.a.broekman@nvwa.nl"
+        }
+      },
+      {
+        "name": "Fred Hagę",
+        "image": "/images/contacts/fred.png",
+        "text": "Program manager CFNS,\nRijkswaterstaat",
+        "cta": {
+          "label": "Get in touch with Fred",
+          "link": "mailto:fred@vr.nl"
+        }
+      },
+      {
+        "name": "Michelle Jansen",
+        "image": "/images/contacts/michelle.png",
+        "text": "Lead Mobility Data,\nFuture Mobility Network",
+        "cta": {
+          "label": "Get in touch with Michelle",
+          "link": "mailto:michelle.jansen@thefuturemobility.network"
         }
       }
     ]
   },
-  "image": "/images/headerCarousel/1-road.jpeg"
+  "image": "/images/ODL-North-Sea-Drone.svg"
 }

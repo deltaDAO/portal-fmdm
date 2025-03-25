@@ -1,13 +1,12 @@
 import Button from '@components/@shared/atoms/Button'
 import Container from '@components/@shared/atoms/Container'
-import Logo from '@components/@shared/atoms/Logo'
 import Markdown from '@components/@shared/Markdown'
 import { useMarketMetadata } from '@context/MarketMetadata'
 import { useUserPreferences } from '@context/UserPreferences'
 import { useGdprMetadata } from '@hooks/useGdprMetadata'
 import { ReactElement } from 'react'
 import styles from './Footer.module.css'
-import LogoAssetInverted from '@images/fmdm-logo-white.svg'
+import LogoAssetInverted from '@images/odl-logo-white.svg'
 
 export default function Footer(): ReactElement {
   const { appConfig, siteContent } = useMarketMetadata()

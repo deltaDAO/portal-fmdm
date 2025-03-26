@@ -36,8 +36,8 @@
     ]
   },
   "footer": {
-    "text": "In this demo environment consider the “Future Mobility Alliance” as a Gaia-X compliant “Federation” that operates the “Future Mobility Data Marketplace” on behalf of the participating “Provider” and “Consumer” organizations. The provider and consumer organizations could be any public or private organization. As long as they comply with the rules as set by the Future Mobility Alliance and the high-level Gaia-X compliance rules.",
-    "disclaimer": "N.B. Provider and consumer participants of the Future Mobility Alliance can also be participating in other data sharing ecosystems. For instance a “Healtcare Data Marketplace” or a “Energy Data Marketplace”. Participants don’t need to onboard again as Gaia-X member. The same base Gaia-X participant and service self-descriptions can be re-used across different Gaia-X compliant ecosystems.",
+    "text": "In this demo environment consider the “Open Dataspace Lab” as a Gaia-X compliant “Federation” that operates the “Open Dataspace Lab Marketplace” on behalf of the participating “Provider” and “Consumer” organizations. The provider and consumer organizations could be any public or private organization. As long as they comply with the rules as set by the Open Dataspace Lab and the high-level Gaia-X compliance rules.",
+    "disclaimer": "N.B. Provider and consumer participants of the Open Dataspace Lab can also be participating in other data sharing ecosystems. For instance a “Healtcare Data Marketplace” or a “Energy Data Marketplace”. Participants don’t need to onboard again as Gaia-X member. The same base Gaia-X participant and service self-descriptions can be re-used across different Gaia-X compliant ecosystems.",
     "cards": [
       {
         "title": "Providers",
@@ -46,7 +46,7 @@
       },
       {
         "title": "Federation",
-        "body": "Operating Future Mobility Data Marketplace",
+        "body": "Operating Open Dataspace Lab Marketplace",
         "icon": "logo"
       },
       {
@@ -56,5 +56,5 @@
       }
     ]
   },
-  "image": "/images/headerCarousel/1-road.jpeg"
+  "image": "/images/headerCarousel/2-road.jpeg"
 }

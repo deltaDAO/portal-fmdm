@@ -3,7 +3,7 @@ import styles from './index.module.css'
 import GaiaXLogo from '@images/gaia-x-logo.svg'
 import GearIcon from '@images/gear_icon.svg'
 import ShoppingCartIcon from '@images/shopping_cart.svg'
-import FMALogo from '@images/fma-logo.svg'
+import ODLLogo from '@images/odl-logo.svg'
 import content from '../../../content/pages/aboutGaiaX.json'
 import Container from '@components/@shared/atoms/Container'
 import Markdown from '@components/@shared/Markdown'
@@ -12,7 +12,7 @@ import Button from '@components/@shared/atoms/Button'
 const icons = {
   gear: <GearIcon />,
   cart: <ShoppingCartIcon />,
-  logo: <FMALogo />
+  logo: <ODLLogo />
 }
 
 interface GaiaXContent {

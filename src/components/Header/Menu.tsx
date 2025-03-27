@@ -80,7 +80,9 @@ export default function Menu(): ReactElement {
           {appConfig.chainIdsSupported.length > 1 && <Networks />}
           <NetworkMenu />
           <Wallet />
-          <Automation />
+          {appConfig.automationConfig.enableAutomation === 'true' && (
+            <Automation />
+          )}
           <UserPreferences />
         </div>
       </nav>

@@ -26,9 +26,9 @@
         }
       },
       {
-        "name": "Fred Hagę",
+        "name": "Fred Hage",
         "image": "/images/contacts/fred.png",
-        "text": "Program manager CFNS,\nRijkswaterstaat",
+        "text": "Program manager & \n Gaia-X evangelist,\nODL",
         "cta": {
           "label": "Get in touch with Fred",
           "link": "mailto:fred@vr.nl"

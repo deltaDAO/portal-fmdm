@@ -48,7 +48,7 @@
     "filesize": "^10.0.7",
     "formik": "^2.4.2",
     "gray-matter": "^4.0.3",
-    "is-ipfs": "^8.0.1",
+    "is-ipfs": "^8.0.4",
     "is-url-superb": "^6.1.0",
     "js-cookie": "^3.0.5",
     "jszip": "^3.10.1",

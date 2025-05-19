@@ -63,6 +63,15 @@ export default function Footer(): ReactElement {
               >
                 Privacy
               </Button>
+              {' — '}
+              <Button
+                href="https://portal.pontus-x.eu/cookies/en"
+                className={styles.link}
+                style="text"
+                size="small"
+              >
+                Cookie Policy
+              </Button>
               {appConfig.privacyPreferenceCenter === 'true' && (
                 <>
                   {' — '}

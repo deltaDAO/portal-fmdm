@@ -13,8 +13,8 @@ const Markdown = ({
 }): ReactElement => {
   function enhanceLinks(content: string): string {
     return content.replaceAll(
-      /<a href="(https:\/\/[^"]+)">/g,
-      `<a href="$1" target="_blank" rel="noopener noreferrer">`
+      /<a href="(https:\/\/[^"]+)"/g,
+      `<a href="$1" target="_blank" rel="noopener noreferrer"`
     )
   }
   const rawHTML = markdownToHtml(text)

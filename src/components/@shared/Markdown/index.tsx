@@ -11,20 +11,20 @@ const Markdown = ({
   blockImages?: boolean
   className?: string
 }): ReactElement => {
-  const content = !blockImages
-    ? markdownToHtml(text).replaceAll(
-        /<a href="(https:\/\/[^"]+)">/g,
-        `<a href="$1" target="_blank" rel="noopener noreferrer">`
+  function enhanceLinks(content) {
+    return content.replaceAll(
+      /<a href="(https:\/\/[^"]+)">/g,
+      `<a href="$1" target="_blank" rel="noopener noreferrer">`
+    )
+  }
+
+  let content = !blockImages
+    ? markdownToHtml(text)
+    : markdownToHtml(text).replaceAll(
+        /<img[\w\W]+?\/?>/g,
+        `<img src="/images/image_blocked_placeholder.png" alt="Blocked image placeholder" class="${styles.blockedContentImage}" />`
       )
-    : markdownToHtml(text)
-        .replaceAll(
-          /<img[\w\W]+?\/?>/g,
-          `<img src="/images/image_blocked_placeholder.png" alt="Blocked image placeholder" class="${styles.blockedContentImage}" />`
-        )
-        .replaceAll(
-          /<a href="(https:\/\/[^"]+)">/g,
-          `<a href="$1" target="_blank" rel="noopener noreferrer">`
-        )
+  content = enhanceLinks(content)
 
   return (
     <div

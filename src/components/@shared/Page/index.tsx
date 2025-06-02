@@ -5,7 +5,7 @@ import Container from '@shared/atoms/Container'
 import SearchBar from '@components/Header/SearchBar'
 import { useUserPreferences } from '@context/UserPreferences'
 import ExternalContentWarning from '../ExternalContentWarning'
-import Header from 'src/components/Home/Header'
+import Header from '../../Home/Header'
 import { useSearchBarStatus } from '@context/SearchBarStatus'
 import styles from './index.module.css'
 

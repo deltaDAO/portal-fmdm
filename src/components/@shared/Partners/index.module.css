@@ -24,3 +24,12 @@
   height: 5rem;
   object-fit: contain;
 }
+
+.logo:last-child:nth-child(4n + 1) {
+  grid-column: 2 / span 2;
+}
+
+.logo:nth-last-child(2):nth-child(4n + 1),
+.logo:last-child:nth-child(4n + 2) {
+  grid-column: span 2;
+}

@@ -4,7 +4,8 @@ module.exports = {
   whitelists: {
     'nft.owner': [
       '0xa98A6eefbAE870b88a9C7A43f4b50066A01c93b6',
-      '0xDa4fc9E82Ac4E44207a1f74137493D3437D80761'
+      '0xDa4fc9E82Ac4E44207a1f74137493D3437D80761',
+      '0x1504d3ae9224091990cb2f71d0e10b8f7e84e7de' // NVWA address
     ],
     'datatokens.address': [
       '0xa2E0747d1FA4006Eff891461758bC96F9cE864F2',

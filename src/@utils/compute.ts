@@ -28,7 +28,7 @@ import { transformAssetToAssetSelection } from './assetConvertor'
 import { ComputeEditForm } from '../components/Asset/Edit/_types'
 import { getFileDidInfo } from './provider'
 import { toast } from 'react-toastify'
-import { deleteTrailingSlash } from '.'
+import normalizeUrl from 'normalize-url'
 
 const getComputeOrders = gql`
   query ComputeOrders($user: String!) {
@@ -111,8 +111,8 @@ export async function isOrderable(
       )
       if (algoService && algoService.type === 'compute') {
         if (
-          deleteTrailingSlash(algoService.serviceEndpoint) !==
-          deleteTrailingSlash(datasetService.serviceEndpoint)
+          normalizeUrl(algoService.serviceEndpoint) !==
+          normalizeUrl(datasetService.serviceEndpoint)
         ) {
           this.logger.error(
             'ERROR: Both assets with compute service are not served by the same provider'

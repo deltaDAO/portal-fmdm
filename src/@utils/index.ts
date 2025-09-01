@@ -41,3 +41,7 @@ export const getObjectPropertyByPath = (object: any, path = '') => {
   }
   return object
 }
+
+export function deleteTrailingSlash(url: string): string {
+  return url.replace(/\/+$/, '')
+}

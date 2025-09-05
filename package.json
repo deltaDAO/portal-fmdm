@@ -58,6 +58,7 @@
     "match-sorter": "^6.3.1",
     "myetherwallet-blockies": "^0.1.1",
     "next": "13.0.5",
+    "normalize-url": "^8.0.2",
     "npm": "^9.6.5",
     "query-string": "^8.1.0",
     "randomcolor": "^0.6.2",
@@ -140,7 +141,7 @@
     "url": "https://github.com/deltaDAO/mvg-portal"
   },
   "engines": {
-    "node": "18"
+    "node": "22"
   },
   "browserslist": [
     ">0.2%",
